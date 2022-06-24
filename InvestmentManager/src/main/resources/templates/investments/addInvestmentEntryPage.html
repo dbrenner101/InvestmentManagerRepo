@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+<meta charset="UTF-8">
+<title>Lookup Investment</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Add Investment</p>
+	
+	<div class="formFrame">
+	    <form action="lookupInvestment" class="formFormat">
+	        <fieldset>
+	            Symbol: <input type="text" name="symbol" autofocus="autofocus"/><br>
+	            <input type="submit" value="Submit" />
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

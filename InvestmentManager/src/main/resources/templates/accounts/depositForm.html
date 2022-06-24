@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Enter Deposit</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Enter Deposit Details</p>
+	<div class="formFrame">
+	    <form action="depositCash" class="formFormat">
+	        <fieldset>
+	            Account: <select name="accountId" autofocus="autofocus">
+	                <option value="">Select</option>
+	                <option th:each="account : ${accounts}" th:value="${account.accountId}" th:text="${account.accountName + ' (' + account.owner + ')'}"/>
+	            </select><br>
+	            Date: <input type="date" name="depositDate" /><br>
+	            Amount: <input type="number" name="amount" step="any" /><br>
+	            <input type="submit" value="Submit Deposit"/>
+	        </fieldset>
+	    </form>
+    </div>
+    <p></p>
+
+    <p class="commonBoldTextFormat">Accounts</p>
+    
+    <table class="commonTableFormat">
+        <tr>
+            <th>Account Name</th>
+            <th>Company</th>
+            <th>Owner</th>
+            <th>Account Number</th>
+            <th>Type</th>
+            <th>Current cash</th>
+        </tr>
+        <tr th:each="account : ${accounts}">
+            <td th:text="${account.accountName}"></td>
+            <td th:text="${account.company}"></td>
+            <td th:text="${account.owner}"></td>
+            <td th:text="${account.accountNumber}"></td>
+            <td th:text="${account.accountType}"></td>
+            <td th:text="${#numbers.formatCurrency(account.cashOnAccount)}"></td>
+        </tr>
+    </table>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

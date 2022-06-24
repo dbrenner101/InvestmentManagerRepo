@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Get Quotes</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+
+    <div id="jsonStream"></div>
+    <p></p>
+    
+    
+   <!--  <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <div class="formFrame">
+	    <form class="formFormat">
+	        <fieldset>
+	            Holdings: <select name="investmentId" id="investmentSelection">
+	                <option value="">Select</option>
+	                <option th:each="investment : ${investments}" th:value="${investment.investmentId}" th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
+	            </select><br>
+	            <input type="submit" value="Retrieve" />
+	        </fieldset>
+	    </form>
+    </div>
+    
+    <p></p>
+    
+    <table id="changeSummation" class="commonTableFormat"></table>
+    
+    <p></p>
+    
+    <table id="tableDiv" class="commonTableFormat"></table>
+    
+    <p></p>
+    
+    <div id="resultDiv" class="commonTextFormat"></div>
+    <p></p>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+    <script>
+        require([
+            "js/buildHistoricalQuoteTable"
+        ], function (buildHistoricalQuoteTable) {
+        });
+    </script>
+
+
+</body>
+</html>

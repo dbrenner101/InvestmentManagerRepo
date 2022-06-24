@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Holdings View</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+
+    <p class="commonBoldTextFormat">Manage Investments</p>
+    
+    <div id="jsonResult"></div>
+
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+    
+    <table class="commonTableFormat">
+        <tr>
+            <th>InvestmentType</th>
+            <th>Sector</th>
+            <th>Initial Value</th>
+        </tr>
+        <tr th:each="holding : ${holdingsReport}">
+            <td th:text="${holding.investmentType}" />
+            <td th:text="${holding.sector}"/>
+            <td th:text="${#numbers.formatCurrency(holding.valueAtPurchase)}"/>
+        </tr>
+    </table>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+
+</body>
+</html>

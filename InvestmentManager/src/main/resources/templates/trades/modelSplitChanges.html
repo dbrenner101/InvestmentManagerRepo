@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Model Split Changes</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Model Split Changes</p>
+
+	<table class="commonTableFormat">
+		<thead>
+			<tr>
+				<th colspan="6" th:text="${transactionDate}"/>
+			</tr>
+			<tr>
+				<th colspan="3"><b>BEFORE</b></th>
+				<th colspan="3"><b>AFTER</b></th>
+			</tr>
+			<tr>
+				<th><b>Account</b></th>
+				<th><b>Investment</b></th>
+				<th><b>Quantity</b></th>
+				<th><b>Account</b></th>
+				<th><b>Investment</b></th>
+				<th><b>Quantity</b></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="holding, iStat : ${beforeSplit}">
+				<td th:text="${holding.account.accountName}"/>
+				<td th:text="${holding.investment.symbol}" />
+				<td th:text="${holding.quantity}" />
+				<td th:text="${afterSplit[iStat.index].account.accountName}" />
+				<td th:text="${afterSplit[iStat.index].investment.symbol}" />
+				<td th:text="${afterSplit[iStat.index].quantity}" />
+			</tr>
+		</tbody>
+	</table>
+	
+	<p></p>
+	
+	<div class="formFrame">
+		<form action="saveSplit" class="formFormat">
+			<fieldset>
+				<input type="hidden" name="transactionDate" th:value="${transactionDate}" />
+				<input type="hidden" name="investmentId" th:value="${investmentId}" />
+				<input type="hidden" name="splitRatio" th:value="${splitRatio}" />
+				<input type="submit" value="Save Split" />
+			</fieldset>
+		</form>
+	</div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+</body>
+</html>

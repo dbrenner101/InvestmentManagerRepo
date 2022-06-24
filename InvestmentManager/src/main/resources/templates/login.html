@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+	<!-- <link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script> -->
+        <title>Investment Manager Authentication</title>
+    </head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        
+        <div class="FormFrame">
+	        <form action="/auth" method="post" class="formFormat">
+	            <div><label> User Name : <input type="text" name="username" value="" autofocus="autofocus"/> </label></div>
+	            <div><label> Password: <input type="password" name="password" value=""/> </label></div>
+	            <div><input type="submit" value="Sign In"/></div>
+	        </form>
+        </div>
+        
+        <p></p>
+    
+    <!-- <script>require(["js/menu.js"], function(applyMenu){});</script> -->
+    </body>
+</html>

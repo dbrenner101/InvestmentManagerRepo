@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Edit Trade</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+
+    <p class="commonBoldTextFormat">Edit Trade Details</p>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+	<div class="formFrame">
+	    <form action="updateTrade" class="formFormat">
+	        <fieldset>
+	            <input type="hidden" name="transactionId" th:value="${transaction.transactionId}" />
+	            <input type="hidden" name="previousTransactionType" th:value="${transaction.transactionType}" />
+	            Date: <input type="date" name="transactionDate" th:value="${#calendars.format(transaction.transactionDate, 'MM/dd/yyyy')}"   autofocus="autofocus"/><br>
+	            Price: <input type="number" name="tradePrice" th:value="${transaction.tradePrice}" step="any" /> <br>
+	            Quantity: <input type="number" name="tradeQuantity" th:value="${transaction.tradeQuantity}" step="any" /><br>
+	            New trade type: <select name="transactionType">
+	                <option value="">Select</option>
+	                <option value="Transfer" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Transfer}">Transfer</option>
+	                <option value="Buy" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Buy}">Buy</option>
+	                <option value="Sell" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Sell}">Sell</option>
+	                <option value="Cash" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Cash}">Cash</option>
+	                <option value="Dividend" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Dividend}">Dividend</option>
+	            </select><br>
+	            Previous trade type: <span th:text="${transaction.transactionType}"></span><br>
+	            <div th:if="${transaction.investment} != null">
+	            Investment: <select name="investmentId">
+	                <option value="">Select</option>
+	                <option 
+	                    th:each="investment : ${investments}" 
+	                    th:value="${investment.investmentId}"
+	                    th:selected="${investment.investmentId == transaction.investment.investmentId}" 
+	                    th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
+	            </select><br>
+	            </div>
+	            Account: <select name="accountId">
+	                <option value="">Select</option>
+	                <option 
+	                    th:each="account : ${accounts}" 
+	                    th:value="${account.accountId}" 
+	                    th:selected="${account.accountId == transaction.account.accountId}"
+	                    th:text="${account.accountName + ' (' + account.owner + ')'}"/>
+	            </select><br>
+	            <input type="submit" value="Update Transaction"/>
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+    
+</body>
+</html>

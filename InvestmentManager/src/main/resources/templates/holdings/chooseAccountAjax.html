@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Select Account for Holdings List</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <div id="jsonStream"></div>
+
+    <p class="commonBoldTextFormat">Holdings for Account</p>
+	
+	<div class="formFrame">
+	    <p class="commonBoldTextFormat">
+	        Total Value Change: <span class="commonTextFormat" id="totalValueChange"></span><br>
+	        Value at Purchase: <span class="commonTextFormat" id="valueAtPurchase"></span><br>
+	        Current Cash: <span class="commonTextFormat" id="currentCash"></span><br>
+	        Total Current Value: <span class="commonTextFormat" id="totalCurrentValue"></span>
+	    </p>
+	</div>
+	
+    <p class="commonBoldTextFormat">Choose Account to List Holdings</p>
+	
+	<div class="formFrame">
+	    <form class="formFormat">
+	        <fieldset>
+	            <div th:insert="~{fragments :: accountsList}"></div><br>
+	        </fieldset>
+	    </form>
+    </div>
+    
+    <p></p>
+    
+    <table id="tableDiv" class="commonTableFormat"></table>
+    
+    <p></p>
+    
+    <div id="resultDiv" class="commonTextFormat"></div>
+    <p></p>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+   <script>require(["js/buildHoldingsTable.js"], function (buildHoldingsTable) {});</script>
+
+</body>
+</html>

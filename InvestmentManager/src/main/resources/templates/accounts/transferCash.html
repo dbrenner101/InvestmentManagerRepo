@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Transfer Cash Between Accounts</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Transfer Cash</p>
+	
+	<div class="formFrame">
+	    <form action="transferCashBetweeAccounts" class="formFormat">
+	        <fieldset>
+	            Date of Transfer: <input type="date" name="transferDate" /><br>
+	            Amount: <input type="number" name="transferAmount" step="any" /><br>
+	            From Account: <select name="fromAccountId" autofocus="autofocus">
+	                <option value="">Select</option>
+	                <option th:each="account : ${accounts}" th:value="${account.accountId}" th:text="${account.accountName + ' (' + account.owner + ')'}"/>
+	            </select><br>
+	            To Account: <select name="toAccountId" autofocus="autofocus">
+	                <option value="">Select</option>
+	                <option th:each="account : ${accounts}" th:value="${account.accountId}" th:text="${account.accountName + ' (' + account.owner + ')'}"/>
+	            </select><br>
+	            <input type="submit" value="Complete Transfer"/>
+	        </fieldset>
+	    </form>
+    </div>
+    <p></p>
+
+    <p class="commonBoldTextFormat">Account Details</p>
+    
+    <table class="commonTableFormat">
+        <tr>
+            <th>Account Name</th>
+            <th>Company</th>
+            <th>Owner</th>
+            <th>Account Number</th>
+            <th>Type</th>
+            <th>Current cash</th>
+        </tr>
+        <tr th:each="account : ${accountsandcash}">
+            <td th:text="${account.accountName}"><a href="editAccountPrep" th:href="@{/editAccountPrep(accountId=${account.accountId})}"/></a></td>
+            <td th:text="${account.company}"></td>
+            <td th:text="${account.owner}"></td>
+            <td th:text="${account.accountNumber}"></td>
+            <td th:text="${account.accountType}"></td>
+            <td th:text="${#numbers.formatCurrency(account.cashOnAccount)}"></td>
+        </tr>
+    </table>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+</body>
+</html>

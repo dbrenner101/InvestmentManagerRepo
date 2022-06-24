@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <div id="jsonResult"></div>
+
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+
+    <p class="commonBoldTextFormat">Historical Quotes</p>
+    <p></p>
+    
+    <form class="formFormat">
+        <fieldset>
+            Investment: <select name="investment" id="investmentSelect">
+                <option value="">Select</option>
+                <option th:each="investment : ${investments}" th:value="${investment.symbol}" th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
+            </select>&nbsp;&nbsp;  
+            <input type="radio" name="numMonths" value="1" id="numMonthsRadio" checked/> 1 month
+            <input type="radio" name="numMonths" value="3" id="numMonthsRadio" /> 3 months
+            <input type="radio" name="numMonths" value="6" id="numMonthsRadio" /> 6 months
+        </fieldset>
+    </form>
+
+    
+    <div class="chart-container" style="position: relative; height:20vh; width:60vw">
+        <canvas id="historicalPerformanceChart"></canvas>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+    <script>
+    
+        var graphData;
+        
+        // Our labels along the x-axis
+        var dateLabels = new Array();
+        // For drawing the lines
+        var closeData = new Array();
+    
+        var config = {
+                type: 'bar',
+                data: {
+                  labels: [],
+                  datasets: [
+                    { 
+                      data: [],
+                      label: "",
+                      backgroundColor: "#457fa3",
+                      fill: true
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    },
+                    title: {
+                        display: false,
+                        text: ""
+                    }
+                }
+              };
+        
+        var ctx = document.getElementById("historicalPerformanceChart").getContext("2d");
+        var myChart = new Chart(ctx, config);
+        
+        
+        document.getElementById('investmentSelect').addEventListener('change', function() {
+            var symbol = document.getElementById("investmentSelect").value;
+            load30DayChartData(symbol);
+        });
+        
+    
+        function load30DayChartData(symbol) {
+            var xhttp = new XMLHttpRequest();
+            
+            var symbol = document.getElementById("investmentSelect").value;
+            var numDays = document.querySelector('input[name="numMonths"]:checked').value;//document.getElementById("").value;
+            
+            document.getElementById("historicalPerformanceChart").innerHTML = "";
+            
+            xhttp.onreadystatechange = function() {
+                
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = JSON.parse(this.responseText);
+                    graphData = response
+                    
+                    var newDateLabels = new Array();
+                    var newCloseData = new Array();
+                    
+                    if (graphData != null) {
+                        for (let i=0; i < graphData.length; i++) {
+                            newDateLabels[i] = graphData[i].date;
+                            newCloseData[i] = graphData[i].close;
+                        }
+                    }
+                    
+                    removeData(myChart);
+                    addData(myChart, newDateLabels, newCloseData, symbol);
+                }
+            };
+            xhttp.open("GET", "/loadQuotesForInvestmentAjax?symbol=" + symbol + "&numDays=" + numDays, true);
+            xhttp.send();
+        }
+        
+        function addData(chart, labels, data, symbol) {
+            //if (config.data.datasets.length > 0) {
+                var newDataSet = {
+                    label: 'New Label',
+                    label: symbol + " Performance",
+                    backgroundColor: "#457fa3",
+                    fill: true,
+                    data: data
+                  };
+                chart.data.labels = labels;
+                config.data.datasets.push(newDataSet);
+                myChart.update();
+            //}
+        }
+        
+        function removeData(chart) {
+            chart.data.labels.pop();
+            config.data.datasets.pop();
+            myChart.update();
+        }
+    
+        function buildChart() {
+            
+            var ctx = document.getElementById("historicalPerformanceChart").getContext("2d");
+            var myChart = new Chart(ctx, config);
+        }
+    
+    </script>
+    
+    
+
+</body>
+</html>

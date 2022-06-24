@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/temp_styles.css">
+
+<style>
+	a.test {
+	    font-weight: bold;
+	}
+</style>
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<!-- <a href="http://jquery.com/">jQuery</a>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-1.12.1/jquery-ui.min.js"></script>
+    <script>
+ 
+	    $( document ).ready(function() {
+	    	$( "a" ).addClass( "test" );
+	    	 
+	        $( "a" ).click(function( event ) {
+	     
+	        	event.preventDefault();
+	        	 
+	            $( this ).hide( "slow" );
+	     
+	        });
+	     
+	    });
+ 
+    </script> -->
+
+    <p class="commonBoldTextFormat">Manage Investments</p>
+
+    
+        <p></p><p></p>
+        <table class="menuFormat">
+            <tr>
+                <th>Investments</th>
+                <th>Accounts</th>
+                <th>Trades</th>
+                <th>Holdings</th>
+                <th>Reports</th>
+                <th>Bulk Data Management</th>
+                <th>Watchlists</th>
+                <th>Admin</th>
+            <tr>
+                <td>
+                    <ul>
+                        <li><a href="addInvestmentEntry">Add an investment</a>
+                        <li><a href="getAllInvestments">List all investments</a>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li><a href="getNewAccountForm">Add a New Account</a>
+                        <li><a href="editAccountPrep">Edit an Account</a>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li><a href="prepareDefineTrade">Buy</a>
+                        <li><a href="prepareDepositForm">Make Deposit</a>
+                        <li><a href="prepTransferCashForm">Transfer Cash</a>
+                        <li><a href="prepDividendForm">Apply Dividend</a>
+                        <li><a href="prepForTransactionsList">List Transactions</a>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li><a href="getAccountsForHoldings">List Holdings</a>
+                        <li><a href="prepAddHolding">Add Holding</a>
+                        <li><a href="getInvestmentsAndMostRecentQuoteDate">Update Quotes For Holdings</a>
+                        <li><a href="prepAddManualQuoteForm">Add Manual Quote</a>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li><a href="prepReports">Reports</a>
+                        <li><a href="prepGetQuotesAjax">Get Quotes for Holdings</a>
+                        <!-- <li><a href="visualizeHistoricalPerformance">Visualize Performance</a> -->
+                        <li><a href="visualizePortfolioPerformance">Get Portfolio Performance</a>
+                        <li><a href="retrieveRollupData">Rollup Reporting</a>
+                        <li><a href="holdingsByTypeAndSector">Holdings Break Down</a>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li><a href="loadBulkDataForm">Load Bulk Data</a>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li><a href="prepWatchlistForm">Add Watchlist</a>
+                        <li><a href="getWatchlists">Manage Watchlists</a>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li><a href="logout">Log out</a>
+                        <li><a href="prepAddUserForm">Add/Edit Users</a>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <p></p><p></p>
+    
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Edit a Watchlist</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+    
+    <div id="jsonResult"></div>
+    
+    <table class="commonTableFormat">
+    	<tr>
+    		<th>Watchlist Name</th>
+    		<th>Investment Count</th>
+    		<th>View Performance</th>
+    		<th>Delete Watchlist</th>
+    	</tr>
+    	<tr th:each="watchlist : ${watchlists}">
+    		<td>
+    			<a th:href="@{editWatchlist?(watchlistId=${watchlist.watchlistId})}">
+    				<span th:text="${watchlist.watchlistName}"></span>
+    			</a>
+    		</td>
+    		<td align="center" th:text="${watchlist.investmentsToWatch != null ? #lists.size(watchlist.investmentsToWatch) : 0}" />
+    		<td>
+    			<a th:href="@{getChartsForWatchlist?(watchlistId=${watchlist.watchlistId})}">Performance</a>
+    			<!-- <a href="#" th:onclick="'loadChartData(' + ${watchlist.watchlistId} + ')'">Performance</a> -->
+    		</td>
+    		<td>
+    			<a th:href="@{/deleteWatchlist?(watchlistId=${watchlist.watchlistId})}">
+    				Delete
+    			</a>
+    		</td>
+    	</tr>
+    </table>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

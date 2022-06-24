@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+    <title>Add a New User</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+    <div class="formFrame">
+        <form action="addUserSubmit" method="post" class="formFormat">
+            <div><label> User Name : <input type="text" name="username"/> </label></div>
+            <div><label> Password: <input type="password" name="password"/> </label></div>
+            <div><label> Role: <br>
+            <ul>
+            	<li th:each="role : ${roles}">
+				    <input type="checkbox" name="selectedRoleId" th:value="${role.roleId}" />
+				    <label th:text="${role.roleName}"></label>
+				</li>
+            </ul>
+            
+            
+            <!-- 
+            <input type="checkbox" th:field="*{roles}" th:checked="${''}" th:value="${role.roleId}" />
+					    <label th:for="${#ids.prev('roles')}" 
+					           th:text="${role.roleName}"></label>
+            
+            <select name="roleId">
+                <option th:each="role : ${roles}" th:value="${role.roleId}" th:text="${role.roleName}" />
+            </select> --> </label></div>
+            <div><input type="submit" value="Add User"/></div>
+        </form>
+    </div>
+    <p></p>
+    
+    
+    <table class="commonTableFormat">
+        <tr>
+            <th>User name</th>
+            <th>Role</th>
+            <th>Delete User</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td><a th:href="@{editUserFormPrep?(userId=${user.userId})}"><span th:text="${user.username}"></span></a></td>
+            <td>
+            	<label th:each="role : ${user.roles}" th:text="${role.roleName} + ', '"></label>
+            </td>
+            <td>
+         	<a th:href="@{deleteUser?(userId=${user.userId})}">X</a>
+         </td>
+        </tr>
+    </table>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    </body>
+</html>

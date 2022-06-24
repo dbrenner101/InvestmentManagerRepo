@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<meta charset="UTF-8">
+<title>Update Investment Details</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Edit Investment Details</p>
+    
+    <div class="formFrame">
+	    <form action="updateInvestment" class="formFormat" th:object="${investment}">
+	        <input type="hidden" name="investmentId" th:value="${investment.investmentId}"/>
+	        <!-- <input type="hidden" name="sector" th:value="${investment.sector}"/> -->
+	        <input type="hidden" name="exchange" th:value="${investment.exchange}"/>
+	        <fieldset>
+	            Company name: <input type="text" size="50" name="companyName" th:attr="value=${investment.companyName}" /><br>
+	            Symbol: <input type="text" name="symbol" th:attr="value=${investment.symbol}"/><br>
+	            Sector: <input type="text" name="sector" th:value="${investment.sector}" /><br>
+	            Exchange: <span th:text="${investment.exchange}"></span><br>
+	            Investment type: <select name="investmentType">
+	            	<option value="">Select</option>
+	            	<option th:each="investmentTypeEnum : ${T(com.brenner.investments.entities.constants.InvestmentTypeEnum).values()}"
+	            		th:value="${investmentTypeEnum}"
+	            		th:text="${investmentTypeEnum.displayName}"
+	            		th:selected="${investmentTypeEnum.equals(investment.investmentType)}">
+	    			</option>
+	            </select><br>
+	            <input type="submit" value="Update Investment" autofocus="autofocus"/>
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

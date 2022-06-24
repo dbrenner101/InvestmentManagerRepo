@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Load Bulk Data</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Load Bulk Data</p>
+    
+    <div class="formFrame">
+	    <form action="parseBulkData" enctype="multipart/form-data" method="POST" class="formFormat">
+	        <fieldset>
+	            Data Type: <select name="dataType">
+	                <option value="">Select</option>
+	                <option value="investment">Investments</option>
+	                <option value="transaction">Transactions</option>
+	                <option value="mutualFundQuotes">Mutual Fund Quotes</option>
+	            </select><br>
+	            Delimiter: <input type="text" name="delimiter" value="," /><br>
+	            Symbol: <input type="text" name="symbol" /><br>
+	            File: <input type="file" name="bulkData"/><br>
+	            <input type="submit" value="Submit" />
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

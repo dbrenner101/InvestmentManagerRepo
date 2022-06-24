@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Enter Split Details</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Split Details</p>
+
+	<div class="formFrame">
+	    <form action="modelSplit" class="formFormat">
+	        <fieldset>
+	            Transaction date: <input type="date" name="transactionDate" autofocus="autofocus"/><br>
+	            Investment: <select name="investmentId">
+	                <option value="">Select</option>
+	                <option th:each="investment : ${investments}" th:value="${investment.investmentId}" th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
+	            </select><br>
+	            <span id="forEvery">For every share there are now: </span>
+	            <input type="number" name="splitRatio" step="any" /> Shares<br>
+	            <input type="submit" value="Model Split" />
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+</body>
+</html>

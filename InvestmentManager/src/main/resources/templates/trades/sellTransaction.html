@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Select Transaction for Sale</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Edit Transaction for Sale</p>
+	
+	<div class="formFrame">
+	    <form action="sellHolding" class="formFormat">
+	        <fieldset>
+	            <input type="hidden" name="transactionId" th:value="${transaction.transactionId}" />
+	            <!-- <input type="hidden" name="holdingId" th:value="${holdingId}" />  -->
+	            Transaction date: <input type="date" name="transactionDate" th:value="${#dates.format(transaction.transactionDate, 'MM/dd/yyyy')}" autofocus="autofocus"/><br>
+	            Price: <input type="number" name="tradePrice" th:value="${transaction.tradePrice}" step="any"/><br>
+	            Quantity: <input type="number" name="tradeQuantity" th:value="${transaction.tradeQuantity}" step="any" /><br>
+	            Investment: <input type="text" name="symbol" th:value="${transaction.investment.symbol}" /><br>
+	            <input type="submit" value="Sell" />
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

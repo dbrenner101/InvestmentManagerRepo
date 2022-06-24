@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="quotesForHoldingsSinceMaxQuoteDate">
+        <![CDATA[
+            SELECT
+				SUM(h.purchase_price * h.quantity) as purchase_value, SUM(q.price_at_close * h.quantity) as market_value, q.quote_date
+			FROM holdings h, investments i, quotes q
+			WHERE 
+				h.quantity > 0
+			    AND h.investment_id = i.investment_id
+			    AND q.investment_id = i.investment_id
+			    AND q.quote_date = (SELECT MAX(quote_date) FROM quotes)
+			GROUP BY 
+				q.quote_date
+			ORDER BY q.quote_date DESC;
+        ]]>
+    </entry>
+    <entry key="totalPortfolioChangeByInvestment">
+        <![CDATA[
+            SELECT sum(h.purchase_price * h.quantity) as purchase_value, i.symbol, i.company_name, SUM(q.price_at_close * h.quantity) as market_value
+			FROM holdings h, investments i, quotes q
+			WHERE
+			    h.quantity > 0
+			    AND q.quote_date = ?
+			    AND h.investment_id = i.investment_id
+			    AND q.investment_id = h.investment_id
+			GROUP BY i.symbol, i.company_name
+			ORDER BY i.symbol;
+        ]]>
+    </entry>
+    <entry key="sectorSummation">
+        <![CDATA[
+            SELECT
+				SUM(h.purchase_price * h.quantity) as purchase_value, SUM(q.price_at_close * h.quantity) as market_value, q.quote_date, i.sector
+			FROM holdings h, investments i, quotes q
+			WHERE 
+				h.quantity > 0
+				AND h.investment_id = i.investment_id
+				AND q.investment_id = i.investment_id
+				AND q.quote_date = (SELECT MAX(quote_date) FROM quotes)
+			GROUP BY 
+				q.quote_date, i.sector
+			ORDER BY i.sector, q.quote_date DESC;
+        ]]>
+    </entry>
+</properties>

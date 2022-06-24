@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Holding for Account</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Holdings for Account</p>
+
+    <p class="commonBoldTextFormat">
+	    Holdings from account: <span class="commonTextFormat" th:text="${account.accountName}"></span> <br>
+	    Cash on account: <span class="commonTextFormat" th:text="${#numbers.formatCurrency(account.currentCash)}"></span><br>
+	    Total value change: <span class="commonTextFormat" th:text="${totalValueChange}"></span><br>
+	    Total Stock Value: <span class="commonTextFormat" th:text="${totalStockValue}"></span><br>
+	    Total Value: <span class="commonTextFormat" th:text="${totalValue}"></span>
+	</p>
+    
+    
+    <table border="1" class="commonTableFormat">
+        <tr>
+	        <th>Holding</th>
+	        <th>Symbol</th>
+	        <th>Purchase Date</th>
+	        <th>Quantity</th>
+	        <th>Price at Purchase</th>
+	        <th>Current Price</th>
+	        <th>Change in price</th>
+	        <th>Value at Purchase</th>
+	        <th>Current Value</th>
+	        <th>Change in Value</th>
+	    </tr>
+	    <tr th:each="holding : ${holdings}">
+	       <td th:text="${holding.investment.companyName}" />
+	       <td th:text="${holding.investment.symbol}" />
+	       <td th:text="${#dates.format(holding.trade.tradeDate, 'MM/dd/yyyy')}" />
+	       <td th:text="${holding.quantity}" />
+	       <td th:text="${holding.trade.price}" />
+	       <td th:text="${holding.quote?.close}" />
+	       <td th:text="${#numbers.formatCurrency(holding.changeInPrice)}" />
+	       <td th:text="${#numbers.formatCurrency(holding.valueAtPurchase)}"/>
+	       <td th:text="${#numbers.formatCurrency(holding.currentValue)}" />
+	       <td th:text="${#numbers.formatCurrency(holding.changeInValue)}" />
+	    </tr>
+    </table>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

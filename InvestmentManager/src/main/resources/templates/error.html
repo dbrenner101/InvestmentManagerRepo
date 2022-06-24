@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="css/init_styles.css">
+</head>
+<body>
+    
+    <div th:insert="~{fragments :: menu}"></div>
+    <p></p>
+    
+	<p class="commonBoldTextFormat">Investment Manager Error Page</p>
+	
+	<table class="commonTableFormat">
+	    <tr>
+	        <td>Date</td>
+	        <td th:text="${timestamp}"/>
+	    </tr>
+	    <tr>
+	        <td>Path</td>
+	        <td th:text="${path}"/>
+	    </tr>
+	    <tr>
+	        <td>Error</td>
+	        <td th:text="${error}"/>
+	    </tr>
+	    <tr>
+	        <td>Status</td>
+	        <td th:text="${status}"/>
+	    </tr>
+	    <tr>
+	        <td>Message</td>
+	        <td th:text="${message}"/>
+	    </tr>
+	    <tr>
+	        <td>Exception</td>
+	        <td th:text="${exception}"/>
+	    </tr>
+	    <tr>
+	        <td>Trace</td>
+	        <td>
+	            <pre th:text="${trace}"></pre>
+	        </td>
+	    </tr>
+	</table>
+</body>
+</html>

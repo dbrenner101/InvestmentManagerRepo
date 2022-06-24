@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Add a Watchlist</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+    <div class="formFrame">
+        <form action="updateWatchlist" method="post" class="formFormat" th:object="${watchlist}">
+        	<input type="hidden" name="watchlistId" th:value="*{watchlistId}" />
+            <div><label> Watchlist Name : <input type="text" name="watchlistName" th:value="*{watchlistName}"/> </label></div>
+            <div>Investments: 
+            <ul>
+            	<li th:each="investment : ${investments}">
+				    <input type="checkbox" th:field="*{investmentsToWatch}" th:checked="${#lists.contains(watchlist.investmentsToWatch, investment)}" th:value="${investment.investmentId}" />
+				    <label th:for="${#ids.prev('investmentsToWatch')}" 
+				           th:text="${investment.symbol + ' : ' + investment.companyName}"></label>
+				</li>
+            </ul>
+            </div>
+            <!-- <select name="roleId">
+                <option th:each="role : ${roles}" th:value="${role.roleId}" th:text="${role.roleName}" />
+            </select> </label></div> -->
+            <div><input type="submit" value="Update Watchlist"/></div>
+        </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

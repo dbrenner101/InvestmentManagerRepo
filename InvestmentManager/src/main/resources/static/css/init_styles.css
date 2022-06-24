@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+.menuFormat {
+	font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    border: 1px solid #ddd;
+}
+
+.commonTableFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    padding-left: 10px;
+}
+
+.commonTableFormat tr:nth-child(odd) {
+	background: #D4DCDE
+}
+
+form.formFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    padding: 2px;
+}
+
+.commonTableFormat td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.commonTableFormat th {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: center;
+    vertical-align: top;
+}
+
+ul.a {
+    list-style-type: circle;
+}
+
+ul li {
+    margin: 0px;
+}
+
+span.commonTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    padding-left: 10px;
+}
+
+span.commonBoldTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+label.commonTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+p.commonBoldTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+a.commonTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.formFrame {
+	outline-style: solid;
+	outline-width: 1px;
+	outline-offset: 5px;
+	width: 500px;
+	margin-left: 10px;
+	padding: 5px;
+    padding-left: 10px;
+}
+

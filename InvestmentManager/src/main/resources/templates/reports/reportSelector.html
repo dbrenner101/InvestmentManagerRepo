@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Select Report</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+    
+    <div class="formFrame">
+	    <form class="formFormat">
+	        <fieldset>
+	            Investment: <select name="investment" id="investmentSelect">
+	                <option value="">Select</option>
+	                <option th:each="investment : ${investments}" th:value="${investment.symbol}" th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
+	            </select>
+	        </fieldset>
+	    </form>
+    </div>
+    
+    <p></p>
+    
+    <table id="tableDiv" class="commonTableFormat"></table>
+    
+    <p></p>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+    <script>
+        require([
+            "js/buildQuoteTable"
+        ], function (buildQuoteTable) {
+        });
+    </script>
+    
+            
+</body>
+</html>

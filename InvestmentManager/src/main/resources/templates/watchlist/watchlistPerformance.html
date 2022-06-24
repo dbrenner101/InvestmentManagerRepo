@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Edit a Watchlist</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+    
+    <div id="jsonResult"></div>
+    
+    <form class="formFormat">
+    	<fieldset>
+    	Investments: <div th:each="symbol : ${symbols}">
+           <input type="checkbox" id="symbol" th:value="${symbol}" onclick="loadChartData(this)"/>
+		   <label th:text="${symbol}"></label><br>
+        </div>
+    	</fieldset>
+    </form>
+    
+    <div class="chart-container" style="position: relative; height:20vh; width:60vw">
+        <canvas id="historicalPerformanceChart"></canvas>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+    <script>
+    
+        var graphData;
+        
+        // Our labels along the x-axis
+        var dateLabels = new Array();
+        // For drawing the lines
+        var closeData = new Array();
+        
+        // container to hold the plotted data sets;
+        var plottedDatasets = new Array();
+        
+        var datasetCount = 0;
+    
+        var config = {
+                type: 'line',
+                data: {
+                  labels: [],
+                  datasets: []
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0 // disables bezier curves
+                        }
+                    },
+                    title: {
+                        display: false,
+                        text: ""
+                    },
+                    tooltips: {
+                    	callbacks: {
+                    		label: function(tooltipItem, data) {
+                    			return "$" + Number(tooltipItem.yLabel).toFixed(0).replace(
+                    					/./g, 
+                    					function(c, i, a) {
+                    					    return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+                    					}
+                    			);
+                    		}
+                    	}
+                    }
+                }
+              };
+        
+        var ctx = document.getElementById("historicalPerformanceChart").getContext("2d");
+        var myChart = new Chart(ctx, config);
+        
+        
+        function loadChartData(checkbox) {
+        	
+        	// remove the chart data if the investment is deselected
+        	if(! checkbox.checked) {
+        		removeData(myChart, checkbox.value);
+        		return;
+        	}
+        	
+        	var symbol = checkbox.value;
+            var xhttp = new XMLHttpRequest();
+            
+            document.getElementById("historicalPerformanceChart").innerHTML = "";
+            
+            xhttp.onreadystatechange = function() {
+                
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = JSON.parse(this.responseText);
+                    
+                    /* var jsonResult = document.getElementById("jsonResult");
+                    jsonResult.innerHTML=this.responseText; */
+                    
+                    var newDateLabels = new Array();
+                    var newCloseData = new Array();
+                    
+                    
+                    if (response != null) {
+                    	let jsonValues = response.investmentPerformanceList
+                        for (let i=0; i < jsonValues.length; i++) {
+                            newDateLabels[i] = jsonValues[i].quoteDate;
+                            newCloseData[i] = jsonValues[i].close;
+                        }
+                    }
+                    
+                    var newDataset = addData(myChart, newDateLabels, newCloseData, symbol, getRandomColor());
+                    
+                    // add the newly created dataset to an array so it can be identified later
+                    plottedDatasets[datasetCount] = {symbol:checkbox.value, dataset:newDataset};
+                	datasetCount = datasetCount + 1;
+                }
+            };
+            xhttp.open("GET", "/getChartsForWatchlistAjax?symbol=" + symbol, true);
+            xhttp.send();
+        }
+        
+
+        
+        Number.prototype.formatMoney = function(c, d, t){
+            var n = this, 
+            c = isNaN(c = Math.abs(c)) ? 2 : c, 
+            d = d == undefined ? "." : d, 
+            t = t == undefined ? "," : t, 
+            s = n < 0 ? "-" : "", 
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))), 
+            j = (j = i.length) > 3 ? j % 3 : 0;
+           return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+         };
+         
+         
+         
+         function getRandomColor() {
+             var r = Math.floor(Math.random() * 255);
+             var g = Math.floor(Math.random() * 255);
+             var b = Math.floor(Math.random() * 255);
+             return "rgb(" + r + "," + g + "," + b + ")";
+          };
+          
+        
+        function addData(chart, labels, data, symbol, color) {
+            var newDataSet = {
+                label: 'New Label',
+                label: symbol + " Performance",
+                backgroundColor: color,
+                fill: false,
+                data: data
+              };
+            chart.data.labels = labels;
+            config.data.datasets.push(newDataSet);
+            myChart.update();
+            
+            return newDataSet;
+        }
+        
+        
+        function removeData(chart, symbol) {
+        	
+        	datasetCount = datasetCount - 1;
+        	
+        	var index;
+        	for (let i=0; i<plottedDatasets.length; i++) {
+        		if (plottedDatasets[i].symbol == symbol) {
+        			index = i;
+        			plottedDatasets.splice(index, 1);
+        			break;
+        		}
+        	}
+        	
+            chart.data.labels.splice(index, 1);
+            config.data.datasets.splice(index, 1);
+            myChart.update();
+        }
+    
+        function buildChart() {
+            
+            var ctx = document.getElementById("historicalPerformanceChart").getContext("2d");
+            var myChart = new Chart(ctx, config);
+        }
+    
+    </script>
+
+</body>
+</html>

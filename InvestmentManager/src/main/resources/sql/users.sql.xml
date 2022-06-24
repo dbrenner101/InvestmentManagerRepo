@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="associateRolesToUser">
+        <![CDATA[
+            INSERT INTO user_roles(user_id, role_id)
+            VALUES(?, ?);
+        ]]>
+    </entry>
+    <entry key="removeUserRoles">
+        <![CDATA[
+            DELETE FROM user_roles
+            WHERE user_id = ?;
+        ]]>
+    </entry>
+    <entry key="deleteUser">
+        <![CDATA[
+            DELETE FROM users
+            WHERE user_id = ?;
+        ]]>
+    </entry>
+    <entry key="userByUsernameAndPassword">
+        <![CDATA[
+            SELECT u.user_id, u.username, u.password
+			FROM users u
+			WHERE u.username = ? AND password = ?;
+        ]]>
+    </entry>
+    <entry key="userByUsername">
+        <![CDATA[
+            SELECT u.user_id, u.username, u.password
+			FROM users u
+			WHERE u.username = ?;
+        ]]>
+    </entry>
+    <entry key="getAllUsers">
+        <![CDATA[
+            SELECT u.user_id, u.username, u.password
+			FROM users u
+        ]]>
+    </entry>
+    <entry key="userByUserId">
+        <![CDATA[
+            SELECT u.user_id, u.username, u.password
+			FROM users u
+			WHERE u.user_id = ?;
+        ]]>
+    </entry>
+    <entry key="userRoles">
+        <![CDATA[
+            select r.role_name, r.role_id
+			FROM roles r, user_roles ur
+			WHERE ur.user_id = ?
+				AND ur.role_id = r.role_id;
+        ]]>
+    </entry>
+    <entry key="insertUser">
+        <![CDATA[
+            INSERT INTO USERS(username, password)
+            VALUES(?,?);
+        ]]>
+    </entry>
+    <entry key="updateUser">
+        <![CDATA[
+            UPDATE users
+            SET username = ?, 
+            password = ?
+            WHERE user_id = ?;
+        ]]>
+    </entry>
+</properties>

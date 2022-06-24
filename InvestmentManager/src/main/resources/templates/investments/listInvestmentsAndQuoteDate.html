@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <meta charset="UTF-8">
+    <title>Last Quote Date</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Quote Dates for Investments</p>
+    
+    
+    <span class="commonTextFormat"><a href="updateQuotesForAllInvestments">Update Quotes For All Investments</a></span>
+    
+    <p></p>
+    
+    <table border="1" class="commonTableFormat">
+        <tr>
+	        <th>Investment</th>
+	        <th>Symbol</th>
+	        <th>Update Quotes</th>
+	        <th>Most Recent Quote</th>
+	    </tr>
+	    <tr th:each="investment : ${investments}">
+	       <td th:text="${investment.companyName}" />
+	       <td th:text="${investment.symbol}" />
+	       <!-- <td th:text="${#dates.format(holding.transaction.tradeDate, 'MM/dd/yyyy')}" /> -->
+	       <!-- <td th:text="${holding.quantity}" /> -->
+	       
+	       <td><a th:href="@{updateQuoteForInvestment(investmentId=${investment.investmentId})}">Update Quotes</a></td>
+	       <td th:each="quote : ${investment.quotes}">
+				<span th:text="${#dates.format(quote.date, 'MM/dd/yyyy')}"></span>
+	       </td>
+	    </tr>
+    </table>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Ordered Results for Investments in Holdings</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <div id="jsonResult"></div>
+
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+    
+    <div class="formFrame">
+	    <span th:text="'Total change in portfolio: '+ ${#numbers.formatCurrency(totalmarketvaluechange)}" class="commonTextFormat"></span><br>
+	    <span th:text="'Gainers: ' + ${gainers}" class="commonTextFormat"></span><br>
+	    <span th:text="'Losers: ' + ${losers}" class="commonTextFormat"></span><br>
+	    <span th:text="'Unchanged: ' + ${unchanged}" class="commonTextFormat"></span><br>
+    </div>
+    <p></p>
+    <table class="commonTableFormat">
+        <tr>
+            <th>Symbol</th>
+            <th>Company</th>
+            <th>Value of Purchase</th>
+            <th><a th:href="@{retrieveRollupData(sortOrder=${sortOrder},dataSet=marketValue)}">Market Value</a></th>
+            <th>Total Dividends</th>
+            <th>Total Value</th>
+            <th><a th:href="@{retrieveRollupData(sortOrder=${sortOrder},dataSet=changeInValue)}">Change in Market Value</a></th>
+        </tr>
+        <tr th:each="holding : ${holdingsbymarketvalue}">
+            <td th:text="${holding.symbol}" />
+            <td th:text="${holding.companyName}" />
+            <td th:text="${#numbers.formatCurrency(holding.valueAtPurchase)}"/>
+            <td th:text="${#numbers.formatCurrency(holding.marketValue)}"/>
+            <td th:text="${#numbers.formatCurrency(holding.totalDividends)}" />
+            <td th:text="${#numbers.formatCurrency(holding.totalValue)}" />
+            <td th:text="${#numbers.formatCurrency(holding.changeInValue)}" />
+        </tr>
+    </table>
+
+    
+    <div class="chart-container" style="position: relative; height:20vh; width:60vw">
+        <canvas id="historicalPerformanceChart"></canvas>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    
+    
+
+</body>
+</html>

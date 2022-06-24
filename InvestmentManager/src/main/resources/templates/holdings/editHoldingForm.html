@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+	<title>Edit Holding Details</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Edit Holding Details</p>
+
+	<div class="formFrame">
+	    <form action="updateHolding" class="formFormat">
+	        <fieldset>
+	            <input type="hidden" name="holdingId" th:value="${holding.holdingId}" />
+	            Account: <select name="accountId" autofocus="autofocus">
+	                <option value="">Select</option>
+	                <option 
+	                    th:each="account : ${accounts}" 
+	                    th:value="${account.accountId}" 
+	                    th:text="${account.accountName + ' (' + account.owner + ')'}" 
+	                    th:selected="${holding.account.accountId == account.accountId}"/>
+	            </select><br>
+	            Purchase Price: <input type="number" name="tradePrice" step="any" th:value="${holding.purchasePrice}"/><br>
+	            Quantity: <input type="number" name="quantity" th:value="${holding.quantity}"/> <br>
+	            Investment: <select name="investmentId">
+	                <option value="">Select</option>
+	                <option 
+	                    th:each="investment : ${investments}" 
+	                    th:value="${investment.investmentId}" 
+	                    th:text="${investment.symbol + ' :: ' + investment.companyName}"
+	                    th:selected="${investment.investmentId == holding.investment.investmentId}"/>
+	            </select><br>
+	            <input type="submit" value="Update Holding" />
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

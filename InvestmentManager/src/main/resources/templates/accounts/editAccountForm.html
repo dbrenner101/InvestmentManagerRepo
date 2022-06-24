@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+<meta charset="UTF-8">
+<title>Edit Account Information</title>
+</head>
+<body class="tundra">
+
+	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Edit Account Information</p>
+
+	<div class="formFrame">
+	    <form action="updateAccount" class="formFormat">
+	        <input type="hidden" name="accountId" th:value="${account.accountId}" />
+	        <fieldset>
+	            Account name: <input type="text" name="accountName" th:value="${account.accountName}"/><br>
+	            Company: <input type="text" name="company" th:value="${account.company}"/><br>
+	            Owner: <input type="text" name="owner" th:value="${account.owner}"/><br>
+	            Account number: <input type="text" name="accountNumber" th:value="${account.accountNumber}"/><br>
+	            Type: <select name="accountType">
+	                <option value="Investment" th:selected="${account.accountType.equals('Investment')}">Investment</option>
+	                <option value="401k" th:selected="${account.accountType.equals('401k')}">401k</option>
+	                <option value="IRA" th:selected="${account.accountType.equals('IRA')}">IRA</option>
+	                <option value="Inherited IRA" th:selected="${account.accountType.equals('Inherited IRA')}">Inherited IRA</option>
+	                <option value="Roth IRA" th:selected="${account.accountType.equals('Roth IRA')}">Roth IRA</option>
+	            </select><br>
+	            <input type="submit" value="Update" />
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>

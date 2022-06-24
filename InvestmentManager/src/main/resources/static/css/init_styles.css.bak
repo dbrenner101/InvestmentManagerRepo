@@ -1,0 +1,78 @@
+@charset "UTF-8";
+
+table.menuFormat {
+	font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    border: 1px solid #ddd;
+}
+
+table.commonTableFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    border: 1px solid #ddd;
+}
+
+tr {
+	border: 0px solid #ddd;
+}
+
+/*tr.commonTableFormat:nth-child(odd) {
+	background: #D4DCDE
+}*/
+
+form.formFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+}
+
+td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: center;
+    vertical-align: top;
+}
+
+ul.a {
+    list-style-type: circle;
+}
+
+ul li {
+    margin: 0px;
+}
+
+span.commonTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+label.commonTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+p.commonBoldTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+a.commonTextFormat {
+    font-family: sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+}

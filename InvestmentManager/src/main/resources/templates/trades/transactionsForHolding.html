@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+	<meta charset="UTF-8">
+<title>Sell Holding</title>
+</head>
+<body class="tundra">
+
+	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    
+    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    <p></p>
+
+    <p class="commonBoldTextFormat">Add Sale Transaction Details For: <span th:text="${holding.investment.symbol}"></span></p>
+
+	<div class="formFrame">
+	    <form action="sellHolding" class="formFormat">
+	        <fieldset>
+	            <input type="hidden" name="holdingId" th:value="${holding.holdingId}" />
+	            Trade date: <input type="date" name="transactionDate" autofocus="autofocus"/><br>
+	            Price: <input type="number" name="tradePrice" step="any"/><br>
+	            Quantity: <input type="number" name="tradeQuantity" th:value="${holding.quantity}" step="any" /><br>
+	            Transactions: <select name="transactionId">
+	                <option value="">Select</option>
+	                <option selected
+	                	th:each="transaction : ${holding.transactions}" 
+	                	th:value="${transaction.transactionId}" 
+	                	th:text="${'Purchase price: ' + transaction.tradePrice + ' :: Trade quantity: ' + transaction.tradeQuantity + ' :: ' + transaction.transactionDate}"/>
+	            </select><br>
+	            <input type="submit" value="Sell" />
+	        </fieldset>
+	    </form>
+    </div>
+    
+   <script>require(["js/menu.js"], function(applyMenu){});</script>
+
+</body>
+</html>
