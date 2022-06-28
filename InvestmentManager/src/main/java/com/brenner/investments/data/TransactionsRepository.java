@@ -5,7 +5,6 @@ package com.brenner.investments.data;
 
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -39,10 +38,18 @@ public interface TransactionsRepository extends JpaRepository<Transaction, Long>
 			+ "WHERE t.holding_id = ? AND t.transaction_type = 'Buy' AND a.account_id = t.account_account_id AND t.investment_investment_id = i.investment_id;")
 	Transaction findBuyTransactionforHoldingId(Long holdingId);
 	
-	List<Transaction> findAllByAccountAccountId(Account account, Sort sort);
+	List<Transaction> findAllByAccountAccountId(Account account);
 	
 	List<Transaction> findAllByAccountAccountIdAndHoldingHoldingId(Account account, Holding holding);
 	
+	@Query(nativeQuery = true, value = "SELECT t.*, i.*, a.* FROM transactions t, investments i, accounts a "
+			+ "WHERE t.account_account_id = ? AND t.investment_investment_id = i.investment_id AND a.account_id = t.account_account_id "
+			+ "ORDER BY t.transaction_date DESC;")
+	List<Transaction> findAllByAccountAccountIdOrderByTransactionDateDesc(Account account);
+	
+	@Query(nativeQuery = true, value = "SELECT t.*, i.* FROM transactions t JOIN investments i on i.investment_id = t.investment_investment_id "
+			+ "ORDER BY i.symbol;")
+	List<Transaction> findAllByAccountAccountIdOrderByInvestmentSymbol(Account account);
 	
 	@Query(nativeQuery = true, value = 
 			"SELECT t.*, i.*, a.* FROM transactions t, investments i, accounts a "

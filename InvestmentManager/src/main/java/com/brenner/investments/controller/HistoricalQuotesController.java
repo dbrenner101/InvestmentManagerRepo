@@ -22,6 +22,7 @@ import com.brenner.investments.InvestmentsProperties;
 import com.brenner.investments.entities.Holding;
 import com.brenner.investments.entities.Investment;
 import com.brenner.investments.entities.Quote;
+import com.brenner.investments.service.HoldingsService;
 import com.brenner.investments.service.InvestmentManagerServiceException;
 import com.brenner.investments.service.InvestmentsService;
 import com.brenner.investments.service.QuotesService;
@@ -47,6 +48,9 @@ public class HistoricalQuotesController implements WebMvcConfigurer {
     
     @Autowired
     InvestmentsService investmentsService;
+    
+    @Autowired
+    HoldingsService holdingsService;
     
     @Autowired
     InvestmentsProperties props;
@@ -102,7 +106,7 @@ public class HistoricalQuotesController implements WebMvcConfigurer {
     public String prepGetQuotes(Model model) {
     	logger.info("Entering prepGetQuotes()");
     	
-    	List<Holding> holdings = this.transactionsService.getAllHoldingsOrderedBySymbol();
+    	List<Holding> holdings = this.holdingsService.getAllHoldingsOrderedBySymbol();
     	logger.debug("Retrieved {} holdings", holdings != null ? holdings.size() : 0);
         model.addAttribute(props.getHoldingsListAttributeKey(), holdings);
         
@@ -120,7 +124,7 @@ public class HistoricalQuotesController implements WebMvcConfigurer {
     public String prepAddManualQuote(Model model) {
     	logger.info("Entering prepAddManualQuote()");
     	
-    	List<Holding> holdings = this.transactionsService.getAllHoldingsOrderedBySymbol();
+    	List<Holding> holdings = this.holdingsService.getAllHoldingsOrderedBySymbol();
     	logger.debug("Retrieved {} holdings", holdings != null ? holdings.size() : 0);
         model.addAttribute(
         		this.props.getHoldingsListAttributeKey(), 
@@ -198,7 +202,7 @@ public class HistoricalQuotesController implements WebMvcConfigurer {
     public String prepGetQuotesAjax(Model model) {
     	logger.info("Entering prepGetQuotesAjax()");
     	
-    	List<Investment> investments = this.transactionsService.getAllInvestmentsCurrentlyHeldOrderedBySymbol();
+    	List<Investment> investments = this.holdingsService.getAllInvestmentsCurrentlyHeldOrderedBySymbol();
     	logger.debug("Retrieved {} investments", investments != null ? investments.size() : 0);
         model.addAttribute(
         		props.getInvestmentsListAttributeKey(), 

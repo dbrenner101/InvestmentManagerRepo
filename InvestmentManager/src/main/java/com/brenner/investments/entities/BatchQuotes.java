@@ -2,9 +2,7 @@ package com.brenner.investments.entities;
 
 import java.util.Map;
 
-import com.brenner.investments.data.deserialization.BatchQuotesDeserializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 //@JsonDeserialize(using = BatchQuotesDeserializer.class)

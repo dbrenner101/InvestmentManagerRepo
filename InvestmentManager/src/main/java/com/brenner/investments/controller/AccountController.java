@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.brenner.investments.InvestmentsProperties;
 import com.brenner.investments.entities.Account;
 import com.brenner.investments.service.AccountsService;
 
@@ -33,10 +32,6 @@ public class AccountController implements WebMvcConfigurer {
 	@Autowired
 	AccountsService accountsService;
 	
-	@Autowired
-	InvestmentsProperties props;
-	
-	
 
 	/**
 	 * MVC request method to start the add new account form. It also retrieves all existing accounts and their cash balance.
@@ -50,9 +45,10 @@ public class AccountController implements WebMvcConfigurer {
 		logger.info("Entering getNewAccountForm()");
 		
 		List<Account> accounts = this.accountsService.getAccountsAndCash();
+		
 		logger.debug("Retrieved {} accounts", accounts != null ? accounts.size() : 0);
 		
-		model.addAttribute(this.props.getAccountsAndCashAttributeKey(), accounts);
+		model.addAttribute("accountsandcash", accounts);
 		
 		logger.info("Forwarding to /accounts/addAccountForm");
 		return "accounts/addAccountForm";
@@ -73,12 +69,14 @@ public class AccountController implements WebMvcConfigurer {
 		
 		// save the account
 		Account newAccount = this.accountsService.addNewAccount(account);
+		
 		logger.debug("Added new Account: {}", newAccount);
 		
 		// put the account object in the model
-		model.addAttribute(props.getAccountAttributeKey(), newAccount);
+		model.addAttribute("account", newAccount);
 		
 		logger.info("Redirecting to: getNewAccountForm");
+		
 		return new ModelAndView("redirect:getNewAccountForm", model.asMap());
 	}
 	
@@ -92,11 +90,12 @@ public class AccountController implements WebMvcConfigurer {
 	public String editAccountPrep(Model model) {
 		logger.info("Entering editAccountPrep()");
 		
-		Iterable<Account> accounts = this.accountsService.getAllAccounts();
+		List<Account> accounts = this.accountsService.getAllAccounts();
 		
-		model.addAttribute(props.getAccountsListAttributeKey(), accounts);
+		model.addAttribute("accounts", accounts);
 		
 		logger.info("Forwarding to accounts/chooseAccountToEdit");
+		
 		return ("accounts/chooseAccountToEdit");
 	}
     
@@ -115,13 +114,13 @@ public class AccountController implements WebMvcConfigurer {
     	logger.debug("Request parameter: accountId: {}", accountId);
     	
     	Account account = this.accountsService.getAccountByAccountId(Long.valueOf(accountId));
+    	
     	logger.debug("Retrieved account: {}", account);
         
-        model.addAttribute(
-        		props.getAccountAttributeKey(), 
-        		account);
+        model.addAttribute("account", account);
         
         logger.info("Forwarding to accounts/editAccountForm");
+        
         return "accounts/editAccountForm";
     }
 	
@@ -137,11 +136,14 @@ public class AccountController implements WebMvcConfigurer {
 		logger.info("Entering updateAccount()");
 		logger.debug("Request parameters: account: {}", account);
 	    
-	    account = this.accountsService.updateAccount(account);
+	    account = this.accountsService.save(account);
+	    
 	    logger.debug("Updated account: {}", account);
-	    model.addAttribute(this.props.getAccountAttributeKey(), account);
+	    
+	    model.addAttribute("account", account);
 	    
 	    logger.info("Redirecting to editAccountPrep");
+	    
 	    return new ModelAndView("redirect:editAccountPrep", model.asMap());
 	}
 }

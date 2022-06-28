@@ -2,6 +2,7 @@ package com.brenner.investments.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,9 +47,7 @@ public class Investment {
 	@Column(name="investment_type")
 	private InvestmentTypeEnum investmentType;
 	
-	public Investment() {
-		
-	}
+	public Investment() {}
 	
 	public Investment(Long investmentId) {
 		this.investmentId = investmentId;
@@ -119,6 +118,26 @@ public class Investment {
 
 	public void setInvestmentType(InvestmentTypeEnum investmentType) {
 		this.investmentType = investmentType;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(companyName, exchange, investmentId, investmentType, quotes, sector, symbol);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Investment other = (Investment) obj;
+		return Objects.equals(companyName, other.companyName) && Objects.equals(exchange, other.exchange)
+				&& Objects.equals(investmentId, other.investmentId) && investmentType == other.investmentType
+				&& Objects.equals(quotes, other.quotes) && Objects.equals(sector, other.sector)
+				&& Objects.equals(symbol, other.symbol);
 	}
 
 	@Override

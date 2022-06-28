@@ -2,8 +2,9 @@ package com.brenner.investments.data;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import com.brenner.investments.entities.PortfolioRollup;
 
@@ -13,10 +14,11 @@ import com.brenner.investments.entities.PortfolioRollup;
  * @author dbrenner
  *
  */
-public interface PortfolioRollupRepository extends CrudRepository<PortfolioRollup, Long> {
+@Repository
+public interface PortfolioRollupRepository extends JpaRepository<PortfolioRollup, Long> {
     
     /**
-     * Uses a native query to get the change in the protfolio by day
+     * Uses a native query to get the change in the portfolio by day
      * 
      * @return List<PortfolioRollup>
      */

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.brenner.investments.entities.Account;
 import com.brenner.investments.entities.Holding;
-import com.brenner.investments.service.TransactionsService;
+import com.brenner.investments.service.HoldingsService;
 
 /**
  * Spring REST controller for interacting with Holdings
@@ -25,7 +25,7 @@ public class HoldingsRestController {
 	private static final Logger log = LoggerFactory.getLogger(HoldingsRestController.class);
 	
 	@Autowired
-	TransactionsService transactionService;
+	HoldingsService holdingsService;
 	
 	/**
 	 * GET for retrieving all {@link Holding}
@@ -35,7 +35,7 @@ public class HoldingsRestController {
 	public List<Holding> allHoldings() {
 		log.info("Entered allHoldings()");
 		
-		List<Holding> holdings = this.transactionService.getAllHoldingsOrderedBySymbol();
+		List<Holding> holdings = this.holdingsService.getAllHoldingsOrderedBySymbol();
 		log.debug("Returning {} holdings", holdings != null ? holdings.size() : 0);
 		
 		log.info("Exiting allHoldings()");
@@ -53,7 +53,7 @@ public class HoldingsRestController {
 		log.info("Entered allHoldingsForAccount()");
 		log.debug("Param: accountId: {}", accountId);
 		
-		List<Holding> holdings = this.transactionService.getHoldingsForAccount(accountId);
+		List<Holding> holdings = this.holdingsService.getHoldingsForAccount(accountId);
 		log.debug("Returning {} holdings", holdings != null ? holdings.size() : 0);
 		
 		log.info("Exiting allHoldingsForAccount()");

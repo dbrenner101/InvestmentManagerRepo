@@ -27,13 +27,7 @@ public class AutenticationController {
 	@RequestMapping("/auth")
 	public void authenticate(@CurrentSecurityContext SecurityContext securityContext) {
 		
-		Object user = securityContext.getAuthentication().getPrincipal(); 
-		
-		//log.debug("Call to /api/auth by: " + user);
-		
-		
-		
-		//return a;
+		securityContext.getAuthentication().getPrincipal();
 	}
 	
 	@PostMapping("/register")

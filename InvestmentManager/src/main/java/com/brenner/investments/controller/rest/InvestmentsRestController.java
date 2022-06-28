@@ -100,8 +100,8 @@ public class InvestmentsRestController {
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
 	@PutMapping(
 			path="/restful/manageInvestments", 
-			consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, 
-			produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
+			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Investment updateInvestment(@RequestBody String investmentStr) throws IOException {
 		log.info("Entered updateInvestment()");
 		log.debug("Param: investmentJson: {}", investmentStr);
@@ -124,8 +124,8 @@ public class InvestmentsRestController {
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
 	@PostMapping(
 			path="/restful/manageInvestments", 
-			consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, 
-			produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
+			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Investment addInvestment(@RequestBody String investmentStr) throws IOException {
 		log.info("Entered addInvestment()");
 		log.debug("Param: investmentJson: {}", investmentStr);
@@ -146,8 +146,8 @@ public class InvestmentsRestController {
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
 	@DeleteMapping(
 			path="/restful/manageInvestments/{investmentId}", 
-			consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, 
-			produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
+			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public void deleteInvestment(@PathVariable Long investmentId) {
 		log.info("Entered deleteInvestment()");
 		log.debug("Param: investmentId: {}", investmentId);

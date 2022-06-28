@@ -10,21 +10,21 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.brenner.investments.InvestmentsProperties;
 import com.brenner.investments.entities.Account;
 import com.brenner.investments.entities.Holding;
 import com.brenner.investments.entities.Investment;
 import com.brenner.investments.entities.Transaction;
 import com.brenner.investments.quote.service.QuoteRetrievalException;
 import com.brenner.investments.service.AccountsService;
+import com.brenner.investments.service.HoldingsService;
 import com.brenner.investments.service.InvestmentsService;
-import com.brenner.investments.service.TransactionsService;
 import com.brenner.investments.util.CommonUtils;
 
 /**
@@ -34,21 +34,19 @@ import com.brenner.investments.util.CommonUtils;
  *
  */
 @Controller
+@Secured("ROLE_USER")
 public class HoldingsController implements WebMvcConfigurer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HoldingsController.class); 
-	
-	@Autowired
-	TransactionsService transactionsService;
 	
 	@Autowired
 	AccountsService accountsService;
 	
 	@Autowired
 	InvestmentsService investmentsService;
-    
-    @Autowired
-    InvestmentsProperties props;
+	
+	@Autowired
+	HoldingsService holdingsService;
     
     
 	/**
@@ -62,10 +60,11 @@ public class HoldingsController implements WebMvcConfigurer {
 		logger.info("Entering getAccountsForHoldings()");
 		
 		List<Account> allAccounts = this.accountsService.getAllAccountsOrderByAccountNameAsc();
-		logger.debug("Retrieved {} accounts",  allAccounts.size());
-		model.addAttribute(props.getAccountsListAttributeKey(), allAccounts);
+		model.addAttribute("accounts", allAccounts);
 		
+		logger.debug("Retrieved {} accounts",  allAccounts.size());
 		logger.info("Forwarding request to: holdings/chooseAccountAjax");
+		
 		return "holdings/chooseAccountAjax";
 	}
 	
@@ -81,14 +80,16 @@ public class HoldingsController implements WebMvcConfigurer {
 		logger.info("Entering prepAddHolding()");
 		
 		List<Account> allAccounts = this.accountsService.getAllAccountsOrderByAccountNameAsc();
+		model.addAttribute("accounts", allAccounts);
+
 		logger.debug("Retrieved {} accounts",  allAccounts != null ? allAccounts.size() : 0);
-		model.addAttribute(props.getAccountsListAttributeKey(), allAccounts);
 		
 		List<Investment> allInvestments = this.investmentsService.getInvestmentsOrderedBySymbolAsc();
+		model.addAttribute("investments", allInvestments);
+
 		logger.debug("Retrieved {} investments", allInvestments != null ? allInvestments.size() : 0);
-		model.addAttribute(this.props.getInvestmentsListAttributeKey(), allInvestments);
-		
 		logger.info("Forwarding to holdings/addHolding");
+		
 		return "holdings/addHolding";
 	}
 	
@@ -110,6 +111,7 @@ public class HoldingsController implements WebMvcConfigurer {
 			@RequestParam(name="tradeQuantity", required=true) String tradeQuantity, 
 			@RequestParam(name="tradePrice", required=true) String tradePrice, 
 			@RequestParam(name="transactionDate", required=true) String transactionDate) throws ParseException {
+		
 		logger.info("Entering addHolding()");
 		logger.debug("Received method parameters: accountId: {}; investmentId: {}; tradeQuantity: {}; tradePrice: {}; transactionDate: {}.", 
 				accountId, investmentIdStr, tradeQuantity, tradePrice, transactionDate);
@@ -121,11 +123,22 @@ public class HoldingsController implements WebMvcConfigurer {
 		trade.setTradeQuantity(Float.valueOf(tradeQuantity));
 		trade.setTransactionDate(CommonUtils.convertDatePickerDateFormatStringToDate(transactionDate));
 		trade.setInvestment(new Investment(Long.valueOf(investmentIdStr)));
+    	
+    	// 1 check if the investment exists and if not add it
+		Investment investment = this.investmentsService.getInvestmentByInvestmentId(trade.getInvestment().getInvestmentId());
 		
-		this.transactionsService.addHolding(trade);
+		//add it to holdings
+		Holding holding = new Holding();
+		holding.setAccount(trade.getAccount());
+		holding.setInvestment(investment);
+		holding.setPurchasePrice(trade.getTradePrice());
+		holding.setQuantity(trade.getTradeQuantity());
+		
+		this.holdingsService.addHolding(trade, holding);
+		
 		logger.debug("Added holding {}", trade);
-		
 		logger.info("Redirecting to prepAddHolding");
+		
 		return "redirect:prepAddHolding";
 	}
     
@@ -147,8 +160,12 @@ public class HoldingsController implements WebMvcConfigurer {
     	logger.info("Entering getHoldingsAjax");
     	logger.debug("Request parameter: {}", accountId);
         		
-        List<Holding> holdings = this.transactionsService.getHoldingsForAccount(Long.valueOf(accountId));
-        Collections.sort(holdings);
+        List<Holding> holdings = this.holdingsService.getHoldingsForAccount(Long.valueOf(accountId));
+        
+        if (holdings != null) {
+        	Collections.sort(holdings);
+        }
+        
         logger.debug("Retrieved {} accounts", holdings != null ? holdings.size() : 0);
         
         Account account = this.accountsService.getAccountAndCash(Long.valueOf(accountId));
@@ -167,8 +184,8 @@ public class HoldingsController implements WebMvcConfigurer {
         
         logger.debug("Total value change: {}", totalValueChange);
         logger.debug("Total stock value: {}", totalStockValue);
-        
         logger.info("Serializing holdings to JSON");
+        
         CommonUtils.serializeObjectToJson(response.getOutputStream(), holdings);
     }
     
@@ -186,7 +203,7 @@ public class HoldingsController implements WebMvcConfigurer {
     	logger.info("Entering editHolding()");
     	logger.debug("Request param holdingId: {}", holdingId);
         
-    	Holding holding = this.transactionsService.getHoldingByHoldingId(Long.valueOf(holdingId));
+    	Holding holding = this.holdingsService.getHoldingByHoldingId(Long.valueOf(holdingId));
     	List<Account> accounts = this.accountsService.getAllAccountsOrderByAccountNameAsc();
     	List<Investment> investments = this.investmentsService.getInvestmentsOrderedBySymbolAsc();
     	
@@ -194,11 +211,12 @@ public class HoldingsController implements WebMvcConfigurer {
     	logger.debug("Retrieved {} accounts", accounts != null ? accounts.size() : 0);
     	logger.debug("Retrieved {} investments", investments != null ? investments.size() : 0);
     	
-        model.addAttribute(this.props.getHoldingAttributeKey(), holding);
-        model.addAttribute(this.props.getAccountsListAttributeKey(), accounts);
-        model.addAttribute(this.props.getInvestmentsListAttributeKey(), investments);
+        model.addAttribute("holding", holding);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("investments", investments);
         
         logger.info("Forwarding to holdings/editHoldingForm");
+        
         return "holdings/editHoldingForm";
     }
 }

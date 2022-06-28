@@ -61,10 +61,27 @@
 			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+             <!-- exclude junit 4 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Junit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-suite-engine</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -85,11 +102,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 	<build>
 	   <finalName>investmentmanager</finalName>
@@ -98,19 +115,25 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+			    <groupId>org.jacoco</groupId>
+			    <artifactId>jacoco-maven-plugin</artifactId>
+			    <version>0.8.8</version>
+			    <executions>
+			        <execution>
+			            <goals>
+			                <goal>prepare-agent</goal>
+			            </goals>
+			        </execution>
+			        <execution>
+			            <id>report</id>
+			            <phase>prepare-package</phase>
+			            <goals>
+			                <goal>report</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
-
-<!-- implementation("org.springframework.boot:spring-boot-starter-web") implementation("org.springframework.boot:spring-boot-starter-security") 
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf") 
-	implementation("org.springframework.boot:spring-boot-devtools") implementation("org.springframework.boot:spring-boot-starter-data-jpa") 
-	implementation("com.h2database:h2") implementation("org.springframework.boot:spring-boot-starter-jdbc") 
-	implementation("org.springframework:spring-jdbc") implementation("mysql:mysql-connector-java") 
-	implementation("joda-time:joda-time:2.10") implementation("org.apache.commons:commons-csv:1.5") 
-	implementation("org.apache.commons:commons-lang3:3.8") implementation("com.fasterxml.jackson.core:jackson-databind") 
-	implementation("org.apache.httpcomponents:httpclient:4.3.4") implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5") 
-	testImplementation("junit:junit") implementation("org.springframework.boot:spring-boot-test-autoconfigure") 
-	testImplementation("org.springframework.security:spring-security-test") implementation("org.springframework.boot:spring-boot-test") 
-	testImplementation("org.springframework.boot:spring-boot-starter-test") //implementation 
-	'org.springframework.boot:spring-boot-starter-web' providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat' -->

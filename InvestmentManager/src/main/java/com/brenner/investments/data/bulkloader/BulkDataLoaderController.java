@@ -22,6 +22,7 @@ import com.brenner.investments.entities.Quote;
 import com.brenner.investments.entities.Transaction;
 import com.brenner.investments.entities.constants.TransactionTypeEnum;
 import com.brenner.investments.service.AccountsService;
+import com.brenner.investments.service.HoldingsService;
 import com.brenner.investments.service.InvestmentsService;
 import com.brenner.investments.service.QuotesService;
 import com.brenner.investments.service.TransactionsService;
@@ -50,6 +51,9 @@ public class BulkDataLoaderController {
     
     @Autowired
     InvestmentsService investmentService;
+    
+    @Autowired
+    HoldingsService holdingsService;
     
    /**
     * Entry point for uploading bulk data.
@@ -87,7 +91,7 @@ public class BulkDataLoaderController {
         		Transaction t = iter.next();
         		
         		if (t.getTransactionType().equals(TransactionTypeEnum.Buy)) {
-	        		this.transactionsDataService.persistBuy(
+	        		this.holdingsService.persistBuy(
 	        				t.getTransactionDate(), 
 	        				t.getTradePrice(), 
 	        				t.getTradeQuantity(), 

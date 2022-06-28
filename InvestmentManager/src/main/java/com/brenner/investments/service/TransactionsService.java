@@ -1,38 +1,155 @@
+/**
+ * 
+ */
 package com.brenner.investments.service;
 
-import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.brenner.investments.data.TransactionsRepository;
 import com.brenner.investments.entities.Account;
 import com.brenner.investments.entities.Holding;
 import com.brenner.investments.entities.Investment;
 import com.brenner.investments.entities.Transaction;
 import com.brenner.investments.entities.constants.TransactionTypeEnum;
 
-public interface TransactionsService {
-
-	public void deleteHolding(Holding holding);
+/**
+ * Data service specific to transactions
+ * 
+ * @author dbrenner
+ *
+ */
+@Service
+public class TransactionsService {
+	
+	private static final Logger log = LoggerFactory.getLogger(TransactionsService.class);
+    
+    @Autowired
+    TransactionsRepository transactionsRepo;
     
     
-    public void deleteTransaction(Transaction transaction);
+    /*public Map<String, List<Holding>> modelSplit(Date transactionDate, Long investmentId, Float splitRatio) {
+    	
+    	log.info("Entering modelSplit()");
+    	
+    	List<Holding> holdingsBeforeSplit = this.holdingsService.getHoldingsByInvestmentId(investmentId);
+    	List<Holding> holdingsAfterSplit = this.applySplit(holdingsBeforeSplit, splitRatio);
+    	
+    	Map<String, List<Holding>> beforeAfterSplitMap = new HashMap<>(2);
+    	beforeAfterSplitMap.put("beforeSplit", holdingsBeforeSplit);
+    	beforeAfterSplitMap.put("afterSplit", holdingsAfterSplit);
+    	
+    	log.info("Exiting modelSplit()");
+    	
+    	return beforeAfterSplitMap;
+    }*/
     
-    //public void saveBulkTransaction(List<Transaction> transactions);
+    /*public void saveSplit(Date transactionDate, Long investmentId, Float splitRatio) {
+    	
+    	List<Holding> holdingsBeforeSplit = this.holdingsService.getHoldingsByInvestmentId(investmentId);
+    	List<Holding> holdingsAfterSplit = this.applySplit(holdingsBeforeSplit, splitRatio);
+    	List<Transaction> transactions = new ArrayList<>(holdingsAfterSplit.size());
+    	
+    	Iterator<Holding> iter = holdingsAfterSplit.iterator();
+    	while(iter.hasNext()) {
+    		Holding h = iter.next();
+    		
+    		Transaction t = new Transaction();
+    		t.setAccount(h.getAccount());
+    		t.setHoldingId(h.getHoldingId());
+    		t.setInvestment(h.getInvestment());
+    		t.setTradeQuantity(h.getQuantity());
+    		t.setTradePrice(0F);
+    		t.setTransactionDate(transactionDate);
+    		t.setTransactionType(TransactionTypeEnum.Split);
+    		transactions.add(t);
+    	}
+    	
+    	this.holdingsService.saveAll(holdingsAfterSplit);
+    	this.transactionsDataService.saveAll(transactions);
+    	
+    }*/
+    
+    /*private List<Holding> applySplit(List<Holding> preSplitHoldings, Float splitRatio) {
+    	
+    	List<Holding> holdingsAfterSplit = new ArrayList<>(preSplitHoldings.size());
+    	
+    	Iterator<Holding> beforeIter = preSplitHoldings.iterator();
+    	while (beforeIter.hasNext()) {
+    		Holding before = beforeIter.next();
+    		Holding after = before.shallowClone(before);
+    		after.setQuantity(before.getQuantity() * splitRatio);
+    		holdingsAfterSplit.add(after);
+    	}
+    	
+    	return holdingsAfterSplit;
+    }
+*/    
+    public List<Transaction> getTotalDividendsForInvestments() {
+    	
+    	log.info("Entered getDividendsForInvestments()");
+    	
+    	List<Transaction> dividends = this.transactionsRepo.findTotalDividendsForInvestments();
+    	
+    	log.debug("Returning {} dividends", dividends != null ? dividends.size() : 0);
+    	log.info("Exiting getDividendsForInvestments()");
+    	
+    	return dividends;
+    }
+    
+    public Transaction getTotalDividendsForInvestment(Long investmentId) {
+    	
+    	if (investmentId == null) {
+    		throw new InvalidRequestException("investmentId must be non-null");
+    	}
+    	
+    	log.info("Entered getDividendsForInvestment()");
+    	
+    	Transaction dividend = this.transactionsRepo.findTotalDividendsForInvestment(investmentId);
+    	
+    	log.debug("Returning {} dividends", dividend);
+    	log.info("Exiting getDividendsForInvestment()");
+    	
+    	return dividend;
+    }
+    
+    public Map<Long, Transaction> getTotalDidivendsForAllInvestments() {
+    	
+    	List<Transaction> dividends = this.getTotalDividendsForInvestments();
+    	
+    	Map<Long, Transaction> dividendsMap = null;
+    	
+    	if (dividends != null) {
+    		dividendsMap = new HashMap<>(dividends.size());
+    		
+    		Iterator<Transaction> iter = dividends.iterator();
+    		while (iter.hasNext()) {
+    			Transaction div = iter.next();
+    			dividendsMap.put(div.getInvestment().getInvestmentId(), div);
+    		}
+    	}
+    	
+    	return dividendsMap;
+    }
     
     
-    public List<Transaction> getTotalDividendsForInvestments();
+    public void deleteTransaction(Transaction transaction) {
+    	this.transactionsRepo.delete(transaction);
+    }
     
-    
-    public Transaction getTotalDividendsForInvestment(Long investmentId);
-    
-    public Map<Long, Transaction> getTotalDidivendsForAllInvestments();
-    
-    public Map<String, List<Holding>> modelSplit(Date transactionDate, Long investmentId, Float splitRatio);
-    
-    public void saveSplit(Date transactionDate, Long investmentId, Float splitRatio);
+    /*public void saveBulkTransaction(List<Transaction> transactions) {
+    	this.transactionsRepo.saveAll(transactions);
+    }*/
     
 
     /**
@@ -42,7 +159,14 @@ public interface TransactionsService {
      * @param holdingId - unique holding identifier
      * @return List<Transaction>
      */
-    public List<Transaction> getAllTransactionsForAccountAndHolding(Account account, Holding holding);
+    public List<Transaction> getAllTransactionsForAccountAndHolding(Account account, Holding holding) {
+    	
+    	if (holding == null || account == null || holding.getHoldingId() == null || account.getAccountId() == null) {
+    		throw new InvalidRequestException("required attributes are null");
+    	}
+    	
+    	return this.transactionsRepo.findAllByAccountAccountIdAndHoldingHoldingId(account, holding);
+    }
     
 
     /**
@@ -52,107 +176,24 @@ public interface TransactionsService {
      * @param holdingId - unique holding identifier
      * @return List<Transaction>
      */
-    public List<Transaction> getAllTransactionsForAccountAndInvestment(Account account, Investment investment);
-    
-    public Transaction getBuyTransactionsForHoldingId(Long holdingId);
-    
-    /**
-     * Persists a holding
-     * 
-     * @param holding - object to persist
-     * @return {@link Holding}
-     */
-    @Transactional
-    public Holding saveHolding(Holding holding);
-    
-    /**
-     * Retrieves a list of Holdings for a given account
-     * 
-     * @param accountId - unique account identifier
-     * @return List<Holding>
-     */
-    public List<Holding> getHoldingsForAccount(Long accountId);
-    
-    /**
-     * Retrieves the holdings associated with an account where the quantity > 0
-     * 
-     * @param accountId - account unique identifier
-     * @return List<Holding>
-     * @throws ParseException 
-     */
-    public List<Holding> getHoldingsForAccountAndQuantityGreaterThanOrderedBySymbol(Long accountId) throws ParseException;
-    
-    /**
-     * Executes the logic to handle the sale of a holding. This includes modifying the Holding, persisting a trade and updating cash position for the account
-     * 
-     * @param holding - the holding that represents investment being sold
-     * @param saleTransaction - the transaction that wraps the sale
-     * @param cashTransaction - the cash result of the trade
-     * @param realized - the actual gain or loss from the transaction
-     */
-    @Transactional
-    public void sellHolding(Long transactionId, Date saleDate, Float tradeQuantity, Float tradePrice);
-    
-    /**
-     * Saves a new holding instance
-     * 
-     * @param investment - the investment for the holding
-     * @param trade - trade associated with the investment
-     */
-    @Transactional
-    public Holding addHolding(Transaction trade);
-    
-    /**
-     * Retrieves a specific holding for an account and investment
-     * 
-     * @param accountId - unique account identifier
-     * @param investmentId - unique investment identifier
-     * @return List<Holding>
-     */
-    public List<Holding> getHoldingByAccountAccountIdAndInvestmentInvestmentId(Long accountId, Long investmentId);
-    
-    /**
-     * Retrieve a specific holding based on a holding identifier
-     * 
-     * @param holdingId - unique holding identifier
-     * @return {@link Holding}
-     */
-    public Holding getHoldingByHoldingId(Long holdingId);
-    
-    public Holding getHoldingByHoldingIdWithBuyTransactions(Long holdingId);
-    
-    /**
-     * Updates a holding and the associated trade
-     * 
-     * @param holding - holding to update
-     * @param trade - trade associated with the holding
-     */
-    @Transactional
-    public void updateHoldingAndTrade(Holding holding, Transaction trade);
-    
-    /**
-     * Retrieves all holdings
-     * 
-     * @return {@link Iterable}<Holding>
-     */
-    public Iterable<Holding> getAllHoldings();
-    
-    /**
-     * Retrieves all holdings ordered by their associated investment symbol
-     * 
-     * @return {@link List}<Holding>
-     */
-    public List<Holding> getAllHoldingsOrderedBySymbol();
-    
-    /**
-     * Retrieve a list of investments that correspond to holdings and order by their symbol.
-     * 
-     * @return {@link List}<Investment>
-     */
-    public List<Investment> getAllInvestmentsCurrentlyHeldOrderedBySymbol();
+    public List<Transaction> getAllTransactionsForAccountAndInvestment(Account account, Investment investment) {
+    	
+    	if (account == null || investment == null || account.getAccountId() == null || investment.getInvestmentId() == null) {
+    		throw new InvalidRequestException("required attributes are null");
+    	}
+    	
+    	return this.transactionsRepo.findAllByAccountAccountIdAndInvestmentInvestmentId(account, investment);
+    }
     
     
-    // End Holdings Methods
+    public Transaction getBuyTransactionsForHoldingId(Long holdingId) {
+    	
+    	if (holdingId == null) {
+    		throw new InvalidRequestException("holdingId must be non-null");
+    	}
+    	
+    	return this.transactionsRepo.findBuyTransactionforHoldingId(holdingId);
+    }
     
     
     
@@ -166,7 +207,14 @@ public interface TransactionsService {
      * @return {@link Transaction}
      */
     @Transactional
-    public Transaction saveTransaction(Transaction transaction);
+    public Transaction saveTransaction(Transaction transaction) {
+    	
+    	if (transaction == null) {
+    		throw new InvalidRequestException("transaction must be non-null");
+    	}
+        
+        return this.transactionsRepo.save(transaction);
+    }
     
     
     /**
@@ -175,31 +223,43 @@ public interface TransactionsService {
      * @param accountId - unique account identifier
      * @return List<Transaction>
      */
-    public List<Transaction> findAllCashTransactionsForAccount(Long accountId);
+    public List<Transaction> findAllCashTransactionsForAccount(Long accountId) {
+    	
+    	if (accountId == null) {
+    		throw new InvalidRequestException("accountId must be non-null");
+    	}
+        
+        return this.transactionsRepo.findAllByAccountAccountIdWithCash(accountId);
+    }
     
     /**
+     * @TODO IMPLEMENT
+     * 
      * Updates the holding and associated trade
      * 
      * @param trade - trade to update
      * @param holding - holding to update
      */
     @Transactional
-    public void updateTrade(Transaction changedTrade, TransactionTypeEnum previousTradeType);
-    
-    /**
-     * Saves the details of a purchase transaction
-     * 
-     * @param trade - trade to save
-     * @param holding - holding
-     * @param cashTransaction - cash position changes
-     */
-    @Transactional
-    public void persistBuy(
-			Date tradeDate, 
-			Float price,
-			Float quantity,
-			Long investmentId,
-			Long accountId);
+    public void updateTrade(Transaction changedTrade, TransactionTypeEnum previousTradeType, Holding holding) {
+	    
+	    TransactionTypeEnum newTradeTypeValue = changedTrade.getTransactionType();
+	    
+	    Transaction currentTransaction = this.getTransaction(changedTrade.getTransactionId());
+	    if (! previousTradeType.equals(newTradeTypeValue)) {
+	        
+	    }
+	    else {
+	        if (currentTransaction.getHoldingId() != null && holding != null) {
+    	        holding.setAccount(changedTrade.getAccount());
+    	        holding.setInvestment(changedTrade.getInvestment());
+    	        holding.setQuantity(changedTrade.getTradeQuantity());
+    	        holding.setPurchasePrice(changedTrade.getTradePrice());
+		        }
+	        }
+	        
+	        //this.holdingsService.updateHoldingAndTrade(holding, changedTrade);
+    }
     
     /**
      * Retrieves the trades associated with an account
@@ -207,7 +267,14 @@ public interface TransactionsService {
      * @param accountId - unique account identifier
      * @return {@link List}<Trade>
      */
-    public List<Transaction> getTradesForAccount(Account account);
+    public List<Transaction> getTradesForAccount(Account account) {
+    	
+    	if (account == null || account.getAccountId() == null) {
+    		throw new InvalidRequestException("account and accountId must be non-null");
+    	}
+        
+        return this.transactionsRepo.findAllByAccountAccountIdOrderByTransactionDateDesc(account);
+    }
     
     /**
      * Retrieve a specific trade
@@ -215,20 +282,24 @@ public interface TransactionsService {
      * @param transactionId - unique transaction identifier
      * @return {@link Transactions}
      */
-    public Transaction getTransaction(Long transactionId);
+    public Transaction getTransaction(Long transactionId) {
+    	
+    	if (transactionId == null) {
+    		throw new InvalidRequestException("transactionId must be non-null");
+    	}
+        
+        Transaction trade = null;
+        
+        Optional<Transaction> optTransaction = this.transactionsRepo.findById(transactionId);
+        
+        if (optTransaction.isPresent()) {
+        	trade = optTransaction.get();
+        }
+        return trade;
+    }
     
     
     // End Trade Methods
-    
-    
-    // Start Realized gain or loss methods
-    
-    
- 
-    
-    
-    
-    // End Realized Gain/Loss Methods
     
     
     
@@ -243,5 +314,28 @@ public interface TransactionsService {
      * @param toAccountId - unique account identifier for the account to credit
      */
     @Transactional
-    public void transferCash(Date transferDate, Float transferAmount, Long fromAccountId, Long toAccountId);
+    public void transferCash(Date transferDate, Float transferAmount, Long fromAccountId, Long toAccountId) {
+    	
+    	if (transferDate == null || transferAmount == null || fromAccountId == null || toAccountId == null) {
+    		throw new InvalidRequestException("required attributes are null");
+    	}
+        
+        Transaction debitTransaction = new Transaction();
+        debitTransaction.setAccount(new Account(fromAccountId));
+        debitTransaction.setTradePrice(-1F);
+        debitTransaction.setTradeQuantity(transferAmount);
+        debitTransaction.setTransactionDate(transferDate);
+        debitTransaction.setTransactionType(TransactionTypeEnum.Cash);
+        
+        Transaction creditTransaction = new Transaction();
+        creditTransaction.setAccount(new Account(toAccountId));
+        creditTransaction.setTradePrice(1F);
+        creditTransaction.setTradeQuantity(transferAmount);
+        creditTransaction.setTransactionDate(transferDate);
+        creditTransaction.setTransactionType(TransactionTypeEnum.Cash);
+        
+        this.transactionsRepo.save(debitTransaction);
+        this.transactionsRepo.save(creditTransaction);
+    }
+    // End Cash Transaction Methods
 }

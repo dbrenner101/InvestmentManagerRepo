@@ -12,7 +12,7 @@
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+    <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
     
     <!-- <div th:insert="~{fragments :: menu}"></div> -->
     <p></p>
@@ -26,6 +26,26 @@
 	            <input type="submit" value="Submit" />
 	        </fieldset>
 	    </form>
+    </div>
+    
+    <div>
+        <p></p>
+        <table class="commonTableFormat">
+	        <tr>
+	            <th>Company</th>
+	            <th>Symbol</th>
+	            <th>Sector</th>
+	            <th>Exchange</th>
+	            <th>Type</th>
+	        </tr>
+	        <tr th:each="investment : ${investments}">
+	            <td ><a href="getInvestmentDetails" th:href="@{/getInvestmentDetails(investmentId=${investment.investmentId})}"><span th:text="${investment.companyName}"></span></a></td>
+	            <td th:text="${investment.symbol}"></td>
+	            <td th:text="${investment.sector}"></td>
+	            <td th:text="${investment.exchange}"></td>
+	            <td th:text="${investment.investmentType}"></td>
+	        </tr>
+	    </table>
     </div>
     
    <script>require(["js/menu.js"], function(applyMenu){});</script>

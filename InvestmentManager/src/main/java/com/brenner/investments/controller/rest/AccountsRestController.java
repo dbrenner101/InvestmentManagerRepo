@@ -85,8 +85,8 @@ public class AccountsRestController {
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
 	@PutMapping(
 			path="/restful/manageAccounts", 
-			consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, 
-			produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
+			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Account updateAccount(@RequestBody String accountStr) throws JsonParseException, JsonMappingException, IOException {
 		log.info("Entered updateAccount()");
 		log.debug("Param: account JSON: {}", accountStr);
@@ -109,8 +109,8 @@ public class AccountsRestController {
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
 	@PostMapping(
 			path="/restful/manageAccounts", 
-			consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, 
-			produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
+			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Account addAccount(@RequestBody String accountStr) throws IOException {
 		log.info("Entered addAccount()");
 		log.debug("Param: account JSON: {}", accountStr);
@@ -136,8 +136,8 @@ public class AccountsRestController {
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
 	@DeleteMapping(
 			path="/restful/manageAccounts/{accountId}", 
-			consumes= {MediaType.APPLICATION_JSON_UTF8_VALUE}, 
-			produces= {MediaType.APPLICATION_JSON_UTF8_VALUE})
+			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
+			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public void deleteAccount(@PathVariable Long accountId) {
 		log.info("Entered deleteAccount()");
 		log.debug("Param: account JSON: {}", accountId);

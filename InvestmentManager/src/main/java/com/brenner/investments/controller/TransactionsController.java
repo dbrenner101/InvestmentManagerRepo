@@ -4,26 +4,26 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.brenner.investments.InvestmentsProperties;
 import com.brenner.investments.entities.Account;
 import com.brenner.investments.entities.Holding;
 import com.brenner.investments.entities.Investment;
 import com.brenner.investments.entities.Transaction;
 import com.brenner.investments.entities.constants.TransactionTypeEnum;
 import com.brenner.investments.service.AccountsService;
+import com.brenner.investments.service.HoldingsService;
 import com.brenner.investments.service.InvestmentsService;
 import com.brenner.investments.service.TransactionsService;
 import com.brenner.investments.util.CommonUtils;
@@ -35,6 +35,7 @@ import com.brenner.investments.util.CommonUtils;
  *
  */
 @Controller
+@Secured("ROLE_USER")
 public class TransactionsController implements WebMvcConfigurer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(TransactionsController.class);
@@ -49,7 +50,7 @@ public class TransactionsController implements WebMvcConfigurer {
 	InvestmentsService investmentsService;
 	
 	@Autowired
-	InvestmentsProperties props;
+	HoldingsService holdingsService;
 	
 	/**
 	 * Entry point to the enter split transaction flow
@@ -59,11 +60,13 @@ public class TransactionsController implements WebMvcConfigurer {
 	 */
 	@RequestMapping("prepSplitEntryForm")
 	public String prepSplitEntryForm(Model model) {
+		
 		logger.info("Entered prepSplitEntryForm()");
 		
-		model.addAttribute(this.props.getInvestmentsListAttributeKey(), this.investmentsService.getInvestmentsOrderedBySymbolAsc());
+		model.addAttribute("investments", this.investmentsService.getInvestmentsOrderedBySymbolAsc());
 		
 		logger.info("Exiting prepSplitEntryForm()");
+		
 		return "trades/defineSplit";
 	}
 	/**
@@ -76,7 +79,7 @@ public class TransactionsController implements WebMvcConfigurer {
 	 * @return trades/modelSplitChanges
 	 * @throws ParseException - throw when date string can't be parsed
 	 */
-	@RequestMapping("modelSplit")
+	/*@RequestMapping("modelSplit")
 	public String modelSplitChange(
 			@RequestParam(name="transactionDate", required=true) String transactionDateStr, 
 			@RequestParam(name="investmentId", required=true) String investmentIdStr, 
@@ -99,7 +102,7 @@ public class TransactionsController implements WebMvcConfigurer {
 		
 		logger.info("Exiting modelSplitChange()");
 		return "trades/modelSplitChanges";
-	}
+	}*/
 	
 	/**
 	 * Step 3 in the split flow - calls service layer to save the split
@@ -111,7 +114,7 @@ public class TransactionsController implements WebMvcConfigurer {
 	 * @return index
 	 * @throws ParseException - thrown when the date string can't be parsed to a {@link Date} object
 	 */
-	@RequestMapping("saveSplit")
+	/*@RequestMapping("saveSplit")
 	public String saveSplit(
 			@RequestParam(name="transactionDate", required=true) String transactionDateStr, 
 			@RequestParam(name="investmentId", required=true) String investmentIdStr, 
@@ -139,13 +142,17 @@ public class TransactionsController implements WebMvcConfigurer {
      */
     @RequestMapping("/prepForTransactionsList")
     public String prepForTransactionsList(Model model) {
+    	
     	logger.info("Entering prepForTransactionsList()");
     	
     	List<Account> accounts = this.accountsService.getAllAccountsOrderByAccountNameAsc();
+    	
     	logger.debug("Retrieved {} accounts", accounts != null ? accounts.size() : 0);
-        model.addAttribute(this.props.getAccountsListAttributeKey(), accounts);
+        
+    	model.addAttribute("accounts", accounts);
         
         logger.info("Forwarding to transactions/chooseAccountForTransactionsList");
+        
         return "transactions/chooseAccountForTransactionsList";
     }
 	
@@ -158,13 +165,17 @@ public class TransactionsController implements WebMvcConfigurer {
 	 */
 	@RequestMapping("/prepGetTrades")
 	public String prepGetTrades(Model model) {
+		
 		logger.info("Entering prepGetTrades()");
 		
 		List<Account> accounts = this.accountsService.getAllAccountsOrderByAccountNameAsc();
+		
 		logger.debug("Retrieved {} accounts", accounts != null ? accounts.size() : 0);
-	    model.addAttribute(props.getAccountsListAttributeKey(), accounts);
+	    
+		model.addAttribute("accounts", accounts);
 	    
 	    logger.info("Forwarding to trades/chooseAccountForTransactionsList");
+	    
 	    return "trades/chooseAccountForTransactionsList";
 	}
 	
@@ -175,22 +186,24 @@ public class TransactionsController implements WebMvcConfigurer {
 	 * @param model - container to add the trades lit
 	 * @return /trades/chooseTradeForEdit
 	 */
-	@RequestMapping("/tradesForAccount")
-	public String getTradesForAccount(
-			@RequestParam(name="accountId", required=true) String accountId, 
-			Model model) {
+	/*@RequestMapping("/tradesForAccount")
+	public String getTradesForAccount(@RequestParam(name="accountId", required=true) String accountId, Model model) {
+		
 		logger.info("Entering getTradesForAccount()");
 		logger.debug("Request parameter: accountId: {}", accountId);
 		
 		Account account = new Account();
 		account.setAccountId(Long.valueOf(accountId));
 		List<Transaction> transactions = this.transactionsService.getTradesForAccount(account);
+		
 		logger.debug("Retrieved {} transactions", transactions != null ? transactions.size() : 0);
-	    model.addAttribute(props.getTransactionsListAttributeKey(), transactions);
+	    
+		model.addAttribute("transactions", transactions);
 	    
 	    logger.info("Forwarding to trades/chooseTradeForEdit");
+	    
 	    return "trades/chooseTradeForEdit";
-	}
+	}*/
 	
 	/**
 	 * Retrieves the details of a specific trade
@@ -205,26 +218,35 @@ public class TransactionsController implements WebMvcConfigurer {
 	        @RequestParam(name="transactionId", required=true) String transactionId, 
 	        @RequestParam(name="accountId", required=true) String accountId,
 	        Model model) {
+		
 		logger.info("Entering editTradeGetDetails()");
 		logger.debug("Request parameters: transactionId: {}); accountId: {}", transactionId, accountId);
 		
 		Transaction transaction = this.transactionsService.getTransaction(Long.valueOf(transactionId));
+		
 		logger.debug("Retrieved transaction: {}", transaction);
-		model.addAttribute(props.getTransactionAttributeKey(), transaction);
+		
+		model.addAttribute("transaction", transaction);
 		
 		List<Account> accounts = this.accountsService.getAllAccountsOrderByAccountNameAsc();
+		
 		logger.debug("Retrieved {} accounts", accounts != null ? accounts.size() : 0);
-		model.addAttribute(props.getAccountsListAttributeKey(), accounts);
+		
+		model.addAttribute("accounts", accounts);
 		
 		List<Investment> investments = this.investmentsService.getInvestmentsOrderedBySymbolAsc();
+		
 		logger.debug("Retrieved {} investments", investments != null ? investments.size() : 0);
-		model.addAttribute(props.getInvestmentsListAttributeKey(), investments);
+		
+		model.addAttribute("investments", investments);
 	    
 	    logger.info("Forwarding to trades/editTrade");
+	    
 	    return "trades/editTrade";
 	}
 	
 	/**
+	 * @TODO IMPLEMENT 
 	 * Method to update details of a trade.
 	 * 
 	 * @TODO update for when the trade types don't change
@@ -266,7 +288,9 @@ public class TransactionsController implements WebMvcConfigurer {
         trade.setTransactionDate(CommonUtils.convertCommonDateFormatStringToDate(transactionDate));
         logger.debug("Updating trade: {}", trade);
         
-        this.transactionsService.updateTrade(trade, TransactionTypeEnum.valueOf(previousTransactionType));
+        //this.transactionsService.updateTrade(trade, TransactionTypeEnum.valueOf(previousTransactionType));
+        
+        if (0==0) throw new RuntimeException("Method not implemented");
 	    
         logger.info("Redirecting to prepForTransactionsList");
         return "redirect:prepForTransactionsList";
@@ -280,19 +304,19 @@ public class TransactionsController implements WebMvcConfigurer {
 	 * @return trades/transactionsForHolding
 	 */
 	@RequestMapping("/retrieveHoldingDetails")
-	public String retrieveHoldingDetails(
-			@RequestParam(name="holdingId", required=true) String holdingId, 
-			Model model) {
+	public String retrieveHoldingDetails(@RequestParam(name="holdingId", required=true) String holdingId, Model model) {
+		
 		logger.info("Entering retrieveHoldingDetails()");
 		logger.debug("Request parameter: holdingId: {}", holdingId);
 		
-		Holding holding = this.transactionsService.getHoldingByHoldingIdWithBuyTransactions(Long.valueOf(holdingId));
+		Holding holding = this.holdingsService.getHoldingByHoldingIdWithBuyTransaction(Long.valueOf(holdingId));
+		
 		logger.debug("Retrieved holding: {}", holding);
-		model.addAttribute(
-				this.props.getHoldingAttributeKey(), 
-				holding);
+		
+		model.addAttribute("holding", holding);
 		
 		logger.info("Forwarding to trades/transactionsForHoldin");
+		
 		return "trades/transactionsForHolding";
 	}
 	
@@ -313,8 +337,8 @@ public class TransactionsController implements WebMvcConfigurer {
 			@RequestParam(name="transactionId", required=true) String transactionIdStr, 
 			@RequestParam(name="transactionDate", required=true) String tradeDateStr, 
 			@RequestParam(name="tradeQuantity", required=true) String tradeQuantityStr, 
-			@RequestParam(name="tradePrice", required=true) String tradePriceStr) 
-	throws ParseException {
+			@RequestParam(name="tradePrice", required=true) String tradePriceStr) throws ParseException {
+		
 		logger.info("Entering sellHoling()");
 		logger.debug("Request parameters: holdingId: {}; transactionId: {}; transactionDate: {}; tradeQuantity: {}; tradePrice: {}", 
 				holdingIdStr, transactionIdStr, tradeDateStr, tradeQuantityStr, tradePriceStr);
@@ -324,9 +348,10 @@ public class TransactionsController implements WebMvcConfigurer {
 		Float tradeQuantity = Float.valueOf(tradeQuantityStr);
 		Float tradePrice = Float.valueOf(tradePriceStr);
 		
-		this.transactionsService.sellHolding(transactionId, saleDate, tradeQuantity, tradePrice);
+		this.holdingsService.sellHolding(transactionId, saleDate, tradeQuantity, tradePrice);
 		
 		logger.info("Redirecting to getAccountsForHoldings");
+		
 		return "redirect:getAccountsForHoldings";
 	}
 
@@ -338,21 +363,23 @@ public class TransactionsController implements WebMvcConfigurer {
 	 */
 	@RequestMapping("/prepareDefineTrade")
 	public String prepareDefineTrade(Model model) {
+		
 		logger.info("Entering prepareDefineTrade()");
 		
 		List<Account> accounts = this.accountsService.getAllAccountsOrderByAccountNameAsc();
+		
 		logger.debug("Retrieved {} accounts", accounts != null ? accounts.size() : 0);
-		model.addAttribute(
-				props.getAccountsListAttributeKey(), 
-				accounts);
+		
+		model.addAttribute("accounts", accounts);
 		
 		List<Investment> investments = this.investmentsService.getInvestmentsOrderedBySymbolAsc();
+		
 		logger.debug("Retrieved {} investments", investments != null ? investments.size() : 0);
-		model.addAttribute(
-				props.getInvestmentsListAttributeKey(), 
-				investments);
+		
+		model.addAttribute("investments", investments);
 		
 		logger.info("Forwarding to trades/defineTrade");
+		
 		return "trades/defineTrade";
 	}
 	
@@ -374,11 +401,12 @@ public class TransactionsController implements WebMvcConfigurer {
 			@RequestParam(name="quantity", required=true) String quantity,
 			@RequestParam(name="investmentId", required=true) String investmentId, 
 			@RequestParam(name="accountId", required=true) String accountId) throws ParseException {
+		
 		logger.info("Entering buyInvestment()");
 		logger.debug("Request parameters: tradeDate: {}; price: {}; quantity: {}; investmentId: {}; accountId: {}", 
 				tradeDate, price, quantity, investmentId, accountId);
 		
-		this.transactionsService.persistBuy(
+		this.holdingsService.persistBuy(
 				CommonUtils.convertCommonDateFormatStringToDate(tradeDate), 
 				Float.valueOf(price), 
 				Float.valueOf(quantity), 
@@ -386,6 +414,7 @@ public class TransactionsController implements WebMvcConfigurer {
 				Long.valueOf(accountId));
 		
 		logger.info("Redirecting to prepareDefineTrade");
+		
 		return "redirect:prepareDefineTrade";
 	}
 	
@@ -398,21 +427,23 @@ public class TransactionsController implements WebMvcConfigurer {
 	 */
 	@RequestMapping("/prepTransferCashForm")
 	public String prepTransferCashForm(Model model) {
+		
 		logger.info("Entering prepTransferCashForm()");
 	    
 		List<Account> accounts = this.accountsService.getAllAccountsOrderByAccountNameAsc();
+		
 		logger.debug("Retrieved {} accounts", accounts != null ? accounts.size() : 0);
-		model.addAttribute(
-	    		this.props.getAccountsListAttributeKey(), 
-	    		accounts);
+		
+		model.addAttribute("accounts", accounts);
         
 	    List<Account> accountsCash = this.accountsService.getAccountsAndCash();
+	    
 	    logger.debug("Retrieved {} accounts with cash", accountsCash != null ? accountsCash.size() : 0);
-	    model.addAttribute(
-        		this.props.getAccountsAndCashAttributeKey(), 
-        		accountsCash);
+	    
+	    model.addAttribute("accountsCash", accountsCash);
 	    
 	    logger.info("Forwarding to accounts/transferCash");
+	    
 	    return "accounts/transferCash";
 	}
     
@@ -428,6 +459,7 @@ public class TransactionsController implements WebMvcConfigurer {
     public void listTransactionsForAccount(
             @RequestParam(name="accountId", required=true) String accountIdStr, 
             HttpServletResponse response) throws IOException {
+    	
     	logger.info("Entering listTransactionsForAccount()");
     	logger.debug("Request parameter: accountId: {}", accountIdStr);
     	
@@ -435,9 +467,10 @@ public class TransactionsController implements WebMvcConfigurer {
     	account.setAccountId(Long.valueOf(accountIdStr));
     	
         List<Transaction> trades = this.transactionsService.getTradesForAccount(account);
-        logger.debug("Retrieved {} transactions", trades != null ? trades.size() : 0);
         
+        logger.debug("Retrieved {} transactions", trades != null ? trades.size() : 0);
         logger.info("Writing transactions list to JSON");
+        
         CommonUtils.serializeObjectToJson(response.getOutputStream(), trades);
     }
 	
@@ -459,6 +492,7 @@ public class TransactionsController implements WebMvcConfigurer {
 	        @RequestParam(name="fromAccountId", required=true) String fromAccountId, 
 	        @RequestParam(name="toAccountId", required=true) String toAccountId, 
 	        Model model) throws ParseException {
+		
 		logger.info("Entering transferCashBetweeAccounts()");
 		logger.debug("Request parameters: transferDate: {}; transferAmount: {}; fromAccountId: {}; toAccountId: {}", 
 				transferDate, transferAmount, fromAccountId, toAccountId);
@@ -471,6 +505,7 @@ public class TransactionsController implements WebMvcConfigurer {
 	    this.transactionsService.transferCash(dateOfTransfer, transferAmountDouble, fromAccount, toAccount);
 	    
 	    logger.info("Redirecting to prepTransferCashForm");
+	    
 	    return "redirect:prepTransferCashForm";
 	}
 	
@@ -484,12 +519,8 @@ public class TransactionsController implements WebMvcConfigurer {
 	@RequestMapping("/prepDividendForm")
 	public String prepDividendForm(Model model) {
 		
-		model.addAttribute(
-				props.getAccountsListAttributeKey(), 
-				this.accountsService.getAllAccountsOrderByAccountNameAsc());
-		model.addAttribute(
-				props.getInvestmentsListAttributeKey(), 
-				this.investmentsService.getInvestmentsOrderedBySymbolAsc());
+		model.addAttribute("accounts", this.accountsService.getAllAccountsOrderByAccountNameAsc());
+		model.addAttribute("investments", this.investmentsService.getInvestmentsOrderedBySymbolAsc());
 		
 		return "accounts/dividendPayment";
 	}
@@ -510,6 +541,7 @@ public class TransactionsController implements WebMvcConfigurer {
 			@RequestParam(name="amount", required=true) String amount, 
 			@RequestParam(name="investmentId", required=true) String investmentId, 
 			@RequestParam(name="accountId", required=true) String accountId) throws ParseException {
+		
 		logger.info("Entering applyDividend()");
 		logger.debug("Request parameters: tradeDate: {}; amount: {}; investmentId: {}; accountId: {}", 
 				tradeDate, amount, investmentId, accountId);
@@ -522,11 +554,13 @@ public class TransactionsController implements WebMvcConfigurer {
 		cash.setInvestment(new Investment(Long.valueOf(investmentId)));
 		cash.setTransactionDate(CommonUtils.convertCommonDateFormatStringToDate(tradeDate));
 		cash.setTransactionType(TransactionTypeEnum.Dividend);
+		
 		logger.debug("Cash transaction: {}", cash);
 		
 		this.transactionsService.saveTransaction(cash);
 		
 		logger.info("Redirecting to prepDividendForm");
+		
 		return "redirect:prepDividendForm";
 	}
 	
@@ -541,10 +575,13 @@ public class TransactionsController implements WebMvcConfigurer {
 		logger.info("Entering prepareDepositForm()");
 		
 		List<Account> accounts = this.accountsService.getAccountsAndCash();
+		
 		logger.debug("Retrieved {} accounts", accounts != null ? accounts.size() : 0);
-		model.addAttribute(props.getAccountsListAttributeKey(), accounts);
+		
+		model.addAttribute("accounts", accounts);
 		
 		logger.info("Forwarding to accounts/depositForm");
+		
 		return "accounts/depositForm";
 	}
 	
@@ -562,6 +599,7 @@ public class TransactionsController implements WebMvcConfigurer {
 			@RequestParam(name="amount", required=true) String amount, 
 			@RequestParam(name="depositDate", required=true) String depositDate,
 			@RequestParam(name="accountId", required=true) String accountId) throws ParseException {
+		
 		logger.info("Entering depositCash()");
 		logger.debug("Request parameters: amount: {}; depositDate: {}; accountId: {}", 
 				amount, depositDate, accountId);
@@ -572,11 +610,13 @@ public class TransactionsController implements WebMvcConfigurer {
 		cashTransaction.setTradePrice(1F);
 		cashTransaction.setTradeQuantity(Float.valueOf(amount));
 		cashTransaction.setTransactionType(TransactionTypeEnum.Cash);
+		
 		logger.debug("Saving cash transaction: " + cashTransaction);
 		
 		this.transactionsService.saveTransaction(cashTransaction);
 		
 		logger.info("Redirecting to prepareDepositForm");
+		
 		return "redirect:prepareDepositForm";
 	}
 }

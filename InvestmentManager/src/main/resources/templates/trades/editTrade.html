@@ -29,11 +29,11 @@
 	            Quantity: <input type="number" name="tradeQuantity" th:value="${transaction.tradeQuantity}" step="any" /><br>
 	            New trade type: <select name="transactionType">
 	                <option value="">Select</option>
-	                <option value="Transfer" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Transfer}">Transfer</option>
-	                <option value="Buy" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Buy}">Buy</option>
-	                <option value="Sell" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Sell}">Sell</option>
-	                <option value="Cash" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Cash}">Cash</option>
-	                <option value="Dividend" th:selected="${transaction.transactionType == T(com.brenner.investments.entities.constants.TransactionTypeEnum).Dividend}">Dividend</option>
+	                <option value="Transfer" th:selected="${transaction.transactionType} == ${T(com.brenner.investments.entities.constants.TransactionTypeEnum).Transfer}">Transfer</option>
+	                <option value="Buy" th:selected="${transaction.transactionType} == ${T(com.brenner.investments.entities.constants.TransactionTypeEnum).Buy}">Buy</option>
+	                <option value="Sell" th:selected="${transaction.transactionType} == ${T(com.brenner.investments.entities.constants.TransactionTypeEnum).Sell}">Sell</option>
+	                <option value="Cash" th:selected="${transaction.transactionType} == ${T(com.brenner.investments.entities.constants.TransactionTypeEnum).Cash}">Cash</option>
+	                <option value="Dividend" th:selected="${transaction.transactionType} == ${T(com.brenner.investments.entities.constants.TransactionTypeEnum).Dividend}">Dividend</option>
 	            </select><br>
 	            Previous trade type: <span th:text="${transaction.transactionType}"></span><br>
 	            <div th:if="${transaction.investment} != null">
