@@ -26,13 +26,19 @@
             <th>Sector</th>
             <th>Exchange</th>
             <th>Type</th>
+            <th>Update Share Details</th>
+            <th>Last Quote Date</th>
+            <th>Delete</th>
         </tr>
         <tr th:each="investment : ${investments}">
-            <td ><a href="getInvestmentDetails" th:href="@{/getInvestmentDetails(investmentId=${investment.investmentId})}"><span th:text="${investment.companyName}"></span></a></td>
+            <td><a href="getInvestmentDetails" th:href="@{/getInvestmentDetails(investmentId=${investment.investmentId})}"><span th:text="${investment.companyName}"></span></a></td>
             <td th:text="${investment.symbol}"></td>
             <td th:text="${investment.sector}"></td>
             <td th:text="${investment.exchange}"></td>
             <td th:text="${investment.investmentType}"></td>
+            <td><a th:href="@{/startManualQuote(investmentId=${investment.investmentId})}">Update</a></td>
+            <td th:text="${#calendars.format(quoteDatesForInvestmentsMap.get(investment.investmentId), 'MM/dd/yyyy')}"></td>
+            <td><a th:href="@{/deleteInvestment(investmentId=${investment.investmentId})}">Delete</a></td>
         </tr>
     </table>
     

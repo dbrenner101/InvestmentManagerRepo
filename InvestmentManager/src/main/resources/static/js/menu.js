@@ -49,7 +49,7 @@ require([
     }));
     accountsMenu.addChild(new MenuItem({
     	id: "editAccount",
-    	label: "Edit an Account",
+    	label: "Manage Accounts",
         onClick: function() {
         	location.assign("editAccountPrep");
         }
@@ -128,7 +128,7 @@ require([
     	id: "manualQuote",
     	label: "Add Quote",
         onClick: function() {
-        	location.assign("prepAddManualQuoteForm");
+        	location.assign("getAllInvestments");
         }
     }));
     holdingsMenu.addChild(new MenuItem({

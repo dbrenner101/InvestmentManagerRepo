@@ -23,19 +23,17 @@
     <div class="formFrame">
 	    <form action="updateInvestment" class="formFormat" th:object="${investment}">
 	        <input type="hidden" name="investmentId" th:value="${investment.investmentId}"/>
-	        <!-- <input type="hidden" name="sector" th:value="${investment.sector}"/> -->
-	        <input type="hidden" name="exchange" th:value="${investment.exchange}"/>
 	        <fieldset>
 	            Company name: <input type="text" size="50" name="companyName" th:attr="value=${investment.companyName}" /><br>
 	            Symbol: <input type="text" name="symbol" th:attr="value=${investment.symbol}"/><br>
 	            Sector: <input type="text" name="sector" th:value="${investment.sector}" /><br>
-	            Exchange: <span th:text="${investment.exchange}"></span><br>
+	            Exchange: <input type="text" name="exchange" th:value="${investment.exchange}" /><br>
 	            Investment type: <select name="investmentType">
 	            	<option value="">Select</option>
-	            	<option th:each="investmentTypeEnum : ${T(com.brenner.investments.entities.constants.InvestmentTypeEnum).values()}"
+	            	<option th:each="investmentTypeEnum : ${T(com.brenner.portfoliomgmt.investments.InvestmentTypeEnum).values()}"
 	            		th:value="${investmentTypeEnum}"
 	            		th:text="${investmentTypeEnum.displayName}"
-	            		th:selected="${investmentTypeEnum.equals(investment.investmentType)}">
+	            		th:selected="${investmentTypeEnum.displayName.equals(investment.investmentType.displayName)}">
 	    			</option>
 	            </select><br>
 	            <input type="submit" value="Update Investment" autofocus="autofocus"/>

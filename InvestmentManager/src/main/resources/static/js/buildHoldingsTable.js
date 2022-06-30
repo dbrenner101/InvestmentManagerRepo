@@ -102,14 +102,12 @@ define([
 	                  
 	                  var changeInPriceCell = document.createElement("td");
 	                  if (holdings[i].quotes[0] != null) {
-	                	  changeInPriceCell.innerHTML = '$' + (holdings[i].purchasePrice - holdings[i].quotes[0].close).formatMoney(2, '.', ',');
+	                	  changeInPriceCell.innerHTML = '$' + (holdings[i].quotes[0].close - holdings[i].purchasePrice).formatMoney(2, '.', ',');
 	                  }
 	                  row.appendChild(changeInPriceCell);
 	                  
 	                  var valueAtPurchaseCell = document.createElement("td");
-	                  if (holdings[i].quotes[0] != null) {
-	                	  valueAtPurchaseCell.innerHTML = '$' + holdings[i].valueAtPurchase.formatMoney(2, '.', ',');
-	                  }
+	                  valueAtPurchaseCell.innerHTML = '$' + holdings[i].valueAtPurchase.formatMoney(2, '.', ',');
 	                  row.appendChild(valueAtPurchaseCell);
 	                  
 	                  var currentValueCell = document.createElement("td");

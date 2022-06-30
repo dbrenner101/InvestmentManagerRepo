@@ -20,13 +20,11 @@
     <p class="commonBoldTextFormat">Investment Details</p>
     
     <form action="addInvestment" class="formFormat">
-        <input type="hidden" name="sector" th:value="${investment.sector}" />
-        <input type="hidden" name="exchange" th:value="${investment.exchange}" />
         <fieldset>
-            Company name: <input type="text" name="companyName" th:attr="value=${investment.companyName}" /><br>
+            Full name: <input type="text" name="companyName" th:attr="value=${investment.companyName}" /><br>
             Symbol: <input type="text" name="symbol" th:attr="value=${investment.symbol}"/><br>
             Sector: <input type="text" name="sector" th:value="${investment.sector}" /><br>
-            Exchange: <span th:text="${investment.exchange}"></span><br>
+            Exchange: <input type="text" name="exchange" th:value="${investment.exchange}" /><br>
             Investment type: <select name="investmentType">
             	<option th:each="investmentType : ${T(com.brenner.investments.entities.constants.InvestmentTypeEnum).values()}"
             		th:value="${investmentType}"

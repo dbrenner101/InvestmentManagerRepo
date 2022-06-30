@@ -17,19 +17,21 @@
 
     <p class="commonBoldTextFormat">Add a Quote</p>
     
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
     <p></p>
 
     <div class="formFrame">
+        Investment: <span th:test="${investment.companyName}"></span><br/>
 	    <form action="saveManualQuote" class="formFormat">
 	        <fieldset>
+                <input type="hidden" name="symbol" th:value="${investment.symbol}" />
+                <input type="hidden" name="investmentId" th:value="${investment.investmentId}" />
 	            Quote date: <input autocapitalize="none" type="date" name="date" /><br>
 	            Price at open: <input type="number" name="open" step="any" /><br>
 	            Price at close: <input type="number" name="close" step="any" /><br>
-	            Holdings: <select name="symbol" id="holdingSelection">
+	            <!-- Holdings: <select name="symbol" id="holdingSelection">
 	                <option value="">Select</option>
 	                <option th:each="holding : ${holdings}" th:value="${holding.investment.symbol}" th:text="${holding.investment.symbol + ' :: ' + holding.investment.companyName}"/>
-	            </select><br>
+	            </select><br> -->
 	            <input type="submit" value="Save Quote" />
 	        </fieldset>
 	    </form>
