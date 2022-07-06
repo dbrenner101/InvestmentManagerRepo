@@ -3,6 +3,7 @@
  */
 package com.brenner.portfoliomgmt.security;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 
  */
 @Controller
+@Secured("ROLE_USER")
 public class AutenticationController {
 
 	/**
@@ -26,8 +28,9 @@ public class AutenticationController {
 	 */
 	@RequestMapping("/auth")
 	public void authenticate(@CurrentSecurityContext SecurityContext securityContext) {
+		System.out.println("auth call");
 		
-		securityContext.getAuthentication().getPrincipal();
+		//securityContext.getAuthentication().getPrincipal();
 	}
 	
 	@PostMapping("/register")

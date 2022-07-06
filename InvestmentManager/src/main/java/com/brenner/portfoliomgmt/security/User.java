@@ -43,7 +43,7 @@ public class User implements UserDetails {
 	@Column(name="password", nullable=false)
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", 
     	joinColumns = { 
     			@JoinColumn(name = "user_id", unique = false, nullable = false) 

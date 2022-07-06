@@ -157,12 +157,10 @@ public class InvestmentController implements WebMvcConfigurer {
 				companyName, symbol, exchange, sector);
 		
 		Optional<Investment> optInvestment = this.investmentsService.getInvestmentBySymbol(symbol);
-		
-		if (! optInvestment.isPresent()) {
-			throw new NotFoundException("Investment with symbol " + symbol + " does not exist.");
+		Investment investment = null;
+		if (optInvestment.isPresent()) {
+			investment = optInvestment.get();
 		}
-		
-		Investment investment = optInvestment.get();
 		
 		logger.debug("Retrieved investment: {}", investment);
 		
@@ -263,15 +261,14 @@ public class InvestmentController implements WebMvcConfigurer {
 	}
 	
 	/**
+	 *
 	 * Method to update details on an investment
-	 * 
-	 * @param investmentId - unique investment identifier
-	 * @param symbol - common investment identifier
-	 * @param companyName - company name
-	 * @param exchange - exchange that hosts the investment
-	 * @param sector - sector assigned to the investment
+	 *
 	 * @param model - container to put the updated investment
 	 * @return redirect:/getAllInvestments
+	 * @param investment Details on the investment to update. Must include an investmentId.
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping("/updateInvestment")
 	public String updateInvestment(

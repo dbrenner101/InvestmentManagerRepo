@@ -12,7 +12,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author dbrenner
  *
  */
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class})
 public class InvestmentManagerApplication extends SpringBootServletInitializer {
 	
 	@Override
