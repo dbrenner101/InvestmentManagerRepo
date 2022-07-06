@@ -1,4 +1,4 @@
-package com.brenner.portfoliomgmt.api;
+package com.brenner.portfoliomgmt.reporting;
 
 import java.util.List;
 
@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brenner.portfoliomgmt.holdings.Holding;
-import com.brenner.portfoliomgmt.reporting.DashboardService;
-import com.brenner.portfoliomgmt.reporting.ValueChangeInstance;
 
 /**
  * Spring REST controller for the Dashboard service
