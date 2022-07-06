@@ -42,7 +42,7 @@ public class IEXQuoteRetrievalService implements QuoteRetrievalService {
     
     private IEXQuoteRetrievalService() {}
     
-    private static final String API_TOKEN = "pk_4d08a1499c5a44cdba45db1bc6063211";
+    private static final String API_TOKEN = "";
     
     private static String singleQuoteUrlBase = "https://cloud.iexapis.com/stable/stock/%S%/quote?token=" + API_TOKEN;
 	

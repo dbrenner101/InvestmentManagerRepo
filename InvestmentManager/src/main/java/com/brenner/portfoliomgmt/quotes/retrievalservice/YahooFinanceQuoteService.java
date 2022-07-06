@@ -56,7 +56,7 @@ public class YahooFinanceQuoteService implements QuoteRetrievalService {
 	private static void init() {
 		headers = new HttpHeaders();
 		headers.set("Content-Type", "application/json");
-		headers.set("X-RapidAPI-Key", "969134fa9cmsh771faa7485c0f7bp18e7c2jsnffa0bd6ee3a8");
+		headers.set("X-RapidAPI-Key", "");
 		headers.set("X-RapidAPI-Host", "yh-finance.p.rapidapi.com");
 	}
 
