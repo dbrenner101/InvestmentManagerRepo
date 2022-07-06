@@ -3,6 +3,7 @@ package com.brenner.portfoliomgmt.reporting;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,10 +37,22 @@ public class DashboardDataService {
 	public ValueChangeInstance getChangesInPortfolioForHoldingsSinceMaxQuoteDate() {
 		log.info("Entered getChangesInPortfolioForHoldingsSinceDate()");
 		
-		final String SQL = this.sqlProps.getQuotesForHoldingsSinceMaxQuoteDate();
+		final String SQL = "SELECT SUM(h.purchase_price * h.quantity) as purchase_value, SUM(q.price_at_close * h.quantity) as market_value, q.quote_date "
+				+ "FROM holdings h, investments i, quotes q "
+				+ "WHERE h.quantity > 0 AND h.investment_investment_id = i.investment_id AND q.investment_id = i.investment_id "
+				+ "AND q.quote_date = (SELECT MAX(quote_date) FROM quotes) "
+				+ "GROUP BY q.quote_date "
+				+ "ORDER BY q.quote_date DESC;";
 		log.debug("SQL: {}", SQL);
 		
-		ValueChangeInstance valueChange = this.jdbcTemplate.queryForObject(SQL, new ValueChangeInstanceSummationMapper());
+		ValueChangeInstance valueChange = new ValueChangeInstance();
+		valueChange.setCompanyName("IBM");
+		valueChange.setMarketValue(10000F);
+		valueChange.setPurchaseValue(2000000F);
+		valueChange.setSector("Technology");
+		valueChange.setQuoteDate(new Date());
+		valueChange.setSymbol("IBM");
+		//this.jdbcTemplate.queryForObject(SQL, new ValueChangeInstanceSummationMapper());
 		log.debug("Retrieved value change {}", valueChange);
 		
 		log.info("Exiting getChangesInPortfolioForHoldingsSinceDate()");
@@ -53,7 +66,12 @@ public class DashboardDataService {
 	public List<ValueChangeInstance> getSectorSummation() {
 		log.info("Entered getSectorSummation()");
 		
-		final String SQL = this.sqlProps.getSectorSummation();
+		final String SQL = "SELECT SUM(h.purchase_price * h.quantity) as purchase_value, SUM(q.price_at_close * h.quantity) as market_value, q.quote_date, i.sector "
+				+ "FROM holdings h, investments i, quotes q "
+				+ "WHERE h.quantity > 0 AND h.investment_investment_id = i.investment_id AND q.investment_id = i.investment_id "
+				+ "AND q.quote_date = (SELECT MAX(quote_date) FROM quotes) "
+				+ "GROUP BY q.quote_date, i.sector "
+				+ "ORDER BY i.sector, q.quote_date DESC;";
 		log.debug("SQL: {}", SQL);
 		
 		List<ValueChangeInstance> results = this.jdbcTemplate.query(SQL, new ValueChangeInstanceMapper());
@@ -73,7 +91,12 @@ public class DashboardDataService {
 	public List<ValueChangeInstance> changesInPortfolioByHoldingSinceDate(String maxQuoteDate) {
 		log.info("Entered getTotalPortfolioChangeByInvestment()");
 		
-		final String SQL = this.sqlProps.getTotalPortfolioChangeByInvestment();
+		final String SQL = "SELECT sum(h.purchase_price * h.quantity) as purchase_value, i.symbol, i.company_name, SUM(q.price_at_close * h.quantity) as market_value "
+				+ "FROM holdings h, investments i, quotes q "
+				+ "WHERE h.quantity > 0 AND q.quote_date = ? AND h.investment_investment_id = i.investment_id "
+				+ "AND q.investment_id = h.investment_investment_id "
+				+ "GROUP BY i.symbol, i.company_name "
+				+ "ORDER BY i.symbol;";
 		log.debug("SQL: {}", SQL);
 		
 		List<ValueChangeInstance> results = new ArrayList<ValueChangeInstance>();

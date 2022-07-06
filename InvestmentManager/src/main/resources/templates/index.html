@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<meta charset="UTF-8">
 	<title>Investment Manager Dashboard</title>
 </head>
@@ -21,7 +22,7 @@
     <p></p>
     
     <span class="commonBoldTextFormat">Total Change in Portfolio</span>
-    <table id="totalPortfolioChange" class="commonTableFormat"></table>
+    <div id="totalPortfolioChange" class="grid"></div>
     
     <p></p>
     
@@ -42,7 +43,7 @@
         });
     </script>
     
-   <script>
+   <!-- <script>
         require([
             "js/buildDashboardTotalPotfolioChangeByHolding.js"
         ], function (buildDashboardTotalPotfolioChangeByHolding) {
@@ -54,7 +55,7 @@
             "js/buildDashboardTotalPotfolioChangeBySectorTable.js"
         ], function (buildDashboardTotalPotfolioChangeBySectorTable2) {
         });
-    </script>
+    </script> -->
     
     
 </body>

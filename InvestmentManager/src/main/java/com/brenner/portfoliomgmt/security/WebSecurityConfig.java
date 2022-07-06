@@ -23,13 +23,13 @@ public class WebSecurityConfig {
 		        .authorizeRequests()
 		    		.antMatchers("/prepAddUserForm", "users/addUserForm").permitAll()
 		    	.and()
-		    	.authorizeRequests(authorize -> authorize
-                        .anyRequest().authenticated())
                 .formLogin()
                 .loginProcessingUrl("/auth")
                 .loginPage("/login")
                 .defaultSuccessUrl("/index", true)
                 .permitAll()
+                .and()
+                .httpBasic().and().authorizeRequests().antMatchers("**/api/*").authenticated().anyRequest().permitAll()
                 .and()
                 .cors().and().csrf().disable();
         return http.build();

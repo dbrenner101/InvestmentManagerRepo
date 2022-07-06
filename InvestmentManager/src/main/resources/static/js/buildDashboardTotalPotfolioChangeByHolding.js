@@ -1,4 +1,24 @@
-define([
+$( document ).ready(function() {
+    $.getJSON({
+        url: "api/changesInPortfolioByHolding",
+        type: "GET",
+        dataType: "json",
+    })
+    .done(function(resp) {
+        $("#totalPortfolioChange").empty();
+        for (let i=0; i<resp.length; i++) {
+            console.log(resp);
+            /*var element = $("<span>Attitude id: " + resp[i].attitudeId + "<br></span>");
+            element.append("<span>Attitude: " + resp[i].attitude + "</span><br>");
+            element.append("<span>Description: " + resp[i].description + "</span><br>");
+            $( "#attitudeResults").append(element);
+            $( "#attitudeResults").append("<p></p>");*/
+        }
+    })
+});
+
+
+/*define([
     'dojo/dom',
     'dojo/request',
     'dojo/json',
@@ -10,7 +30,7 @@ define([
     'dojo/domReady!'
 ], function(dom, request, json, declare, Grid, Keyboard, Selection, Store){
 	
-        request.get("restful/changesInPortfolioByHolding", {
+        request.get("api/changesInPortfolioByHolding", {
             handleAs: "json"
         }).then(function(data) {
             var jsonStr = JSON.stringify(data);
@@ -89,5 +109,5 @@ define([
             j = (j = i.length) > 3 ? j % 3 : 0;
            return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
          };
-});
+});*/
 

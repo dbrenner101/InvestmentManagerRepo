@@ -1,4 +1,28 @@
-define([
+$( document ).ready(function() {
+    $.getJSON({
+        url: "api/changesInPortfolioForLastMonth",
+        type: "GET",
+        dataType: "json",
+    })
+    .done(function(resp) {
+        $("#totalPortfolioChange").empty();
+            console.log("Purchase value: " + resp.purchaseValue);
+            console.log(resp.length);
+            var element = $("<span>Purchase value: " + resp.purchaseValue + "</span><br/>");
+            $("#totalPortfolioChange").append(element);
+        for (let i=0; i<resp.length; i++) {
+            var element = $("<span>Purchase value: " + resp[i].purchaseValue + "</span><br/>");
+            $("#totalPortfolioChange").append(element);
+            /*var element = $("<span>Attitude id: " + resp[i].attitudeId + "<br></span>");
+            element.append("<span>Attitude: " + resp[i].attitude + "</span><br>");
+            element.append("<span>Description: " + resp[i].description + "</span><br>");
+            $( "#attitudeResults").append(element);
+            $( "#attitudeResults").append("<p></p>");*/
+        }
+    })
+});
+
+/*define([
     "dojo/dom",
     "dojo/on", 
     "dijit/registry", 
@@ -8,7 +32,7 @@ define([
 ], function(dom, on, registry, request){
 	
         // Request the JSON data from the server
-    request.get("restful/changesInPortfolioForLastMonth", {
+    request.get("api/changesInPortfolioForLastMonth", {
         handleAs: "json"
     }).then(function(data) {
     	// Display the data sent from the server
@@ -82,5 +106,5 @@ define([
         j = (j = i.length) > 3 ? j % 3 : 0;
        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
      };
-});
+});*/
 

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brenner.portfoliomgmt.holdings.Holding;
@@ -19,6 +20,7 @@ import com.brenner.portfoliomgmt.reporting.ValueChangeInstance;
  *
  */
 @RestController
+@RequestMapping("/api")
 public class DashboardController {
 
 	private static final Logger log = LoggerFactory.getLogger(DashboardController.class);
@@ -31,7 +33,7 @@ public class DashboardController {
 	 * 
 	 * @return {@link ValueChangeInstance} encapsulating the portfolio changes
 	 */
-	@GetMapping(path="restful/changesInPortfolioForLastMonth", produces={"application/JSON"})
+	@GetMapping(path="/changesInPortfolioForLastMonth", produces={"application/JSON"})
 	public ValueChangeInstance changesInPortfolioForLastMonth() {
 		log.info("Entered changesInPortfolioForLastMonth()");
 		
@@ -47,7 +49,7 @@ public class DashboardController {
 	 * 
 	 * @return {@link ValueChangeInstance} encapsulating the summary
 	 */
-	@GetMapping(path="restful/changesInPortfolioBySector", produces={"application/JSON"})
+	@GetMapping(path="/changesInPortfolioBySector", produces={"application/JSON"})
 	public List<ValueChangeInstance> changesInPortfolioBySector() {
 		log.info("Entered changesInPortfolioForLastMonth()");
 		
@@ -62,7 +64,7 @@ public class DashboardController {
 	 * Summary of current position by {@link Holding}
 	 * @return A {@link List} of changes by Holding
 	 */
-	@GetMapping(path="restful/changesInPortfolioByHolding", produces={"application/JSON"})
+	@GetMapping(path="/changesInPortfolioByHolding", produces={"application/JSON"})
 	public List<ValueChangeInstance> changesInPortfolioByHolding() {
 		log.info("Entered changesInPortfolioForLastMonth()");
 		

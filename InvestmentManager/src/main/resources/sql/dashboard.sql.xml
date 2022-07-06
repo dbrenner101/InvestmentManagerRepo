@@ -3,16 +3,11 @@
 <properties>
     <entry key="quotesForHoldingsSinceMaxQuoteDate">
         <![CDATA[
-            SELECT
-				SUM(h.purchase_price * h.quantity) as purchase_value, SUM(q.price_at_close * h.quantity) as market_value, q.quote_date
+            SELECT SUM(h.purchase_price * h.quantity) as purchase_value, SUM(q.price_at_close * h.quantity) as market_value, q.quote_date
 			FROM holdings h, investments i, quotes q
-			WHERE 
-				h.quantity > 0
-			    AND h.investment_id = i.investment_id
-			    AND q.investment_id = i.investment_id
-			    AND q.quote_date = (SELECT MAX(quote_date) FROM quotes)
-			GROUP BY 
-				q.quote_date
+			WHERE h.quantity > 0 AND h.investment_investment_id = i.investment_id AND q.investment_id = i.investment_id
+			AND q.quote_date = (SELECT MAX(quote_date) FROM quotes)
+			GROUP BY q.quote_date
 			ORDER BY q.quote_date DESC;
         ]]>
     </entry>

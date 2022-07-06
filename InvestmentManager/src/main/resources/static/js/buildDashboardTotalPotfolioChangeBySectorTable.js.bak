@@ -10,7 +10,7 @@ define([
     'dojo/domReady!'
 ], function(dom, request, json, declare, Grid, Keyboard, Selection, Store){
 	
-        request.get("restful/changesInPortfolioBySector", {
+        request.get("api/changesInPortfolioBySector", {
             handleAs: "json"
         }).then(function(data) {
             var jsonStr = JSON.stringify(data);
