@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
  
-    <property name="LOGS" value="/home/dbrenner/dev/app_logs/logs" />
+    <property name="LOGS" value="${HOME}}/dev/app_logs/logs" />
  
     <appender name="Console"
         class="ch.qos.logback.core.ConsoleAppender">
