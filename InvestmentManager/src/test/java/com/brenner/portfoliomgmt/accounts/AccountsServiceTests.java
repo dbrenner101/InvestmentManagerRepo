@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.brenner.portfoliomgmt.transactions.TransactionsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -39,7 +40,12 @@ import com.brenner.portfoliomgmt.transactions.TransactionsRepository;
  * @author dbrenner
  * 
  */
-@SpringBootTest
+@SpringBootTest(classes = {
+		AccountsRepository.class,
+		TransactionsService.class,
+		TransactionsRepository.class,
+		AccountsService.class
+})
 @DirtiesContext
 @TestInstance(Lifecycle.PER_METHOD)
 public class AccountsServiceTests {

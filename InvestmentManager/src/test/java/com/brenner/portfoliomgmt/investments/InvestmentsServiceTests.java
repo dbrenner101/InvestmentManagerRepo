@@ -32,7 +32,10 @@ import com.brenner.portfoliomgmt.test.TestDataHelper;
  * @author dbrenner
  * 
  */
-@SpringBootTest
+@SpringBootTest(classes = {
+		InvestmentsService.class,
+		InvestmentsRepository.class
+})
 @DirtiesContext
 @TestInstance(Lifecycle.PER_METHOD)
 public class InvestmentsServiceTests {

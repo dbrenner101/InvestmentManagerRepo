@@ -163,7 +163,7 @@ public class TransactionsControllerTests {
 	public void testSellHolding_Success() throws Exception {
 		Long holdingId = 1L;
 		Long transactionId = 2L; 
-		String transactionDate = "10/10/2021";
+		String transactionDate = "2021-10-10";
 		Float tradeQuantity = 10F;
 		Float tradePrice = 5.5F;
 		

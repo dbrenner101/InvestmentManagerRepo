@@ -37,7 +37,9 @@ import com.brenner.portfoliomgmt.test.TestDataHelper;
  * @author dbrenner
  * 
  */
-@SpringBootTest
+@SpringBootTest(classes = {
+		TransactionsRepository.class,
+		TransactionsService.class})
 @DirtiesContext
 @TestInstance(Lifecycle.PER_METHOD)
 public class TransactionsServiceTests {

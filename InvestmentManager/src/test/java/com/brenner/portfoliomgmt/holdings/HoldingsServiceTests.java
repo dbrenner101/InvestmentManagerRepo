@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.brenner.portfoliomgmt.investments.InvestmentsRepository;
+import com.brenner.portfoliomgmt.investments.InvestmentsService;
+import com.brenner.portfoliomgmt.transactions.TransactionsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -42,7 +45,15 @@ import com.brenner.portfoliomgmt.util.CommonUtils;
  * @author dbrenner
  * 
  */
-@SpringBootTest
+@SpringBootTest(classes = {
+		HoldingsRepository.class,
+		TransactionsRepository.class,
+		TransactionsService.class,
+		QuotesService.class,
+		HoldingsService.class,
+		InvestmentsService.class,
+		InvestmentsRepository.class
+})
 @DirtiesContext
 @TestInstance(Lifecycle.PER_METHOD)
 public class HoldingsServiceTests {
@@ -52,6 +63,9 @@ public class HoldingsServiceTests {
 	
 	@MockBean
 	TransactionsRepository transactionsRepo;
+	
+	@MockBean
+	InvestmentsRepository investmentsRepository;
 	
 	@MockBean
 	QuotesService quotesService;
