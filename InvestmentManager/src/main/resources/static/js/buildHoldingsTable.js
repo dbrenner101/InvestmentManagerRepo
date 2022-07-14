@@ -148,7 +148,7 @@ define([
 	                var currentCash = holdings[0].account.cashOnAccount;
 	                totalValue = totalValue + currentCash;
 	                
-	                differenceInValue = totalValue - totalValueAtPurchase;
+	                differenceInValue = totalValue - totalValueAtPurchase - currentCash;
 	                
 	                
 	                dom.byId("totalValueChange").innerHTML = differenceInValue.formatMoney(2, '.', ',');
