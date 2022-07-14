@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -201,7 +202,7 @@ public class TransactionsControllerTests {
 	@WithMockUser
 	public void testBuyInvestment_Success() throws Exception {
 		
-		String tradeDate = "12/1/1950";
+		String tradeDate = "1950-01-20";
 		String price = "12.55";
 		String quantity = "228";
 		String investmentId = "12"; 
@@ -216,7 +217,8 @@ public class TransactionsControllerTests {
 		
 		this.mockMvc.perform(MockMvcRequestBuilders
 				.get("/buyInvestment")
-				.params(params))
+				.params(params)
+				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(view().name("redirect:prepareDefineTrade"));
 	}

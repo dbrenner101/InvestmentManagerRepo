@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,6 +41,7 @@ import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.investments.InvestmentsService;
 import com.brenner.portfoliomgmt.test.TestDataHelper;
 import com.brenner.portfoliomgmt.transactions.Transaction;
+import com.brenner.portfoliomgmt.transactions.TransactionTypeEnum;
 import com.brenner.portfoliomgmt.transactions.TransactionsService;
 
 /**
@@ -118,6 +120,8 @@ public class HoldingsControllerTests {
 		requestParams.put("tradeQuantity", "100");
 		requestParams.put("tradePrice", "275.5");
 		requestParams.put("transactionDate", "2020-01-21");
+		requestParams.put("transactionType", TransactionTypeEnum.Buy.name());
+		requestParams.put("bucketEnum", BucketEnum.BUCKET_1.name());
 		
 		MultiValueMap<String, String> springMap = new LinkedMultiValueMap<>();
 		springMap.setAll(requestParams);
@@ -126,10 +130,11 @@ public class HoldingsControllerTests {
 		Mockito.when(this.holdingsService.addHolding(Mockito.any(Transaction.class), Mockito.any(Holding.class))).thenReturn(h1);
 		
 		this.mockMvc.perform(MockMvcRequestBuilders
-				.get("/addHolding")
-				.params(springMap))
-			.andExpect(view().name("redirect:prepAddHolding"))
-			.andExpect(status().is3xxRedirection());
+				.post("/addHolding")
+				.params(springMap)
+				.with(csrf()))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:prepAddHolding"));
 	}
 	
 	@Test

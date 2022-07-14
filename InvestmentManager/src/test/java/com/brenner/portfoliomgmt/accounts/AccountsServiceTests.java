@@ -31,6 +31,7 @@ import org.springframework.test.annotation.DirtiesContext;
 
 import com.brenner.portfoliomgmt.exception.InvalidRequestException;
 import com.brenner.portfoliomgmt.exception.NotFoundException;
+import com.brenner.portfoliomgmt.holdings.HoldingsRepository;
 import com.brenner.portfoliomgmt.test.TestDataHelper;
 import com.brenner.portfoliomgmt.transactions.Transaction;
 import com.brenner.portfoliomgmt.transactions.TransactionsRepository;
@@ -44,20 +45,18 @@ import com.brenner.portfoliomgmt.transactions.TransactionsRepository;
 		AccountsRepository.class,
 		TransactionsService.class,
 		TransactionsRepository.class,
-		AccountsService.class
+		AccountsService.class,
+		HoldingsRepository.class
 })
 @DirtiesContext
 @TestInstance(Lifecycle.PER_METHOD)
 public class AccountsServiceTests {
 
-	@MockBean
-	AccountsRepository accountsRepo;
+	@MockBean AccountsRepository accountsRepo;
+	@MockBean HoldingsRepository holdingsRepo;
+	@MockBean TransactionsRepository transactionsRepo;
 	
-	@MockBean
-	TransactionsRepository transactionsRepo;
-	
-	@Autowired
-	AccountsService service;
+	@Autowired AccountsService service;
 	
 	Account a1 = TestDataHelper.getAccount1();
 	Account a2 = TestDataHelper.getAccount2();

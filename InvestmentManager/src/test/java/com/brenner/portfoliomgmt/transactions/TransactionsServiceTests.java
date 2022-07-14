@@ -29,6 +29,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.exception.InvalidRequestException;
 import com.brenner.portfoliomgmt.holdings.Holding;
+import com.brenner.portfoliomgmt.holdings.HoldingsRepository;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.test.TestDataHelper;
 
@@ -39,16 +40,17 @@ import com.brenner.portfoliomgmt.test.TestDataHelper;
  */
 @SpringBootTest(classes = {
 		TransactionsRepository.class,
-		TransactionsService.class})
+		TransactionsService.class,
+		HoldingsRepository.class
+	})
 @DirtiesContext
 @TestInstance(Lifecycle.PER_METHOD)
 public class TransactionsServiceTests {
     
-    @MockBean
-    TransactionsRepository transactionsRepo;
+    @MockBean TransactionsRepository transactionsRepo;
+    @MockBean HoldingsRepository holdingsRepository;
     
-    @Autowired
-    TransactionsService transactionsService;
+    @Autowired TransactionsService transactionsService;
     
     @Test
     public void testGetTotalDividendForInvestments_Success() throws Exception {
