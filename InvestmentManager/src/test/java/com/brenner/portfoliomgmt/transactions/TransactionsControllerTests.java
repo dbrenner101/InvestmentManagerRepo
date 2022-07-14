@@ -38,10 +38,6 @@ import com.brenner.portfoliomgmt.holdings.HoldingsService;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.investments.InvestmentsService;
 import com.brenner.portfoliomgmt.test.TestDataHelper;
-import com.brenner.portfoliomgmt.transactions.Transaction;
-import com.brenner.portfoliomgmt.transactions.TransactionTypeEnum;
-import com.brenner.portfoliomgmt.transactions.TransactionsController;
-import com.brenner.portfoliomgmt.transactions.TransactionsService;
 import com.brenner.portfoliomgmt.util.CommonUtils;
 
 /**

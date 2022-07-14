@@ -37,6 +37,19 @@
 	                    th:value="${investment.investmentId}" 
 	                    th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
 	            </select><br>
+                Transaction type: <select name="transactionType">
+                    <option value="">Select</option>
+                    <option th:each="transactionType : ${T(com.brenner.portfoliomgmt.transactions.TransactionTypeEnum).values()}"
+                        th:value="${transactionType}"
+                        th:text="${transactionType.description}"/>
+                </select><br>
+                Bucket: <select name="bucketEnum">
+                    <option value="">Select</option>
+                    <option th:each="bucketEnum : ${T(com.brenner.portfoliomgmt.holdings.BucketEnum).values()}"
+                        th:value="${bucketEnum}"
+                        th:text="${bucketEnum.description}">
+                    </option>
+                </select><br/>
 	            <input type="submit" value="Add Holding" />
 	        </fieldset>
 	    </form>

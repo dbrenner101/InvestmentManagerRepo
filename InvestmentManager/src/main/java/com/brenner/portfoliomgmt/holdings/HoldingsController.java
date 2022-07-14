@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -25,6 +27,7 @@ import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.investments.InvestmentsService;
 import com.brenner.portfoliomgmt.transactions.Transaction;
+import com.brenner.portfoliomgmt.transactions.TransactionTypeEnum;
 import com.brenner.portfoliomgmt.util.CommonUtils;
 
 /**
@@ -68,6 +71,20 @@ public class HoldingsController implements WebMvcConfigurer {
 		return "holdings/chooseAccountAjax";
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param holding
+	 * @return
+	 */
+	@PostMapping(path="/updateHolding")
+	public String updateHolding(@ModelAttribute(name="holding") Holding holding) {
+		
+		this.holdingsService.updateHolding(holding);
+		
+		return "redirect:/editHolding?holdingId=" + holding.getHoldingId();
+	}
+	
 	
 	/**
 	 * Entry point for the add holding form. 
@@ -106,11 +123,13 @@ public class HoldingsController implements WebMvcConfigurer {
 	 */
 	@RequestMapping("/addHolding")
 	public String addHolding(
-			@RequestParam(name="accountId", required=true) String accountId, 
-			@RequestParam(name="investmentId", required=true) String investmentIdStr, 
-			@RequestParam(name="tradeQuantity", required=true) String tradeQuantity, 
-			@RequestParam(name="tradePrice", required=true) String tradePrice, 
-			@RequestParam(name="transactionDate", required=true) String transactionDate) throws ParseException {
+			@RequestParam(name="accountId") String accountId, 
+			@RequestParam(name="investmentId") String investmentIdStr, 
+			@RequestParam(name="tradeQuantity") String tradeQuantity, 
+			@RequestParam(name="tradePrice") String tradePrice, 
+			@RequestParam(name="transactionDate") String transactionDate, 
+			@RequestParam(name="transactionType") String transactionType, 
+			@RequestParam(name="bucketEnum") String bucketType) throws ParseException {
 		
 		logger.info("Entering addHolding()");
 		logger.debug("Received method parameters: accountId: {}; investmentId: {}; tradeQuantity: {}; tradePrice: {}; transactionDate: {}.", 
@@ -123,6 +142,7 @@ public class HoldingsController implements WebMvcConfigurer {
 		trade.setTradeQuantity(Float.valueOf(tradeQuantity));
 		trade.setTransactionDate(CommonUtils.convertDatePickerDateFormatStringToDate(transactionDate));
 		trade.setInvestment(new Investment(Long.valueOf(investmentIdStr)));
+		trade.setTransactionType(TransactionTypeEnum.valueOf(transactionType));
     	
 		Optional<Investment> optInvestment = this.investmentsService.getInvestmentByInvestmentId(trade.getInvestment().getInvestmentId());
 		if (! optInvestment.isPresent()) {
@@ -136,6 +156,7 @@ public class HoldingsController implements WebMvcConfigurer {
 		holding.setInvestment(investment);
 		holding.setPurchasePrice(trade.getTradePrice());
 		holding.setQuantity(trade.getTradeQuantity());
+		holding.setBucketEnum(BucketEnum.valueOf(bucketType));
 		
 		this.holdingsService.addHolding(trade, holding);
 		

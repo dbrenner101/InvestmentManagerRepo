@@ -1,6 +1,7 @@
 package com.brenner.portfoliomgmt;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -27,4 +28,7 @@ public class MvcConfig implements WebMvcConfigurer {
     	registry.addMapping("/restful/**")
         	.allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
     }
+    
+    @Override
+    public void addFormatters(FormatterRegistry registry) {}
 }

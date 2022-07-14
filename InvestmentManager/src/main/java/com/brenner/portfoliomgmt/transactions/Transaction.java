@@ -31,14 +31,12 @@ public class Transaction {
 	
 	private Long associatedCashTransactionId;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd", fallbackPatterns = "MM/dd/yyyy")
 	private Date transactionDate;
 	
 	private Float tradePrice;
 	
 	private Float tradeQuantity;
-	
-	private Long holdingId;
 	
 	@Enumerated(EnumType.STRING)
 	private TransactionTypeEnum transactionType;
@@ -57,14 +55,34 @@ public class Transaction {
 	
 	public Transaction() {}
 	
+	
+	
+	public Transaction(Long transactionId, Long associatedCashTransactionId, Date transactionDate, Float tradePrice,
+			Float tradeQuantity, TransactionTypeEnum transactionType, Investment investment, Account account,
+			Holding holding, Float dividend) {
+		super();
+		this.transactionId = transactionId;
+		this.associatedCashTransactionId = associatedCashTransactionId;
+		this.transactionDate = transactionDate;
+		this.tradePrice = tradePrice;
+		this.tradeQuantity = tradeQuantity;
+		this.transactionType = transactionType;
+		this.investment = investment;
+		this.account = account;
+		this.holding = holding;
+		this.dividend = dividend;
+	}
+
+
+
 	public Transaction(Long investmentId, Float dividend) {
 		this.investment = new Investment(investmentId);
 		this.dividend = dividend;
 	}
 	
-	public Transaction (Date tradeDate, Float price, Float quantity, String tradeType) {
+	public Transaction (Date transactionDate, Float price, Float quantity, String tradeType) {
 		
-		this.transactionDate = tradeDate;
+		this.transactionDate = transactionDate;
 		this.tradePrice = price;
 		this.tradeQuantity = quantity;
 		this.transactionType = TransactionTypeEnum.valueOf(tradeType);
@@ -108,14 +126,6 @@ public class Transaction {
 
 	public void setTradeQuantity(Float tradeQuantity) {
 		this.tradeQuantity = tradeQuantity;
-	}
-
-	public Long getHoldingId() {
-		return holdingId;
-	}
-
-	public void setHoldingId(Long holdingId) {
-		this.holdingId = holdingId;
 	}
 
 	public TransactionTypeEnum getTransactionType() {
@@ -167,7 +177,7 @@ public class Transaction {
 			.append("transactionDate", transactionDate)
 			.append("tradePrice", tradePrice)
 			.append("tradeQuantity", tradeQuantity)
-			.append("holdingId", holdingId)
+			.append("holding", holding)
 			.append("transactionType", transactionType)
 			.append("investment", investment)
 			.append("account", account)

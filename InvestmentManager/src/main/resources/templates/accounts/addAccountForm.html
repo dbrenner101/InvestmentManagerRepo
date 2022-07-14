@@ -27,7 +27,7 @@
 	            Company: <input type="text" name="company" th:field="*{company}" /><br>
 	            Owner: <input type="text" name="owner" th:field="*{owner}" /><br>
 	            Account number: <input type="text" name="accountNumber" th:field="*{accountNumber}" /><br>
-	            Cash on account: <input type="number" name="cashOnAccount" th:field="*{cashOnAccount}" /><br />
+	            Cash on account: <input type="number" name="cashOnAccount" th:field="*{cashOnAccount}" step="any"/><br />
 	            Type: <select name="accountType" th:field="*{accountType}">
 	                <option value="Investment">Investment</option>
 	                <option value="401k">401k</option>
@@ -38,19 +38,6 @@
 	            <input type="submit" value="Submit" />
 	        </fieldset>
 	    </form>
-     
-        <!-- <form th:action="@{/addSavingsGoal}" class="formFormat" th:object="${savingsGoal}">
-            <fieldset>
-                Name: <input type="text" required id="goalName" th:field="*{goalName}" /><br>
-                Start date: <input type="date" required id="savingsStartDate" th:field="*{savingsStartDate}" /><br>
-                End date: <input type="date" required id="savingsEndDate" th:field="*{savingsEndDate}" /><br>
-                Target amount: <input type="number" required id="targetAmount" th:field="*{targetAmount}" step="any" /><br>
-                Initial amount: <input type="number" id="initialBalance" th:field="*{initialBalance}" step="any" /><br/>
-                Current balance: <input type="number" id="currentBalance" th:field="*{currentBalance}" step="any" /><br/>
-                Notes: <textarea id="notes" th:field="*{notes}" style="width:250px; height:50px"></textarea><br>
-                <input type="submit" value="Submit" />
-            </fieldset>
-        </form> -->
     </div>
     
     <p></p>

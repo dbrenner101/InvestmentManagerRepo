@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.exception.InvalidRequestException;
 import com.brenner.portfoliomgmt.holdings.Holding;
+import com.brenner.portfoliomgmt.holdings.HoldingsRepository;
 import com.brenner.portfoliomgmt.investments.Investment;
 
 /**
@@ -34,6 +35,9 @@ public class TransactionsService {
     
     @Autowired
     TransactionsRepository transactionsRepo;
+    
+    @Autowired
+    HoldingsRepository holdingsRepository;
     
     
     /*public Map<String, List<Holding>> modelSplit(Date transactionDate, Long investmentId, Float splitRatio) {
@@ -239,24 +243,26 @@ public class TransactionsService {
      * @param holding - holding to update
      */
     @Transactional
-    public void updateTrade(Transaction changedTrade, TransactionTypeEnum previousTradeType, Holding holding) {
+    public void updateTrade(Transaction changedTrade) {
 	    
 	    TransactionTypeEnum newTradeTypeValue = changedTrade.getTransactionType();
 	    
 	    Transaction currentTransaction = this.getTransaction(changedTrade.getTransactionId());
-	    if (! previousTradeType.equals(newTradeTypeValue)) {
-	        
+	    Holding holding = currentTransaction.getHolding();
+	    if (! currentTransaction.getTransactionType().equals(newTradeTypeValue)) {
+	        throw new InvalidRequestException("Updating the transaction type on a trade is not supported");
 	    }
 	    else {
-	        if (currentTransaction.getHoldingId() != null && holding != null) {
+	        if (currentTransaction.getHolding().getHoldingId() != null && holding != null) {
     	        holding.setAccount(changedTrade.getAccount());
     	        holding.setInvestment(changedTrade.getInvestment());
     	        holding.setQuantity(changedTrade.getTradeQuantity());
     	        holding.setPurchasePrice(changedTrade.getTradePrice());
-		        }
-	        }
+		    }
+	    }
 	        
-	        //this.holdingsService.updateHoldingAndTrade(holding, changedTrade);
+	   this.holdingsRepository.save(holding);
+	   this.transactionsRepo.save(changedTrade);
     }
     
     /**
@@ -336,4 +342,17 @@ public class TransactionsService {
         this.transactionsRepo.save(creditTransaction);
     }
     // End Cash Transaction Methods
+
+	/**
+	 * 
+	 * @param holding 
+	 */
+	public Optional<Transaction> getPurchaseTransactionForHolding(Holding holding) {
+		
+		List<Transaction> transactions = this.transactionsRepo.findByHoldingHoldingId(holding.getHoldingId());
+		Optional<Transaction> buyTransaction = transactions.stream().findFirst().filter(t -> t.getTransactionType().equals(TransactionTypeEnum.Buy));
+		
+		return buyTransaction;
+		
+	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,15 +22,11 @@ import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.quotes.Quote;
 import com.brenner.portfoliomgmt.transactions.Transaction;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 @Entity
 @Table(name="holdings")
-@JsonIgnoreProperties(ignoreUnknown=true)
-@JsonRootName(value="holding")
 public class Holding implements Comparable<Holding>, Cloneable {
 
 	@JsonProperty("holdingId")
@@ -37,7 +34,7 @@ public class Holding implements Comparable<Holding>, Cloneable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long holdingId;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Investment investment;
 
 	@OneToMany(fetch = FetchType.LAZY)
@@ -50,6 +47,9 @@ public class Holding implements Comparable<Holding>, Cloneable {
 	private Float quantity;
 	
 	private Float purchasePrice;
+	
+	@Enumerated
+	private BucketEnum bucketEnum;
 	
 	@JsonProperty("valueAtPurchase")
 	@Transient
@@ -234,6 +234,14 @@ public class Holding implements Comparable<Holding>, Cloneable {
 
 	public void setCurrentValue(Float currentValue) {
 		this.currentValue = currentValue;
+	}
+
+	public BucketEnum getBucketEnum() {
+		return this.bucketEnum;
+	}
+
+	public void setBucketEnum(BucketEnum bucketEnum) {
+		this.bucketEnum = bucketEnum;
 	}
 
 	@Override

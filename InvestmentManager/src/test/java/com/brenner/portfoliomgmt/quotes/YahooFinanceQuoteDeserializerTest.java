@@ -3,9 +3,6 @@
  */
 package com.brenner.portfoliomgmt.quotes;
 
-import com.brenner.portfoliomgmt.quotes.BatchQuotes;
-import com.brenner.portfoliomgmt.quotes.Quote;
-import com.brenner.portfoliomgmt.quotes.retrievalservice.YahooFinanceBatchQuotesDeserializer;
 import com.brenner.portfoliomgmt.quotes.retrievalservice.YahooFinanceQuoteDeserializer;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;

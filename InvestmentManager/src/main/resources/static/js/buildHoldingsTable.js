@@ -59,7 +59,7 @@ define([
                 headerRow.appendChild(changeInPriceHeader);
                 
                 var valueAtPurchaseHeader = document.createElement("th");
-                valueAtPurchaseHeader.innerHTML = "Value at Purchase";
+                valueAtPurchaseHeader.innerHTML = "Cost Basis";
                 headerRow.appendChild(valueAtPurchaseHeader);
                 
                 var currentValueHeader = document.createElement("th");
@@ -69,6 +69,14 @@ define([
                 var changeInValueHeader = document.createElement("th");
                 changeInValueHeader.innerHTML = "Change in Value";
                 headerRow.appendChild(changeInValueHeader);
+                
+                var editHoldingHeader = document.createElement("th");
+                editHoldingHeader.innerHTML = "Edit Holding";
+                headerRow.appendChild(editHoldingHeader);
+                
+                var sellHoldingHeader = document.createElement("th");
+                sellHoldingHeader.innerHTML = "Sell Holding";
+                headerRow.appendChild(sellHoldingHeader);
 
                 if (holdings != null && holdings.length > 0) {
 	                for (let i = 0; i < holdings.length; i++) {
@@ -79,7 +87,7 @@ define([
 	                  row.appendChild(holdingCell);
 	                  
 	                  var symbolCell = document.createElement("td");
-	                  symbolCell.innerHTML = "<a href=\"retrieveHoldingDetails?holdingId=" + holdings[i].holdingId + "\">" + holdings[i].investment.symbol + "</a>";
+	                  symbolCell.innerHTML = holdings[i].investment.symbol;
 	                  row.appendChild(symbolCell);
 	                  
 //	                  var purchaseDateCell = document.createElement("td");
@@ -127,6 +135,14 @@ define([
 		                  totalValue += holdings[i].currentValue;
 		                  totalValueAtPurchase += holdings[i].valueAtPurchase;
 	                  }
+	                  
+	                  var editHoldingCell = document.createElement("td");
+	                  editHoldingCell.innerHTML = "<a href=\"editHolding?holdingId=" + holdings[i].holdingId + "\">(Edit)</a>";
+	                  row.appendChild(editHoldingCell);
+	                  
+	                  var sellHoldingCell = document.createElement("td");
+	                  sellHoldingCell.innerHTML = "<a href=\"retrieveHoldingDetails?holdingId=" + holdings[i].holdingId + "\">(Sell)</a>";
+	                  row.appendChild(sellHoldingCell);
 	                }
 	                
 	                var currentCash = holdings[0].account.cashOnAccount;

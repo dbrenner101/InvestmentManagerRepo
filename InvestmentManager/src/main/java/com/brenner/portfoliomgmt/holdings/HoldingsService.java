@@ -65,10 +65,12 @@ public class HoldingsService {
         // persist the objects
         holding = this.holdingsRepo.save(holding);
 		
-		trade.setTransactionType(TransactionTypeEnum.Buy);
+        if (trade.getTransactionType() == null) {
+        	trade.setTransactionType(TransactionTypeEnum.Buy);
+        }
         
         trade.setInvestment(holding.getInvestment());
-        trade.setHoldingId(holding.getHoldingId());
+        trade.setHolding(holding);
         this.transactionsService.saveTransaction(trade);
         
         return holding;
@@ -160,7 +162,7 @@ public class HoldingsService {
 		// build the sale transaction off of the existing transaction
 		Transaction saleTransaction = new Transaction();
 		saleTransaction.setAccount(existingTransaction.getAccount());
-		saleTransaction.setHoldingId(existingTransaction.getHoldingId());
+		saleTransaction.setHolding(existingTransaction.getHolding());
 		saleTransaction.setInvestment(existingTransaction.getInvestment());
 		saleTransaction.setTradePrice(tradePrice);
 		saleTransaction.setTradeQuantity(tradeQuantity);
@@ -176,7 +178,7 @@ public class HoldingsService {
 		cashTransaction.setTransactionType(TransactionTypeEnum.Cash);
 		
 		// grab the holding since it may be set to 0 or only decremented.
-		Holding holding = this.getHoldingByHoldingId(existingTransaction.getHoldingId()).get();
+		Holding holding = this.getHoldingByHoldingId(existingTransaction.getHolding().getHoldingId()).get();
 		
 		Float quantityChange = holding.getQuantity() - saleTransaction.getTradeQuantity();
 		holding.setQuantity(quantityChange);
@@ -264,9 +266,32 @@ public class HoldingsService {
     	}
         
         holding = this.holdingsRepo.save(holding);
-    	trade.setHoldingId(holding.getHoldingId());
+    	trade.setHolding(holding);
 
         this.transactionsService.saveTransaction(trade);
+    }
+    
+    /**
+     * Access to the update holding persistence.
+     * 
+     * @param holding
+     * @return
+     */
+    @Transactional
+    public Holding updateHolding(Holding holding) {
+    	if (holding == null || holding.getHoldingId() == null) {
+    		throw new InvalidRequestException("Holding and holdingId must be non-null");
+    	}
+    	
+    	Optional<Transaction> optTransactionOptional = this.transactionsService.getPurchaseTransactionForHolding(holding);
+    	if (optTransactionOptional.isPresent()) {
+    		Transaction buyTransaction = optTransactionOptional.get();
+    		buyTransaction.setTradePrice(holding.getPurchasePrice());
+    		buyTransaction.setTradeQuantity(holding.getQuantity());
+    		this.transactionsService.saveTransaction(buyTransaction);
+    	}
+    	
+    	return this.holdingsRepo.save(holding);
     }
     
     /**
@@ -495,7 +520,7 @@ public class HoldingsService {
 		cashTransaction.setTransactionType(TransactionTypeEnum.Cash);
         
         holding = this.holdingsRepo.save(holding);
-        trade.setHoldingId(holding.getHoldingId());
+        trade.setHolding(holding);
         Transaction t = this.transactionsService.saveTransaction(cashTransaction);
         trade.setAssociatedCashTransactionId(t.getTransactionId());
         this.transactionsService.saveTransaction(trade);

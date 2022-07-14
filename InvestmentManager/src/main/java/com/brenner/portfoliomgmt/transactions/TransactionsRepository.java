@@ -56,4 +56,6 @@ public interface TransactionsRepository extends JpaRepository<Transaction, Long>
 			+ "		WHERE t.transaction_type in ('Cash', 'Dividend') "
 			+ "			AND i.investment_id = t.investment_investment_id AND a.account_id = t.account_account_id AND t.account_account_id = ?;" )
 	List<Transaction> findAllByAccountAccountIdWithCash(Long accountId);
+	
+	List<Transaction> findByHoldingHoldingId(Long holdingId);
 }

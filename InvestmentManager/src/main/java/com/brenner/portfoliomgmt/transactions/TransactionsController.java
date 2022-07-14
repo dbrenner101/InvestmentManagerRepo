@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -261,35 +263,13 @@ public class TransactionsController implements WebMvcConfigurer {
 	 * @return redirect:/prepForTransactionsList
 	 * @throws ParseException is thrown is the tradeDate string can't be parsed to a date
 	 */
-	@RequestMapping("/updateTrade")
+	@PostMapping("/updateTrade")
 	public String updateTrade(
-	        @RequestParam(name="transactionDate", required=true) String transactionDate, 
-	        @RequestParam(name="transactionId", required=true) String transactionId, 
-	        @RequestParam(name="accountId", required=true) String accountId, 
-	        @RequestParam(name="investmentId", required=false) String investmentId, 
-	        @RequestParam(name="tradePrice", required=true) String tradePrice, 
-	        @RequestParam(name="tradeQuantity", required=true) String tradeQuantity, 
-	        @RequestParam(name="transactionType", required=true) String transactionType, 
-	        @RequestParam(name="previousTransactionType", required=true) String previousTransactionType) throws ParseException {
+	        @ModelAttribute(name="transaction") Transaction transaction) throws ParseException {
 		logger.info("Entering updateTrade()");
-		logger.debug("Request parameters: transactionDate: {}); transactionId: {}; accountId: {}; investmentId: {}; tradePrice: {}; tradeQuantity: {}, transactionType: {} previousTransactionType: {}", 
-				transactionDate, transactionId, accountId, investmentId, tradePrice, tradeQuantity, transactionType, previousTransactionType);
-	    
-        Transaction trade = new Transaction();
-        trade.setTransactionId(Long.valueOf(transactionId));
-        trade.setAccount(new Account(Long.valueOf(accountId)));
-        if (investmentId != null && investmentId.trim().length() > 0) {
-        	trade.setInvestment(new Investment(Long.valueOf(investmentId)));
-        }
-        trade.setTradePrice(Float.valueOf(tradePrice));
-        trade.setTradeQuantity(Float.valueOf(tradeQuantity));
-        trade.setTransactionType(TransactionTypeEnum.valueOf(transactionType));
-        trade.setTransactionDate(CommonUtils.convertCommonDateFormatStringToDate(transactionDate));
-        logger.debug("Updating trade: {}", trade);
+        logger.debug("Updating trade: {}", transaction);
         
-        //this.transactionsService.updateTrade(trade, TransactionTypeEnum.valueOf(previousTransactionType));
-        
-        if (0==0) throw new RuntimeException("Method not implemented");
+        this.transactionsService.updateTrade(transaction);
 	    
         logger.info("Redirecting to prepForTransactionsList");
         return "redirect:prepForTransactionsList";
@@ -411,7 +391,7 @@ public class TransactionsController implements WebMvcConfigurer {
 				tradeDate, price, quantity, investmentId, accountId);
 		
 		this.holdingsService.persistBuy(
-				CommonUtils.convertCommonDateFormatStringToDate(tradeDate), 
+				CommonUtils.convertDatePickerDateFormatStringToDate(tradeDate), 
 				Float.valueOf(price), 
 				Float.valueOf(quantity), 
 				Long.valueOf(investmentId), 

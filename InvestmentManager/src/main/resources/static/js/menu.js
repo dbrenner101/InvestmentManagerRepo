@@ -30,11 +30,6 @@ require([
         	location.assign("getAllInvestments");
         }
     }));
-    mainMenu.addChild(new PopupMenuBarItem({
-        id: "investments",
-        label: "Investments",
-        popup: investmentMenu
-    }));
 
     
     accountsMenu = new Menu({
@@ -54,10 +49,41 @@ require([
         	location.assign("editAccountPrep");
         }
     }));
-    mainMenu.addChild(new PopupMenuBarItem({
-    	id: "accounts",
-    	label: "Accounts",
-    	popup: accountsMenu
+    
+    bulkDataMenu = new Menu({ id: "bulkMenu" })
+    bulkDataMenu.addChild(new MenuItem({
+        id: "bulkUpload",
+        label: "Upload Bulk Data",
+        onClick: function() {
+            location.assign("loadBulkDataForm");
+        }
+    }));
+    
+    adminMenu = new Menu({ id: "adminMenu" })
+    adminMenu.addChild(new PopupMenuBarItem({
+        id: "investment",
+        label: "Investments",
+        popup: investmentMenu
+    }));
+    adminMenu.addChild(new MenuSeparator());
+    adminMenu.addChild(new PopupMenuBarItem({
+        id: "account",
+        label: "Accounts",
+        popup: accountsMenu
+    }));
+    adminMenu.addChild(new MenuSeparator());
+    adminMenu.addChild(new PopupMenuBarItem({
+        id: "bulk",
+        label: "Bulk Data Management",
+        popup: bulkDataMenu
+    }));
+    adminMenu.addChild(new MenuSeparator());
+    adminMenu.addChild(new MenuItem({
+        id: "logout",
+        label: "Log out",
+        onClick: function() {
+            location.assign("/logout");
+        }
     }));
     
     tradesMenu = new Menu({ id: "tradesMenu" })
@@ -96,11 +122,6 @@ require([
         	location.assign("prepForTransactionsList");
         }
     }))
-    mainMenu.addChild(new PopupMenuBarItem({
-    	id: "transactions",
-    	label: "Transactions",
-    	popup: tradesMenu
-    }));
     
     holdingsMenu = new Menu({ id: "holdingsMenu" })
     holdingsMenu.addChild(new MenuItem({
@@ -119,7 +140,7 @@ require([
     }));
     holdingsMenu.addChild(new MenuItem({
     	id: "updateQuotes",
-    	label: "Update Quotes",
+    	label: "Retrieve Quotes",
         onClick: function() {
         	location.assign("getInvestmentsAndMostRecentQuoteDate");
         }
@@ -137,11 +158,6 @@ require([
         onClick: function() {
         	location.assign("prepSplitEntryForm");
         }
-    }))
-    mainMenu.addChild(new PopupMenuBarItem({
-    	id: "holdings",
-    	label: "Holdings",
-   		popup: holdingsMenu
     }));
     
     reportsMenu = new Menu({ id: "reportsMenu" })
@@ -180,25 +196,6 @@ require([
         	location.assign("holdingsByTypeAndSector");
         }
     }));
-    mainMenu.addChild(new PopupMenuBarItem({
-    	id: "reports",
-    	label: "Reports",
-    	popup: reportsMenu
-    }));
-    
-    bulkDataMenu = new Menu({ id: "bulkMenu" })
-    bulkDataMenu.addChild(new MenuItem({
-    	id: "bulkUpload",
-    	label: "Upload Bulk Data",
-        onClick: function() {
-        	location.assign("loadBulkDataForm");
-        }
-    }));
-    mainMenu.addChild(new PopupMenuBarItem({
-    	id: "bulk",
-    	label: "Bulk Data Management",
-    	popup: bulkDataMenu
-    }));
     
     watchlistsMenu = new Menu({ id: "watchlistsMenu" })
     watchlistsMenu.addChild(new MenuItem({
@@ -214,25 +211,6 @@ require([
         onClick: function() {
         	location.assign("getWatchlists");
         }
-    }));
-    mainMenu.addChild(new PopupMenuBarItem({
-    	id: "watchlists",
-    	label: "Watchlists",
-    	popup: watchlistsMenu
-    }));
-    
-    adminMenu = new Menu({ id: "adminMenu" })
-    adminMenu.addChild(new MenuItem({
-    	id: "logout",
-    	label: "Log out",
-        onClick: function() {
-        	location.assign("logout");
-        }
-    }));
-    mainMenu.addChild(new PopupMenuBarItem({
-    	id: "admin",
-    	label: "Admin",
-    	popup: adminMenu
     }));
     
     var newsMenu = new Menu({
@@ -252,6 +230,44 @@ require([
         	location.assign("");
         }
     }));
+    
+    
+    
+    mainMenu.addChild(new PopupMenuBarItem({
+        id: "admin",
+        label: "Admin",
+        popup: adminMenu
+    }));
+    
+    
+    mainMenu.addChild(new PopupMenuBarItem({
+        id: "transactions",
+        label: "Transactions",
+        popup: tradesMenu
+    }));
+    
+    
+    mainMenu.addChild(new PopupMenuBarItem({
+        id: "holdings",
+        label: "Holdings",
+        popup: holdingsMenu
+    }));
+    
+    
+    mainMenu.addChild(new PopupMenuBarItem({
+        id: "reports",
+        label: "Reports",
+        popup: reportsMenu
+    }));
+    
+    
+    mainMenu.addChild(new PopupMenuBarItem({
+        id: "watchlists",
+        label: "Watchlists",
+        popup: watchlistsMenu
+    }));
+    
+    
     mainMenu.addChild(new PopupMenuBarItem({
         id: "news",
         label: "News",
@@ -259,11 +275,11 @@ require([
     }));
     
     mainMenu.addChild(new MenuBarItem({
-    	id: "homeItem",
-    	label: "Home", 
-    	onClick: function() {
-    		location.assign("index");
-    	}
+        id: "homeItem",
+        label: "Home", 
+        onClick: function() {
+            location.assign("index");
+        }
     }));
 
     mainMenu.startup();

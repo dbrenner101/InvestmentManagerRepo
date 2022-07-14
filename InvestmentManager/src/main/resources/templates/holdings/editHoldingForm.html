@@ -20,10 +20,10 @@
     <p class="commonBoldTextFormat">Edit Holding Details</p>
 
 	<div class="formFrame">
-	    <form action="updateHolding" class="formFormat">
+	    <form action="#" th:action="@{/updateHolding}" class="formFormat" th:object="${holding}" method="post">
 	        <fieldset>
-	            <input type="hidden" name="holdingId" th:value="${holding.holdingId}" />
-	            Account: <select name="accountId" autofocus="autofocus">
+	            <input type="hidden" name="holdingId" th:field="*{holdingId}"/>
+	            Account: <select th:field="*{account}" autofocus="autofocus">
 	                <option value="">Select</option>
 	                <option 
 	                    th:each="account : ${accounts}" 
@@ -31,16 +31,24 @@
 	                    th:text="${account.accountName + ' (' + account.owner + ')'}" 
 	                    th:selected="${holding.account.accountId == account.accountId}"/>
 	            </select><br>
-	            Purchase Price: <input type="number" name="tradePrice" step="any" th:value="${holding.purchasePrice}"/><br>
-	            Quantity: <input type="number" name="quantity" th:value="${holding.quantity}"/> <br>
-	            Investment: <select name="investmentId">
-	                <option value="">Select</option>
-	                <option 
-	                    th:each="investment : ${investments}" 
-	                    th:value="${investment.investmentId}" 
-	                    th:text="${investment.symbol + ' :: ' + investment.companyName}"
-	                    th:selected="${investment.investmentId == holding.investment.investmentId}"/>
-	            </select><br>
+                Investment: <select th:field="*{investment}">
+                    <option value="">Select</option>
+                     <option 
+                         th:each="inv : ${investments}" 
+                         th:value="${inv.investmentId}"
+                         th:text="${inv.symbol + ' :: ' + inv.companyName}"
+                         th:selected="${inv.investmentId == holding.investment.investmentId}" />
+                </select><br>
+                Purchase Price: <input type="number" step="any" th:field="${holding.purchasePrice}"/><br>
+	            Quantity: <input type="number" th:field="*{quantity}"/> <br>
+	            Bucket: <select name="bucketEnum">
+                    <option value="">Select</option>
+                    <option th:each="bucketEnum : ${T(com.brenner.portfoliomgmt.holdings.BucketEnum).values()}"
+                        th:value="${bucketEnum}"
+                        th:text="${bucketEnum.description}"
+                        th:selected="${holding.bucketEnum != null && bucketEnum.description.equals(holding.bucketEnum.description)}">
+                    </option>
+                </select><br/>
 	            <input type="submit" value="Update Holding" />
 	        </fieldset>
 	    </form>

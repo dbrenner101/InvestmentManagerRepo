@@ -42,7 +42,8 @@
 	        <th>Change in Value</th>
 	    </tr>
 	    <tr th:each="holding : ${holdings}">
-	       <td th:text="${holding.investment.companyName}" />
+            <td><a href="editHolding" th:href="@{/editHolding(holdingId=${holding.holdingId})}"><span th:text="${holding.investment.companyName}"></span></a></td>
+	       <!-- <td th:text="${holding.investment.companyName}" /> -->
 	       <td th:text="${holding.investment.symbol}" />
 	       <td th:text="${#dates.format(holding.trade.tradeDate, 'MM/dd/yyyy')}" />
 	       <td th:text="${holding.quantity}" />

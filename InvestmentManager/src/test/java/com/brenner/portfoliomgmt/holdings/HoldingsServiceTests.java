@@ -88,7 +88,7 @@ public class HoldingsServiceTests {
 		this.holdingsService.addHolding(t, h);
 		assertEquals(TransactionTypeEnum.Buy, t.getTransactionType());
 		assertEquals(i.getInvestmentId(), t.getInvestment().getInvestmentId());
-		assertEquals(h.getHoldingId(), t.getHoldingId());
+		assertEquals(h, t.getHolding());
 	}
 	
 	@Test
@@ -217,7 +217,7 @@ public class HoldingsServiceTests {
 		existingTransaction.setHolding(h);
 		existingTransaction.setInvestment(i);
 		existingTransaction.setTransactionId(transactionId);
-		existingTransaction.setHoldingId(h.getHoldingId());
+		existingTransaction.setHolding(h);
 		
 		Mockito.when(this.transactionsRepo.findById(existingTransaction.getTransactionId())).thenReturn(Optional.of(existingTransaction));
 		Mockito.when(this.holdingsRepo.findById(h.getHoldingId())).thenReturn(Optional.of(h));
@@ -227,7 +227,7 @@ public class HoldingsServiceTests {
 			Transaction t = (Transaction) args[0];
 			if (t.getTransactionType().equals(TransactionTypeEnum.Sell)) {
 				assertEquals(a, t.getAccount());
-	        	assertEquals(h.getHoldingId(), t.getHoldingId());
+	        	assertEquals(h, t.getHolding());
 	        	assertEquals(i, t.getInvestment());
 	        	assertEquals(tradePrice, t.getTradePrice());
 	        	assertEquals(tradeQuantity, t.getTradeQuantity());
@@ -389,11 +389,11 @@ public class HoldingsServiceTests {
 		Mockito.when(this.holdingsRepo.save(h)).thenReturn(h);
 		Mockito.when(this.transactionsRepo.save(t)).thenReturn(t);
 		
-		assertNull(t.getHoldingId());
+		assertNull(t.getHolding());
 		
 		this.holdingsService.updateHoldingAndTrade(h, t);
 		
-		assertEquals(h.getHoldingId(), t.getHoldingId());
+		assertEquals(h, t.getHolding());
 	}
 	
 	@Test

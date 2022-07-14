@@ -54,7 +54,7 @@ public class TransactionDeserializer extends StdDeserializer<Transaction> {
 		t.setAssociatedCashTransactionId(json.get("associatedCashTransactionId") != null ? 
 				Long.valueOf(json.get("associatedCashTransactionId").asText()) : null);
 		t.setDividend(json.get("dividend") != null ? json.get("dividend").floatValue() : null);
-		t.setHoldingId(json.get("holdingId") != null ? json.get("holdingId").asLong() : null);
+		//t.setHolding(json.get("holdingId") != null ? json.get("holdingId").asLong() : null);
 		
 		Investment investment = new InvestmentDeserializer().deserialize(json);
 		t.setInvestment(investment);
