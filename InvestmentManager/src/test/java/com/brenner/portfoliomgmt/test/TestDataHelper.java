@@ -1,5 +1,6 @@
 package com.brenner.portfoliomgmt.test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,7 @@ public class TestDataHelper {
 		a.setAccountName(TestDataHelper.ACCOUNT_ONE_NAME);
 		a.setAccountNumber(TestDataHelper.ACCOUNT_ONE_NUM);
 		a.setAccountType(TestDataHelper.ACCOUNT_ONE_TYPE);
-		a.setCashOnAccount(100F);
+		a.setCashOnAccount(BigDecimal.valueOf(100));
 		a.setCompany(TestDataHelper.ACCCOUNT_ONE_COMPANY);
 		a.setOwner(TestDataHelper.ACCOUNT_ONE_OWNER);
 		
@@ -73,7 +74,7 @@ public class TestDataHelper {
 		a.setAccountName("Account 2");
 		a.setAccountNumber("4321");
 		a.setAccountType("IRA");
-		a.setCashOnAccount(200F);
+		a.setCashOnAccount(BigDecimal.valueOf(200));
 		a.setCompany("Company 2");
 		a.setOwner("Owner 2");
 		
@@ -86,7 +87,7 @@ public class TestDataHelper {
 		a.setAccountName("Account 3");
 		a.setAccountNumber("5678");
 		a.setAccountType("ROTH");
-		a.setCashOnAccount(300F);
+		a.setCashOnAccount(BigDecimal.valueOf(300));
 		a.setCompany("Company 3");
 		a.setOwner("Owner 3");
 		
@@ -105,8 +106,8 @@ public class TestDataHelper {
 	public static final Transaction getCashTransaction1() {
 		Transaction t = new Transaction();
 		t.setTransactionId(1L);
-		t.setTradePrice(1F);
-		t.setTradeQuantity(100F);
+		t.setTradePrice(BigDecimal.valueOf(1));
+		t.setTradeQuantity(BigDecimal.valueOf(100.5));
 		t.setTransactionDate(new Date());
 		t.setTransactionType(TransactionTypeEnum.Cash);
 		
@@ -116,8 +117,8 @@ public class TestDataHelper {
 	public static final Transaction getCashTransaction2() {
 		Transaction t = new Transaction();
 		t.setTransactionId(2L);
-		t.setTradePrice(1F);
-		t.setTradeQuantity(100F);
+		t.setTradePrice(BigDecimal.valueOf(1));
+		t.setTradeQuantity(BigDecimal.valueOf(100));
 		t.setTransactionDate(new Date());
 		t.setTransactionType(TransactionTypeEnum.Cash);
 		
@@ -127,8 +128,8 @@ public class TestDataHelper {
 	public static final Transaction getBuyTransaction1() {
 		Transaction t = new Transaction();
 		t.setTransactionId(3L);
-		t.setTradePrice(1F);
-		t.setTradeQuantity(100F);
+		t.setTradePrice(BigDecimal.valueOf(1));
+		t.setTradeQuantity(BigDecimal.valueOf(100));
 		t.setTransactionDate(new Date());
 		t.setTransactionType(TransactionTypeEnum.Buy);
 		
@@ -138,8 +139,8 @@ public class TestDataHelper {
 	public static final Transaction getBuyTransaction2() {
 		Transaction t = new Transaction();
 		t.setTransactionId(4L);
-		t.setTradePrice(17F);
-		t.setTradeQuantity(99F);
+		t.setTradePrice(BigDecimal.valueOf(17));
+		t.setTradeQuantity(BigDecimal.valueOf(99));
 		t.setTransactionDate(new Date());
 		t.setTransactionType(TransactionTypeEnum.Buy);
 		
@@ -149,8 +150,8 @@ public class TestDataHelper {
 	public static final Transaction getTransferTransaction1() {
 		Transaction t = new Transaction();
 		t.setTransactionId(5L);
-		t.setTradePrice(1F);
-		t.setTradeQuantity(100F);
+		t.setTradePrice(BigDecimal.valueOf(1));
+		t.setTradeQuantity(BigDecimal.valueOf(100));
 		t.setTransactionDate(new Date());
 		t.setTransactionType(TransactionTypeEnum.Transfer);
 		
@@ -160,8 +161,8 @@ public class TestDataHelper {
 	public static final Transaction getSaleTransaction1() {
 		Transaction t = new Transaction();
 		t.setTransactionId(99L);
-		t.setTradePrice(170F);
-		t.setTradeQuantity(1F);
+		t.setTradePrice(BigDecimal.valueOf(170));
+		t.setTradeQuantity(BigDecimal.valueOf(1));
 		t.setTransactionDate(new Date());
 		t.setTransactionType(TransactionTypeEnum.Sell);
 		
@@ -171,8 +172,8 @@ public class TestDataHelper {
 	public static final Transaction getSaleTransaction2() {
 		Transaction t = new Transaction();
 		t.setTransactionId(6L);
-		t.setTradePrice(12F);
-		t.setTradeQuantity(500F);
+		t.setTradePrice(BigDecimal.valueOf(12));
+		t.setTradeQuantity(BigDecimal.valueOf(500));
 		t.setTransactionDate(new Date());
 		t.setTransactionType(TransactionTypeEnum.Sell);
 		
@@ -283,8 +284,8 @@ public class TestDataHelper {
 		
 		Holding holding = new Holding();
 		holding.setHoldingId(1L);
-		holding.setPurchasePrice(10F);
-		holding.setQuantity(10F);
+		holding.setPurchasePrice(BigDecimal.valueOf(10));
+		holding.setQuantity(BigDecimal.valueOf(10));
 		
 		return holding;
 	}
@@ -293,8 +294,8 @@ public class TestDataHelper {
 		
 		Holding holding = new Holding();
 		holding.setHoldingId(2L);
-		holding.setPurchasePrice(20F);
-		holding.setQuantity(20F);
+		holding.setPurchasePrice(BigDecimal.valueOf(20));
+		holding.setQuantity(BigDecimal.valueOf(20));
 		
 		return holding;
 	}
@@ -303,8 +304,8 @@ public class TestDataHelper {
 		
 		Holding holding = new Holding();
 		holding.setHoldingId(2L);
-		holding.setPurchasePrice(200F);
-		holding.setQuantity(200F);
+		holding.setPurchasePrice(BigDecimal.valueOf(200));
+		holding.setQuantity(BigDecimal.valueOf(200));
 		
 		return holding;
 	}
@@ -313,8 +314,8 @@ public class TestDataHelper {
 		
 		Holding holding = new Holding();
 		holding.setHoldingId(3L);
-		holding.setPurchasePrice(100F);
-		holding.setQuantity(0F);
+		holding.setPurchasePrice(BigDecimal.valueOf(100));
+		holding.setQuantity(BigDecimal.valueOf(0));
 		
 		return holding;
 	}
@@ -338,12 +339,12 @@ public class TestDataHelper {
 		Quote q = new Quote();
 		q.setInvestment(getInvestmentAAPL());
 		q.setQuoteId(1L);
-		q.setClose(10F);
+		q.setClose(BigDecimal.valueOf(10));
 		q.setDate(new Date());
-		q.setHigh(15F);
-		q.setLow(8F);
-		q.setOpen(9F);
-		q.setPriceChange(.09F);
+		q.setHigh(BigDecimal.valueOf(15));
+		q.setLow(BigDecimal.valueOf(8));
+		q.setOpen(BigDecimal.valueOf(9));
+		q.setPriceChange(BigDecimal.valueOf(.09));
 		q.setVolume(10000);
 		
 		return q;
@@ -354,12 +355,12 @@ public class TestDataHelper {
 		Quote q = new Quote();
 		q.setInvestment(getInvestmentFB());
 		q.setQuoteId(2L);
-		q.setClose(20F);
+		q.setClose(BigDecimal.valueOf(20));
 		q.setDate(new Date());
-		q.setHigh(25F);
-		q.setLow(8F);
-		q.setOpen(12F);
-		q.setPriceChange(1.35F);
+		q.setHigh(BigDecimal.valueOf(25));
+		q.setLow(BigDecimal.valueOf(8));
+		q.setOpen(BigDecimal.valueOf(12));
+		q.setPriceChange(BigDecimal.valueOf(1.35));
 		q.setVolume(1000000);
 		
 		return q;

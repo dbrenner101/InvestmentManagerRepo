@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -209,8 +210,8 @@ public class HoldingsServiceTests {
 		
 		Long transactionId = 1L;
 		Date saleDate = new Date();
-		Float tradeQuantity = 10F;
-		Float tradePrice = 25F;
+		BigDecimal tradeQuantity = BigDecimal.valueOf(10);
+		BigDecimal tradePrice = BigDecimal.valueOf(25);
 		
 		Transaction existingTransaction = TestDataHelper.getBuyTransaction1();
 		existingTransaction.setAccount(a);
@@ -246,7 +247,7 @@ public class HoldingsServiceTests {
 		
 		this.holdingsService.sellHolding(transactionId, saleDate, tradeQuantity, tradePrice);
 		
-		assertEquals(0, h.getQuantity());
+		assertEquals(BigDecimal.valueOf(0), h.getQuantity());
 	}
 	
 	@Test
@@ -271,7 +272,7 @@ public class HoldingsServiceTests {
 		assertEquals("Required attributes are null", e.getMessage());
 		
 		e = assertThrows(InvalidRequestException.class, () -> {
-			this.holdingsService.sellHolding(1L, new Date(), 1F, null);
+			this.holdingsService.sellHolding(1L, new Date(), BigDecimal.valueOf(1), null);
 		});
 		
 		assertEquals("Required attributes are null", e.getMessage());

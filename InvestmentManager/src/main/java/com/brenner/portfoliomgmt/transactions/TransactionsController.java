@@ -1,6 +1,7 @@
 package com.brenner.portfoliomgmt.transactions;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -329,8 +330,8 @@ public class TransactionsController implements WebMvcConfigurer {
 		
 		Long transactionId = Long.valueOf(transactionIdStr);
 		Date saleDate = CommonUtils.convertDatePickerDateFormatStringToDate(tradeDateStr);
-		Float tradeQuantity = Float.valueOf(tradeQuantityStr);
-		Float tradePrice = Float.valueOf(tradePriceStr);
+		BigDecimal tradeQuantity = new BigDecimal(tradeQuantityStr);
+		BigDecimal tradePrice = new BigDecimal(tradePriceStr);
 		
 		this.holdingsService.sellHolding(transactionId, saleDate, tradeQuantity, tradePrice);
 		
@@ -392,8 +393,8 @@ public class TransactionsController implements WebMvcConfigurer {
 		
 		this.holdingsService.persistBuy(
 				CommonUtils.convertDatePickerDateFormatStringToDate(tradeDate), 
-				Float.valueOf(price), 
-				Float.valueOf(quantity), 
+				new BigDecimal(price), 
+				new BigDecimal(quantity), 
 				Long.valueOf(investmentId), 
 				Long.valueOf(accountId));
 		
@@ -482,7 +483,7 @@ public class TransactionsController implements WebMvcConfigurer {
 				transferDate, transferAmount, fromAccountId, toAccountId);
 	    
 	    Date dateOfTransfer = CommonUtils.convertCommonDateFormatStringToDate(transferDate);
-	    Float transferAmountDouble = Float.valueOf(transferAmount);
+	    BigDecimal transferAmountDouble = new BigDecimal(transferAmount);
 	    Long fromAccount = Long.parseLong(fromAccountId);
 	    Long toAccount = Long.parseLong(toAccountId);
 	    
@@ -533,8 +534,8 @@ public class TransactionsController implements WebMvcConfigurer {
 	    // build a new CashTransaction object
 		Transaction cash = new Transaction();
 		cash.setAccount(new Account(Long.valueOf(accountId)));
-		cash.setTradePrice(1F);
-		cash.setTradeQuantity(Float.valueOf(amount));
+		cash.setTradePrice(BigDecimal.valueOf(1));
+		cash.setTradeQuantity(new BigDecimal(amount));
 		cash.setInvestment(new Investment(Long.valueOf(investmentId)));
 		cash.setTransactionDate(CommonUtils.convertCommonDateFormatStringToDate(tradeDate));
 		cash.setTransactionType(TransactionTypeEnum.Dividend);
@@ -591,8 +592,8 @@ public class TransactionsController implements WebMvcConfigurer {
 		Transaction cashTransaction = new Transaction();
 		cashTransaction.setTransactionDate(CommonUtils.convertCommonDateFormatStringToDate(depositDate));
 		cashTransaction.setAccount(new Account(Long.parseLong(accountId)));
-		cashTransaction.setTradePrice(1F);
-		cashTransaction.setTradeQuantity(Float.valueOf(amount));
+		cashTransaction.setTradePrice(BigDecimal.valueOf(1));
+		cashTransaction.setTradeQuantity(new BigDecimal(amount));
 		cashTransaction.setTransactionType(TransactionTypeEnum.Cash);
 		
 		logger.debug("Saving cash transaction: " + cashTransaction);

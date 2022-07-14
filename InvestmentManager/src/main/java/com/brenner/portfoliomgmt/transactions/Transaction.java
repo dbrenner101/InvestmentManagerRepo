@@ -1,5 +1,6 @@
 package com.brenner.portfoliomgmt.transactions;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -34,9 +35,9 @@ public class Transaction {
 	@DateTimeFormat(pattern = "yyyy-MM-dd", fallbackPatterns = "MM/dd/yyyy")
 	private Date transactionDate;
 	
-	private Float tradePrice;
+	private BigDecimal tradePrice;
 	
-	private Float tradeQuantity;
+	private BigDecimal tradeQuantity;
 	
 	@Enumerated(EnumType.STRING)
 	private TransactionTypeEnum transactionType;
@@ -57,8 +58,8 @@ public class Transaction {
 	
 	
 	
-	public Transaction(Long transactionId, Long associatedCashTransactionId, Date transactionDate, Float tradePrice,
-			Float tradeQuantity, TransactionTypeEnum transactionType, Investment investment, Account account,
+	public Transaction(Long transactionId, Long associatedCashTransactionId, Date transactionDate, BigDecimal tradePrice,
+			BigDecimal tradeQuantity, TransactionTypeEnum transactionType, Investment investment, Account account,
 			Holding holding, Float dividend) {
 		super();
 		this.transactionId = transactionId;
@@ -80,7 +81,7 @@ public class Transaction {
 		this.dividend = dividend;
 	}
 	
-	public Transaction (Date transactionDate, Float price, Float quantity, String tradeType) {
+	public Transaction (Date transactionDate, BigDecimal price, BigDecimal quantity, String tradeType) {
 		
 		this.transactionDate = transactionDate;
 		this.tradePrice = price;
@@ -112,19 +113,19 @@ public class Transaction {
 		this.transactionDate = transactionDate;
 	}
 
-	public Float getTradePrice() {
+	public BigDecimal getTradePrice() {
 		return tradePrice;
 	}
 
-	public void setTradePrice(Float tradePrice) {
+	public void setTradePrice(BigDecimal tradePrice) {
 		this.tradePrice = tradePrice;
 	}
 
-	public Float getTradeQuantity() {
+	public BigDecimal getTradeQuantity() {
 		return tradeQuantity;
 	}
 
-	public void setTradeQuantity(Float tradeQuantity) {
+	public void setTradeQuantity(BigDecimal tradeQuantity) {
 		this.tradeQuantity = tradeQuantity;
 	}
 

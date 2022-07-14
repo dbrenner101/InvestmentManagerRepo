@@ -1,6 +1,7 @@
 package com.brenner.portfoliomgmt.watchlist;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -187,7 +188,7 @@ public class WatchlistService {
 		
 		Collections.sort(quotes);
 		Collections.reverse(quotes);
-		Float startPoint = null;
+		BigDecimal startPoint = null;
 		
 		Iterator<Quote> quotesIterator = quotes.iterator();
 		while (quotesIterator.hasNext()) {
@@ -196,10 +197,10 @@ public class WatchlistService {
 			perf.setQuoteDate(quote.getDate());
 			perf.setClose(quote.getClose());
 			if (startPoint == null) {
-				perf.setChange(0F);
+				perf.setChange(BigDecimal.ZERO);
 			}
 			else {
-				perf.setChange(startPoint - quote.getClose());
+				perf.setChange(startPoint.subtract(quote.getClose()));
 			}
 			startPoint = quote.getClose();
 			perfList.add(perf);

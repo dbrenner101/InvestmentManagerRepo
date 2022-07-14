@@ -3,6 +3,7 @@
  */
 package com.brenner.portfoliomgmt.transactions;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -318,7 +319,7 @@ public class TransactionsService {
      * @param toAccountId - unique account identifier for the account to credit
      */
     @Transactional
-    public void transferCash(Date transferDate, Float transferAmount, Long fromAccountId, Long toAccountId) {
+    public void transferCash(Date transferDate, BigDecimal transferAmount, Long fromAccountId, Long toAccountId) {
     	
     	if (transferDate == null || transferAmount == null || fromAccountId == null || toAccountId == null) {
     		throw new InvalidRequestException("required attributes are null");
@@ -326,14 +327,14 @@ public class TransactionsService {
         
         Transaction debitTransaction = new Transaction();
         debitTransaction.setAccount(new Account(fromAccountId));
-        debitTransaction.setTradePrice(-1F);
+        debitTransaction.setTradePrice(BigDecimal.valueOf(-1));
         debitTransaction.setTradeQuantity(transferAmount);
         debitTransaction.setTransactionDate(transferDate);
         debitTransaction.setTransactionType(TransactionTypeEnum.Cash);
         
         Transaction creditTransaction = new Transaction();
         creditTransaction.setAccount(new Account(toAccountId));
-        creditTransaction.setTradePrice(1F);
+        creditTransaction.setTradePrice(BigDecimal.valueOf(1));
         creditTransaction.setTradeQuantity(transferAmount);
         creditTransaction.setTransactionDate(transferDate);
         creditTransaction.setTransactionType(TransactionTypeEnum.Cash);

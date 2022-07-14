@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -177,16 +178,16 @@ public class BulkDataLoaderController {
                         quote.setDate(CommonUtils.convertDatePickerDateFormatStringToDate(data));
                         break;
                     case 1:
-                        quote.setOpen(Float.valueOf(data));
+                        quote.setOpen(new BigDecimal(data));
                         break;
                     case 2:
-                        quote.setHigh(Float.valueOf(data));
+                        quote.setHigh(new BigDecimal(data));
                         break;
                     case 3:
-                        quote.setLow(Float.valueOf(data));
+                        quote.setLow(new BigDecimal(data));
                         break;
                     case 4:
-                    	quote.setClose(Float.valueOf(data));
+                    	quote.setClose(new BigDecimal(data));
                     	break;
                     }
                     

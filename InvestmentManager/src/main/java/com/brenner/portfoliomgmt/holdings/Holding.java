@@ -1,5 +1,6 @@
 package com.brenner.portfoliomgmt.holdings;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,43 +45,43 @@ public class Holding implements Comparable<Holding>, Cloneable {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Account account;
 	
-	private Float quantity;
+	private BigDecimal quantity;
 	
-	private Float purchasePrice;
+	private BigDecimal purchasePrice;
 	
 	@Enumerated
 	private BucketEnum bucketEnum;
 	
 	@JsonProperty("valueAtPurchase")
 	@Transient
-	private Float valueAtPurchase;
+	private BigDecimal valueAtPurchase;
 	
 	@JsonProperty("changeInValue")
 	@Transient
-	private Float changeInValue;
+	private BigDecimal changeInValue;
 	
 	@JsonProperty("currentValue")
 	@Transient
-	private Float currentValue;
+	private BigDecimal currentValue;
 	
 	@Transient
-	private Float totalCurrentValue;
+	private BigDecimal totalCurrentValue;
 	
 	@ManyToMany
 	private List<Transaction> transactions;
 	
 	@Transient
-	private Float totalDividends;
+	private BigDecimal totalDividends;
 	
 	public Holding() {}
 	
 	public Holding(
-			Float valueAtPurchase, 
+			BigDecimal valueAtPurchase, 
 			String symbol,
 			String companyName, 
-			Float priceAtClose,
-			Float marketValue, 
-			Float changeInValue, 
+			BigDecimal priceAtClose,
+			BigDecimal marketValue, 
+			BigDecimal changeInValue, 
 			Long investmentId) {
 		this.valueAtPurchase = valueAtPurchase;
 		Investment i = new Investment(symbol);
@@ -91,47 +92,47 @@ public class Holding implements Comparable<Holding>, Cloneable {
 		this.changeInValue = changeInValue;
 	}
 	
-	public Float getCurrentValue() {
+	public BigDecimal getCurrentValue() {
 		
 		if (this.currentValue != null) {
 			return this.currentValue;
 		}
 		
 		if (this.quotes != null && ! this.quotes.isEmpty() && this.quotes.get(0) != null && this.quantity != null) {
-			this.currentValue = this.quotes.get(0).getClose() * this.quantity;
+			this.currentValue = this.quotes.get(0).getClose().multiply(this.quantity);
 		}
 		
 		return this.currentValue;
 	}
 	
 	
-	public Float getChangeInValue() {
+	public BigDecimal getChangeInValue() {
 		
 		if (this.changeInValue != null) {
 			return this.changeInValue;
 		}
 		
 		if (this.valueAtPurchase != null && this.currentValue != null) {
-			return this.currentValue - this.valueAtPurchase;
+			return this.currentValue.subtract(this.valueAtPurchase);
 		}
 		
 		if (this.getValueAtPurchase() != null && this.quotes != null && ! this.quotes.isEmpty()) {
-			this.changeInValue = this.quantity * this.quotes.get(0).getClose() - this.valueAtPurchase;
+			this.changeInValue = this.quantity.multiply(this.quotes.get(0).getClose()).subtract(this.valueAtPurchase);
 			return this.changeInValue;
 		}
 		
-		return 0F;
+		return BigDecimal.ZERO;
 	}
 
 	
-	public Float getValueAtPurchase() {
+	public BigDecimal getValueAtPurchase() {
 		
 		if (this.valueAtPurchase != null) {
 			return this.valueAtPurchase;
 		}
 		
 		if (this.quantity != null && this.purchasePrice != null) {
-			this.valueAtPurchase = this.quantity * this.purchasePrice;
+			this.valueAtPurchase = this.quantity.multiply(this.purchasePrice);
 		}
 		return valueAtPurchase;
 	}
@@ -184,27 +185,27 @@ public class Holding implements Comparable<Holding>, Cloneable {
 		this.account = account;
 	}
 
-	public Float getQuantity() {
+	public BigDecimal getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Float quantity) {
+	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
 	}
 
-	public Float getPurchasePrice() {
+	public BigDecimal getPurchasePrice() {
 		return purchasePrice;
 	}
 
-	public void setPurchasePrice(Float purchasePrice) {
+	public void setPurchasePrice(BigDecimal purchasePrice) {
 		this.purchasePrice = purchasePrice;
 	}
 
-	public Float getTotalCurrentValue() {
+	public BigDecimal getTotalCurrentValue() {
 		return totalCurrentValue;
 	}
 
-	public void setTotalCurrentValue(Float totalCurrentValue) {
+	public void setTotalCurrentValue(BigDecimal totalCurrentValue) {
 		this.totalCurrentValue = totalCurrentValue;
 	}
 
@@ -216,23 +217,23 @@ public class Holding implements Comparable<Holding>, Cloneable {
 		this.transactions = transactions;
 	}
 
-	public Float getTotalDividends() {
+	public BigDecimal getTotalDividends() {
 		return totalDividends;
 	}
 
-	public void setTotalDividends(Float totalDividends) {
+	public void setTotalDividends(BigDecimal totalDividends) {
 		this.totalDividends = totalDividends;
 	}
 
-	public void setValueAtPurchase(Float valueAtPurchase) {
+	public void setValueAtPurchase(BigDecimal valueAtPurchase) {
 		this.valueAtPurchase = valueAtPurchase;
 	}
 
-	public void setChangeInValue(Float changeInValue) {
+	public void setChangeInValue(BigDecimal changeInValue) {
 		this.changeInValue = changeInValue;
 	}
 
-	public void setCurrentValue(Float currentValue) {
+	public void setCurrentValue(BigDecimal currentValue) {
 		this.currentValue = currentValue;
 	}
 

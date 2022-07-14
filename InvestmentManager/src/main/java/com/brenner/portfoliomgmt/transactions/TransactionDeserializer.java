@@ -1,6 +1,7 @@
 package com.brenner.portfoliomgmt.transactions;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 
 import org.slf4j.Logger;
@@ -58,8 +59,8 @@ public class TransactionDeserializer extends StdDeserializer<Transaction> {
 		
 		Investment investment = new InvestmentDeserializer().deserialize(json);
 		t.setInvestment(investment);
-		t.setTradePrice(json.get("tradePrice") != null ? Float.valueOf(json.get("tradePrice").asText()) : null);
-		t.setTradeQuantity(json.get("tradeQuantity") != null ? Float.valueOf(json.get("tradeQuantity").asText()) : null);
+		t.setTradePrice(json.get("tradePrice") != null ? new BigDecimal(json.get("tradePrice").asText()) : null);
+		t.setTradeQuantity(json.get("tradeQuantity") != null ? new BigDecimal(json.get("tradeQuantity").asText()) : null);
 		try {
 			t.setTransactionDate(json.get("transactionDate") != null ? CommonUtils.convertCommonDateFormatStringToDate(json.get("transactionDate").asText()) : null);
 		} catch (ParseException e) {

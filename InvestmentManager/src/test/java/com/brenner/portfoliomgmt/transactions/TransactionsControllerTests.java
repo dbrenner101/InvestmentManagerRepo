@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -281,7 +282,7 @@ public class TransactionsControllerTests {
 	public void testTransferBetweenAccounts_Success() throws Exception {
 		
 		String dateString = "12/1/1921";
-		Float transferAmount = 121.21F;
+		BigDecimal transferAmount = BigDecimal.valueOf(121.21);
 		Long fromAccountId = 12L;
 		Long toAccountId = 21L;
 		

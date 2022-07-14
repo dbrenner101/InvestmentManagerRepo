@@ -295,8 +295,8 @@ public class HoldingsReportingDataService {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-				ps.setFloat(1, holding.getPurchasePrice());
-				ps.setFloat(2, holding.getQuantity());
+				ps.setFloat(1, holding.getPurchasePrice().floatValue());
+				ps.setFloat(2, holding.getQuantity().floatValue());
 				ps.setLong(3, holding.getAccount().getAccountId());
 				ps.setLong(4, holding.getInvestment().getInvestmentId());
 				return ps;
@@ -329,8 +329,8 @@ public class HoldingsReportingDataService {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(SQL);
-				ps.setFloat(1, holding.getPurchasePrice());
-				ps.setFloat(2, holding.getQuantity());
+				ps.setFloat(1, holding.getPurchasePrice().floatValue());
+				ps.setFloat(2, holding.getQuantity().floatValue());
 				ps.setLong(3, holding.getAccount().getAccountId());
 				ps.setLong(4, holding.getInvestment().getInvestmentId());
 				ps.setLong(5, holding.getHoldingId());

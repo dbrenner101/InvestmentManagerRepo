@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -97,8 +98,8 @@ public class BulkTransactionHistoryLoader {
                     account.setAccountNumber(accountNumStr);
                     investment.setSymbol(symbolStr);
                     
-                    transaction.setTradePrice(Float.valueOf(priceStr));
-                    transaction.setTradeQuantity(Float.valueOf(quantityStr));
+                    transaction.setTradePrice(new BigDecimal(priceStr));
+                    transaction.setTradeQuantity(new BigDecimal(quantityStr));
                     if (descStr.contains("BUY")) {
                     	transaction.setTransactionType(TransactionTypeEnum.Buy);
                     }

@@ -1,5 +1,6 @@
 package com.brenner.portfoliomgmt.reporting;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -135,10 +136,10 @@ public class ReportsService {
         
         BatchQuotes batchQuotes = this.quoteService.getBatchQuotes(symbols);
         
-        Double totalChangeInValue = 0D;
-        Double totalValueAtPurchase = 0D;
-        Double totalCurrentValue = 0D;
-        Double totalChangeInPrice = 0D;
+        BigDecimal totalChangeInValue = BigDecimal.ZERO;
+        BigDecimal totalValueAtPurchase = BigDecimal.ZERO;
+        BigDecimal totalCurrentValue = BigDecimal.ZERO;
+        BigDecimal totalChangeInPrice = BigDecimal.ZERO;
         
         if (batchQuotes != null) {
             Iterator<Holding> iter = holdingsIter.iterator();
@@ -149,18 +150,18 @@ public class ReportsService {
                 if (quote != null) {
                     //holding.setQuote(batchQuotes.getQuotes().get(symbol));
                 }
-                totalChangeInValue += holding.getChangeInValue() != null ? holding.getChangeInValue() : 0D;
-                totalValueAtPurchase += holding.getValueAtPurchase() != null ? holding.getValueAtPurchase() : 0D;
-                totalCurrentValue += holding.getCurrentValue() != null ? holding.getCurrentValue() : 0D;
+                totalChangeInValue = totalChangeInValue.add(holding.getChangeInValue()) != null ? holding.getChangeInValue() : BigDecimal.ZERO;
+                totalValueAtPurchase = totalValueAtPurchase.add(holding.getValueAtPurchase()) != null ? holding.getValueAtPurchase() : BigDecimal.ZERO;
+                totalCurrentValue = totalCurrentValue.add(holding.getCurrentValue()) != null ? holding.getCurrentValue() : BigDecimal.ZERO;
                 //totalChangeInPrice += holding.getChangeInPrice() != null ? holding.getChangeInPrice() : 0D;
             }
         }
         
         PortfolioReport report = new PortfolioReport();
-        report.setTotalChangeInValue(totalChangeInValue);
-        report.setTotalChangeInPrice(totalChangeInPrice);
-        report.setTotalCurrentValue(totalCurrentValue);
-        report.setTotalValueAtPurchase(totalValueAtPurchase);
+        report.setTotalChangeInValue(totalChangeInValue.doubleValue());
+        report.setTotalChangeInPrice(totalChangeInPrice.doubleValue());
+        report.setTotalCurrentValue(totalCurrentValue.doubleValue());
+        report.setTotalValueAtPurchase(totalValueAtPurchase.doubleValue());
         
         
         return report;

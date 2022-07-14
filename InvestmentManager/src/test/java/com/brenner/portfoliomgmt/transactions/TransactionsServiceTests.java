@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -375,20 +376,20 @@ public class TransactionsServiceTests {
     public void testTransferCash_Success() throws Exception {
     	
     	Date transferDate = new Date();
-    	Float transferAmount = 5567.67F;
+    	BigDecimal transferAmount = BigDecimal.valueOf(5567.67);
     	Long fromAccountId = 12345L;
     	Long toAccountId = 54321L;
     	
     	Transaction debitTransaction = new Transaction();
         debitTransaction.setAccount(new Account(fromAccountId));
-        debitTransaction.setTradePrice(-1F);
+        debitTransaction.setTradePrice(BigDecimal.valueOf(-1));
         debitTransaction.setTradeQuantity(transferAmount);
         debitTransaction.setTransactionDate(transferDate);
         debitTransaction.setTransactionType(TransactionTypeEnum.Cash);
         
         Transaction creditTransaction = new Transaction();
         creditTransaction.setAccount(new Account(toAccountId));
-        creditTransaction.setTradePrice(1F);
+        creditTransaction.setTradePrice(BigDecimal.valueOf(1));
         creditTransaction.setTradeQuantity(transferAmount);
         creditTransaction.setTransactionDate(transferDate);
         creditTransaction.setTransactionType(TransactionTypeEnum.Cash);
@@ -428,7 +429,7 @@ public class TransactionsServiceTests {
     	});
     	
     	assertEquals("required attributes are null", e.getMessage());e = assertThrows(InvalidRequestException.class, () -> {
-    		this.transactionsService.transferCash(null, 1F, null, null);
+    		this.transactionsService.transferCash(null, BigDecimal.valueOf(1), null, null);
     	});
     	
     	assertEquals("required attributes are null", e.getMessage());

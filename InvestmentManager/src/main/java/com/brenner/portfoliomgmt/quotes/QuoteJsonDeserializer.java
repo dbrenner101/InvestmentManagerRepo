@@ -4,6 +4,7 @@
 package com.brenner.portfoliomgmt.quotes;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 
 import org.slf4j.Logger;
@@ -144,7 +145,7 @@ public class QuoteJsonDeserializer extends StdDeserializer<Quote> {
         Float week52Low = quoteNode.get("week52Low").isFloat() ? null : quoteNode.get("week52Low").floatValue();
         log.debug("52 week low: {}", week52Low);
         
-        q.setClose(closeStr != null ? Float.valueOf(closeStr) : null);
+        q.setClose(closeStr != null ? new BigDecimal(closeStr) : null);
         if (dateStr != null) {
 	        try {
 				q.setDate(CommonUtils.convertDatePickerDateFormatStringToDate(dateStr));
@@ -153,13 +154,13 @@ public class QuoteJsonDeserializer extends StdDeserializer<Quote> {
 			}
         }
         
-        q.setHigh(highStr);
-        q.setLow(lowStr);
-        q.setOpen(openStr);
-        q.setPriceChange(priceChangeStr);
+        q.setHigh(new BigDecimal(highStr));
+        q.setLow(new BigDecimal(lowStr));
+        q.setOpen(new BigDecimal(openStr));
+        q.setPriceChange(new BigDecimal(priceChangeStr));
         q.setVolume(volumeStr);
-        q.setWeek52High(week52High);
-        q.setWeek52Low(week52Low);
+        q.setWeek52High(new BigDecimal(week52High));
+        q.setWeek52Low(new BigDecimal(week52Low));
         
         Investment i = new Investment();
         i.setCompanyName(quoteNode.get("companyName") != null ? quoteNode.get("companyName").asText() : null);

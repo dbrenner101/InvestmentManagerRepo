@@ -1,12 +1,13 @@
 package com.brenner.portfoliomgmt.reporting;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class InvestmentPerformance {
 
 	Date quoteDate;
-	Float close;
-	Float change;
+	BigDecimal close;
+	BigDecimal change;
 	
 	public Date getQuoteDate() {
 		return quoteDate;
@@ -14,16 +15,16 @@ public class InvestmentPerformance {
 	public void setQuoteDate(Date quoteDate) {
 		this.quoteDate = quoteDate;
 	}
-	public Float getClose() {
+	public BigDecimal getClose() {
 		return close;
 	}
-	public void setClose(Float close) {
+	public void setClose(BigDecimal close) {
 		this.close = close;
 	}
-	public Float getChange() {
+	public BigDecimal getChange() {
 		return change;
 	}
-	public void setChange(Float change) {
+	public void setChange(BigDecimal change) {
 		this.change = change;
 	}
 	

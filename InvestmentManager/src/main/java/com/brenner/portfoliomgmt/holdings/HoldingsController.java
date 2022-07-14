@@ -1,6 +1,7 @@
 package com.brenner.portfoliomgmt.holdings;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
@@ -138,8 +139,8 @@ public class HoldingsController implements WebMvcConfigurer {
 		// create the trade as a type: transfer
 		Transaction trade = new Transaction();
 		trade.setAccount(new Account(Long.valueOf(accountId)));
-		trade.setTradePrice(Float.valueOf(tradePrice));
-		trade.setTradeQuantity(Float.valueOf(tradeQuantity));
+		trade.setTradePrice(new BigDecimal(tradePrice));
+		trade.setTradeQuantity(new BigDecimal(tradeQuantity));
 		trade.setTransactionDate(CommonUtils.convertDatePickerDateFormatStringToDate(transactionDate));
 		trade.setInvestment(new Investment(Long.valueOf(investmentIdStr)));
 		trade.setTransactionType(TransactionTypeEnum.valueOf(transactionType));
@@ -199,16 +200,16 @@ public class HoldingsController implements WebMvcConfigurer {
         }
         
         Account account = optAccount.get();
-        Double totalValueChange = 0D;
-        Double totalStockValue = 0D;
+        BigDecimal totalValueChange = BigDecimal.ZERO;
+        BigDecimal totalStockValue = BigDecimal.ZERO;
         
         if (holdings != null && ! holdings.isEmpty()) {
             holdings.get(0).setAccount(account);
             
             for(Holding holding : holdings) {
             	logger.debug("Calc changes in holding: {}", holding);
-                totalValueChange += holding.getChangeInValue() == null ? 0 : holding.getChangeInValue();
-                totalStockValue += holding.getCurrentValue() == null ? 0 : holding.getCurrentValue();
+                totalValueChange = holding.getChangeInValue() == null ? BigDecimal.ZERO : totalValueChange.add(holding.getChangeInValue());
+                totalStockValue = holding.getCurrentValue() == null ? BigDecimal.ZERO : totalStockValue.add(holding.getCurrentValue());
             }
         }
         

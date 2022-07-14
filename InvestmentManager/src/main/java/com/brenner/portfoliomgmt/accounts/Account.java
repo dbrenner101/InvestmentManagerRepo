@@ -1,5 +1,6 @@
 package com.brenner.portfoliomgmt.accounts;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -47,7 +48,7 @@ public class Account {
 	
 	private String accountType;
 	
-	private Float cashOnAccount;
+	private BigDecimal cashOnAccount;
 	
 	private int visible;
 	
@@ -120,11 +121,11 @@ public class Account {
 		this.holdings = holdings;
 	}
 
-	public Float getCashOnAccount() {
+	public BigDecimal getCashOnAccount() {
 		return cashOnAccount;
 	}
 
-	public void setCashOnAccount(Float cashOnAccount) {
+	public void setCashOnAccount(BigDecimal cashOnAccount) {
 		this.cashOnAccount = cashOnAccount;
 	}
 

@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.brenner.portfoliomgmt.transactions.TransactionsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -35,6 +35,7 @@ import com.brenner.portfoliomgmt.holdings.HoldingsRepository;
 import com.brenner.portfoliomgmt.test.TestDataHelper;
 import com.brenner.portfoliomgmt.transactions.Transaction;
 import com.brenner.portfoliomgmt.transactions.TransactionsRepository;
+import com.brenner.portfoliomgmt.transactions.TransactionsService;
 
 /**
  *
@@ -156,9 +157,12 @@ public class AccountsServiceTests {
 		cashTrans2.setAccount(newAccount);
 		List<Transaction> cashTransactions = new ArrayList<>(Arrays.asList(cashTrans1, cashTrans2));
 		
-		Float totalCashOnAccount = 
-				(cashTrans1.getTradeQuantity() * cashTrans1.getTradePrice()) + 
-				(cashTrans2.getTradeQuantity() * cashTrans2.getTradePrice());
+		
+		BigDecimal totalCashOnAccount = 
+				(cashTrans1.getTradeQuantity().multiply(cashTrans1.getTradePrice()))
+					.add( 
+				(cashTrans2.getTradeQuantity().multiply(cashTrans2.getTradePrice()))
+				);
 		
 		Mockito.when(this.accountsRepo.save(newAccount)).thenReturn(newAccount);
 		Mockito.when(this.transactionsRepo.findAllByAccountAccountIdWithCash(newAccount.getAccountId())).thenReturn(cashTransactions);
@@ -244,9 +248,11 @@ public class AccountsServiceTests {
 		cashTrans2.setAccount(newAccount);
 		List<Transaction> cashTransactions = new ArrayList<>(Arrays.asList(cashTrans1, cashTrans2));
 		
-		Float totalCashOnAccount = 
-				(cashTrans1.getTradeQuantity() * cashTrans1.getTradePrice()) + 
-				(cashTrans2.getTradeQuantity() * cashTrans2.getTradePrice());
+		BigDecimal totalCashOnAccount = 
+				(cashTrans1.getTradeQuantity().multiply(cashTrans1.getTradePrice()))
+				.add(
+				(cashTrans2.getTradeQuantity().multiply(cashTrans2.getTradePrice()))
+				);
 		
 		Mockito.when(this.accountsRepo.findById(newAccount.getAccountId())).thenReturn(Optional.of(newAccount));
 		Mockito.when(this.transactionsRepo.findAllByAccountAccountIdWithCash(newAccount.getAccountId())).thenReturn(cashTransactions);

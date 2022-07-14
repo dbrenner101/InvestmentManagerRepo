@@ -4,6 +4,7 @@
 package com.brenner.portfoliomgmt.quotes.retrievalservice;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -89,16 +90,16 @@ public class YahooFinanceQuoteDeserializer extends StdDeserializer<Quote> {
         Float week52Low = quoteNode.get("fiftyTwoWeekLow") != null ? quoteNode.get("fiftyTwoWeekLow").floatValue() : null;
         log.debug("52 week low: {}", week52Low);
         
-        q.setClose(closeStr != null ? Float.valueOf(closeStr) : null);
+        q.setClose(closeStr != null ? new BigDecimal(closeStr) : null);
         q.setDate(new Date());
         
-        q.setHigh(highStr);
-        q.setLow(lowStr);
-        q.setOpen(openStr);
-        q.setPriceChange(priceChangeStr);
+        q.setHigh(new BigDecimal(highStr));
+        q.setLow(new BigDecimal(lowStr));
+        q.setOpen(new BigDecimal(openStr));
+        q.setPriceChange(new BigDecimal(priceChangeStr));
         q.setVolume(volumeStr);
-        q.setWeek52High(week52High);
-        q.setWeek52Low(week52Low);
+        q.setWeek52High(new BigDecimal(week52High));
+        q.setWeek52Low(new BigDecimal(week52Low));
         
         Investment i = new Investment();
         i.setCompanyName(quoteNode.get("longName") != null ? quoteNode.get("longName").asText() : null);

@@ -3,6 +3,7 @@
  */
 package com.brenner.portfoliomgmt.holdings;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Iterator;
@@ -150,7 +151,7 @@ public class HoldingsService {
      * @param realized - the actual gain or loss from the transaction
      */
     @Transactional
-    public void sellHolding(Long transactionId, Date saleDate, Float tradeQuantity, Float tradePrice) {
+    public void sellHolding(Long transactionId, Date saleDate, BigDecimal tradeQuantity, BigDecimal tradePrice) {
     	
     	if (transactionId == null || saleDate == null || tradeQuantity == null || tradePrice == null) {
     		throw new InvalidRequestException("Required attributes are null");
@@ -180,7 +181,7 @@ public class HoldingsService {
 		// grab the holding since it may be set to 0 or only decremented.
 		Holding holding = this.getHoldingByHoldingId(existingTransaction.getHolding().getHoldingId()).get();
 		
-		Float quantityChange = holding.getQuantity() - saleTransaction.getTradeQuantity();
+		BigDecimal quantityChange = holding.getQuantity().subtract(saleTransaction.getTradeQuantity());
 		holding.setQuantity(quantityChange);
 		
     	this.holdingsRepo.save(holding);
@@ -478,8 +479,8 @@ public class HoldingsService {
     @Transactional
     public void persistBuy(
 			Date tradeDate, 
-			Float price,
-			Float quantity,
+			BigDecimal price,
+			BigDecimal quantity,
 			Long investmentId,
 			Long accountId) {
     	
@@ -493,8 +494,8 @@ public class HoldingsService {
 		// create the investment being purchased
 		Investment investment = new Investment(investmentId);
 		
-		Float purchaseQuantity = Float.valueOf(quantity);
-		Float purchasePrice = Float.valueOf(price);
+		BigDecimal purchaseQuantity = quantity;
+		BigDecimal purchasePrice = price;
 		
 		// add the new holding - this represents a lot
 		Holding holding =  new Holding();
@@ -506,16 +507,16 @@ public class HoldingsService {
 		// build the initial transaction object
 		Transaction trade = new Transaction();
 		trade.setTransactionDate(tradeDate);
-		trade.setTradePrice(Float.valueOf(price));
+		trade.setTradePrice(price);
 		trade.setTransactionType(TransactionTypeEnum.Buy);
-		trade.setTradeQuantity(Float.valueOf(quantity));
+		trade.setTradeQuantity(quantity);
 		trade.setInvestment(investment);
 		trade.setAccount(purchaseAccount);
 			
 		Transaction cashTransaction = new Transaction();
 		cashTransaction.setAccount(trade.getAccount());
-		cashTransaction.setTradePrice(-1F);
-		cashTransaction.setTradeQuantity(trade.getTradePrice() * trade.getTradeQuantity());
+		cashTransaction.setTradePrice(new BigDecimal(-1));
+		cashTransaction.setTradeQuantity(trade.getTradePrice().multiply(trade.getTradeQuantity()));
 		cashTransaction.setTransactionDate(trade.getTransactionDate());
 		cashTransaction.setTransactionType(TransactionTypeEnum.Cash);
         

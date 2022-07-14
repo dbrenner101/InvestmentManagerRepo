@@ -1,5 +1,6 @@
 package com.brenner.portfoliomgmt.quotes;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
@@ -44,26 +45,26 @@ public class Quote implements Comparable<Quote> {
     private Date date;
 	
 	@Column(name="price_at_open")
-    private Float open;
+    private BigDecimal open;
 	
 	@Column(name="price_at_close")
-    private Float close;
+    private BigDecimal close;
 	
 	@Column(name="high")
-    private Float high;
+    private BigDecimal high;
 	
 	@Column(name="low")
-    private Float low;
+    private BigDecimal low;
 	
 	@Column(name="volume")
     private Integer volume;
 	
 	@Column(name="price_change")
-    private Float priceChange; 
+    private BigDecimal priceChange; 
 	
-	private Float week52High;
+	private BigDecimal week52High;
 	
-	private Float week52Low;
+	private BigDecimal week52Low;
 	
 	@OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name="investment_id", nullable = false)
@@ -84,12 +85,12 @@ public class Quote implements Comparable<Quote> {
     		//this.companyName = quote.get("companyName") != null ? (String) quote.get("companyName") : null;
     		//this.sector = quote.get("sector") != null ? (String) quote.get("sector") : null;
     		//this.exchange = quote.get("primaryExchange") != null ? (String) quote.get("primaryExchange") : null;
-    		this.open = quote.get("open") != null ? Float.valueOf(quote.get("open").toString()) : null;
-    		this.close = quote.get("close") != null ? Float.valueOf(quote.get("close").toString()) : null;
-    		this.high = quote.get("high") != null ? Float.valueOf(quote.get("high").toString()) : null;
-    		this.low = quote.get("low") != null ? Float.valueOf(quote.get("low").toString()) : null;
+    		this.open = quote.get("open") != null ? new BigDecimal(quote.get("open").toString()) : null;
+    		this.close = quote.get("close") != null ? new BigDecimal(quote.get("close").toString()) : null;
+    		this.high = quote.get("high") != null ? new BigDecimal(quote.get("high").toString()) : null;
+    		this.low = quote.get("low") != null ? new BigDecimal(quote.get("low").toString()) : null;
     		this.volume = quote.get("volume") != null ? Integer.valueOf(quote.get("volume").toString()) : null;
-    		this.priceChange = quote.get("change") != null ? Float.valueOf(quote.get("change").toString()) : null;
+    		this.priceChange = quote.get("change") != null ? new BigDecimal(quote.get("change").toString()) : null;
     		try {
     		    this.date = quote.get("date") != null ? this.date = CommonUtils.convertDatePickerDateFormatStringToDate(quote.get("date").toString()) : null;
     		}
@@ -117,35 +118,35 @@ public class Quote implements Comparable<Quote> {
 		this.date = date;
 	}
 
-	public Float getOpen() {
+	public BigDecimal getOpen() {
 		return open;
 	}
 
-	public void setOpen(Float open) {
+	public void setOpen(BigDecimal open) {
 		this.open = open;
 	}
 
-	public Float getClose() {
+	public BigDecimal getClose() {
 		return close;
 	}
 
-	public void setClose(Float close) {
+	public void setClose(BigDecimal close) {
 		this.close = close;
 	}
 
-	public Float getHigh() {
+	public BigDecimal getHigh() {
 		return high;
 	}
 
-	public void setHigh(Float high) {
+	public void setHigh(BigDecimal high) {
 		this.high = high;
 	}
 
-	public Float getLow() {
+	public BigDecimal getLow() {
 		return low;
 	}
 
-	public void setLow(Float low) {
+	public void setLow(BigDecimal low) {
 		this.low = low;
 	}
 
@@ -157,27 +158,27 @@ public class Quote implements Comparable<Quote> {
 		this.volume = volume;
 	}
 
-	public Float getPriceChange() {
+	public BigDecimal getPriceChange() {
 		return priceChange;
 	}
 
-	public void setPriceChange(Float priceChange) {
+	public void setPriceChange(BigDecimal priceChange) {
 		this.priceChange = priceChange;
 	}
 
-	public Float getWeek52High() {
+	public BigDecimal getWeek52High() {
 		return week52High;
 	}
 
-	public void setWeek52High(Float week52High) {
+	public void setWeek52High(BigDecimal week52High) {
 		this.week52High = week52High;
 	}
 
-	public Float getWeek52Low() {
+	public BigDecimal getWeek52Low() {
 		return week52Low;
 	}
 
-	public void setWeek52Low(Float week52Low) {
+	public void setWeek52Low(BigDecimal week52Low) {
 		this.week52Low = week52Low;
 	}
 

@@ -1,5 +1,6 @@
 package com.brenner.portfoliomgmt.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,10 @@ public class DataHelperUtil {
 				, account, cashTransactions != null ? cashTransactions.size() : 0);
 		
 		if (cashTransactions != null && ! cashTransactions.isEmpty()) {
-			Float currentCash = 0F;
+			BigDecimal currentCash = BigDecimal.ZERO;
 			for (Transaction cashTrans : cashTransactions) {
 				if (cashTrans.getAccount().getAccountId().equals(account.getAccountId())) {
-					currentCash += cashTrans.getTradeQuantity() * cashTrans.getTradePrice();
+					currentCash = currentCash.add(cashTrans.getTradeQuantity()).multiply(cashTrans.getTradePrice());
 				}
 			}
 			
