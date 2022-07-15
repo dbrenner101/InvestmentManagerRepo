@@ -88,7 +88,7 @@ define([
 	                  var row = document.createElement("tr");
 
                       var dateCell = document.createElement("td");
-                      dateCell.innerHTML = "<a href=\"/editQuote?quoteId=" + quotes[i].quoteId + "\">" + quotes[i].date + "</a>";
+                      dateCell.innerHTML = "<a href=\"editQuote?quoteId=" + quotes[i].quoteId + "\">" + quotes[i].date + "</a>";
                       row.append(dateCell);
 
 	                  var companyNameCell = document.createElement("td");
