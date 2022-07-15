@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,10 +34,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.accounts.AccountsService;
 import com.brenner.portfoliomgmt.exception.NotFoundException;
+import com.brenner.portfoliomgmt.holdings.api.HoldingsRestController;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.investments.InvestmentsService;
 import com.brenner.portfoliomgmt.test.TestDataHelper;
@@ -54,10 +57,12 @@ import com.brenner.portfoliomgmt.transactions.TransactionsService;
 		AccountsService.class,
 		InvestmentsService.class,
 		TransactionsService.class,
-		HoldingsController.class
+		HoldingsController.class,
+		HoldingsRestController.class
 })
 @AutoConfigureMockMvc
 @DirtiesContext
+@EnableWebMvc
 public class HoldingsControllerTests {
 	
 	@Autowired
@@ -145,8 +150,8 @@ public class HoldingsControllerTests {
 		Mockito.when(this.accountsService.getAccountAndCash(1L)).thenReturn(Optional.of(a1));
 		
 		this.mockMvc.perform(MockMvcRequestBuilders
-				.get("/getHoldingsAjax")
-				.param("accountId", "1"))
+				.get("/api/holdings/account/1")
+				.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$", notNullValue()))
 			.andExpect(jsonPath("$", hasSize(allHoldings.size())))
@@ -161,8 +166,7 @@ public class HoldingsControllerTests {
 		Mockito.when(this.accountsService.getAccountAndCash(1L)).thenReturn(Optional.of(a1));
 		
 		this.mockMvc.perform(MockMvcRequestBuilders
-				.get("/getHoldingsAjax")
-				.param("accountId", "1"))
+				.get("/api/holdings/account/1"))
 			.andExpect(status().isOk());
 	}
 	
@@ -176,8 +180,7 @@ public class HoldingsControllerTests {
 		
 		
 		this.mockMvc.perform(MockMvcRequestBuilders
-				.get("/getHoldingsAjax")
-				.param("accountId", "1"))
+				.get("/api//holdings/account/1"))
 			.andExpect(status().isNotFound())
 			.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException))
 			.andExpect(result -> assertEquals("Account with id 1 does not exist.", result.getResolvedException().getMessage()));

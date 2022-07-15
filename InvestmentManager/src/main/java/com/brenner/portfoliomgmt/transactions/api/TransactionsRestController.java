@@ -6,7 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +52,7 @@ public class TransactionsRestController {
 		
 		List<Transaction> transactions = this.transactionsService.getTradesForAccount(account);
 		log.debug("Retrieved {} transactions", transactions != null ? transactions.size() : 0);
+		log.debug("Transactions: " + transactions);
 		
 		log.info("Exiting getTransactionsForAccount()");
 		return transactions;
@@ -65,7 +65,7 @@ public class TransactionsRestController {
 	 * @return JSON representation of the {@link Transaction}
 	 */
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
-	@GetMapping(path="/transactions/{transactionId}", produces={"application/json"}, consumes={"application/json"})
+	@GetMapping(path="/transactions/{transactionId}")
 	public Transaction getTransaction(@PathVariable Long transactionId) {
 		log.info("Entered getTransaction()");
 		log.debug("Param: transactionId: {}", transactionId);
@@ -86,9 +86,7 @@ public class TransactionsRestController {
 	 */
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
 	@PostMapping(
-			path="/transactions", 
-			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
-			produces= {MediaType.APPLICATION_JSON_VALUE})
+			path="/transactions")
 	public Transaction updateTransaction(@RequestBody String transactionStr) throws IOException {
 		log.info("Entered updateAccount()");
 		log.debug("Param: transaction JSON: {}", transactionStr);

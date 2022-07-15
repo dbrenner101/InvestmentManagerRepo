@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,6 +33,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.accounts.AccountsService;
@@ -40,6 +42,7 @@ import com.brenner.portfoliomgmt.holdings.HoldingsService;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.investments.InvestmentsService;
 import com.brenner.portfoliomgmt.test.TestDataHelper;
+import com.brenner.portfoliomgmt.transactions.api.TransactionsRestController;
 import com.brenner.portfoliomgmt.util.CommonUtils;
 
 /**
@@ -52,10 +55,12 @@ import com.brenner.portfoliomgmt.util.CommonUtils;
 		AccountsService.class,
 		InvestmentsService.class,
 		HoldingsService.class,
-		TransactionsController.class
+		TransactionsController.class,
+		TransactionsRestController.class
 })
 @AutoConfigureMockMvc
 @DirtiesContext
+@EnableWebMvc
 public class TransactionsControllerTests {
 	
 	@Autowired MockMvc mockMvc;
@@ -258,17 +263,26 @@ public class TransactionsControllerTests {
 	@WithMockUser
 	public void testListTransactionsForAccount_Success() throws Exception {
 		
+		Transaction t1 = TestDataHelper.getCashTransaction1();
+		t1.setInvestment(TestDataHelper.getInvestmentAAPL());
+		t1.setAccount(TestDataHelper.getAccount1());
+		t1.setHolding(TestDataHelper.getHolding1());
+		
+		Transaction t2 = TestDataHelper.getBuyTransaction1();
+		t2.setInvestment(TestDataHelper.getInvestmentGE());
+		t2.setAccount(TestDataHelper.getAccount2());
+		t2.setHolding(TestDataHelper.getHolding2());
+		
 		List<Transaction> transactions = new ArrayList<>(2);
-		transactions.add(TestDataHelper.getCashTransaction1());
-		transactions.add(TestDataHelper.getBuyTransaction1());
+		transactions.add(t1);
+		transactions.add(t2);
 		
 		int validateTransactionId = transactions.get(0).getTransactionId().intValue();
 		
 		Mockito.when(this.transactionsService.getTradesForAccount(Mockito.any(Account.class))).thenReturn(transactions);
 		
 		this.mockMvc.perform(MockMvcRequestBuilders
-				.get("/listTransactionsForAccount")
-				.param("accountId", "33"))
+				.get("/api/transactions/account/33"))
 			 .andExpect(status().isOk())
 			 .andExpect(jsonPath("$", notNullValue()))
 			 .andExpect(jsonPath("$", hasSize(transactions.size())))
