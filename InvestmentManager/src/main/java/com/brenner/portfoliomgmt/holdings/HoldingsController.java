@@ -1,13 +1,9 @@
 package com.brenner.portfoliomgmt.holdings;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +20,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.accounts.AccountsService;
 import com.brenner.portfoliomgmt.exception.NotFoundException;
-import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.investments.InvestmentsService;
 import com.brenner.portfoliomgmt.transactions.Transaction;
@@ -166,59 +161,6 @@ public class HoldingsController implements WebMvcConfigurer {
 		
 		return "redirect:prepAddHolding";
 	}
-    
-	/**
-	 * Method to support retrieving holdings for an Ajax template
-     * 
-     * @param accountId - unique account identifier
-     * @param response - Http response object to get the output stream to write the response
-     * @return the path to the list holdings template
-     * @throws IOException is thrown is the message fails to be written to the response
-     * @throws QuoteRetrievalException is thrown is the service us unable to retrieve a quote
-	 * @throws ParseException thrown if there is an error parsing a date string to a date object
-	 */
-    @RequestMapping("/getHoldingsAjax")
-    public void getHoldingsAjax(
-            @RequestParam(name="accountId", required=true) String accountId, 
-            HttpServletResponse response, 
-            Model model) throws IOException, QuoteRetrievalException, ParseException {
-    	logger.info("Entering getHoldingsAjax");
-    	logger.debug("Request parameter: {}", accountId);
-        		
-        List<Holding> holdings = this.holdingsService.getHoldingsForAccount(Long.valueOf(accountId));
-        
-        if (holdings != null) {
-        	Collections.sort(holdings);
-        }
-        
-        logger.debug("Retrieved {} accounts", holdings != null ? holdings.size() : 0);
-        
-        Optional<Account> optAccount = this.accountsService.getAccountAndCash(Long.valueOf(accountId));
-        
-        if (! optAccount.isPresent()) {
-        	throw new NotFoundException("Account with id " + accountId + " does not exist.");
-        }
-        
-        Account account = optAccount.get();
-        BigDecimal totalValueChange = BigDecimal.ZERO;
-        BigDecimal totalStockValue = BigDecimal.ZERO;
-        
-        if (holdings != null && ! holdings.isEmpty()) {
-            holdings.get(0).setAccount(account);
-            
-            for(Holding holding : holdings) {
-            	logger.debug("Calc changes in holding: {}", holding);
-                totalValueChange = holding.getChangeInValue() == null ? BigDecimal.ZERO : totalValueChange.add(holding.getChangeInValue());
-                totalStockValue = holding.getCurrentValue() == null ? BigDecimal.ZERO : totalStockValue.add(holding.getCurrentValue());
-            }
-        }
-        
-        logger.debug("Total value change: {}", totalValueChange);
-        logger.debug("Total stock value: {}", totalStockValue);
-        logger.info("Serializing holdings to JSON");
-        
-        CommonUtils.serializeObjectToJson(response.getOutputStream(), holdings);
-    }
     
     /**
      * Entry point to edit a specific holding for an account

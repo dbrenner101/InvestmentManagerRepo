@@ -13,13 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.brenner.portfoliomgmt.InvestmentsProperties;
 import com.brenner.portfoliomgmt.exception.InvestmentManagerServiceException;
 import com.brenner.portfoliomgmt.exception.NotFoundException;
 import com.brenner.portfoliomgmt.holdings.Holding;
@@ -40,23 +41,53 @@ public class QuotesController implements WebMvcConfigurer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(QuotesController.class);
     
-    @Autowired
-    QuotesService quotesService;
+    @Autowired QuotesService quotesService;
     
-    @Autowired
-    TransactionsService transactionsService;
+    @Autowired TransactionsService transactionsService;
     
-    @Autowired
-    InvestmentsService investmentsService;
+    @Autowired InvestmentsService investmentsService;
     
-    @Autowired
-    HoldingsService holdingsService;
+    @Autowired HoldingsService holdingsService;
     
-    @Autowired
-    InvestmentsProperties props;
+    @RequestMapping(path="/editQuotesStart")
+    public String beginEditQuote(Model model) {
+    	
+    	model.addAttribute("investments", this.investmentsService.getAllInvestmentsSortedBySymbol());
+    	
+    	return "quotes/listQuotesForInvestment";
+    }
+    
+    @RequestMapping(path="/editQuote")
+    public String editQuote(@RequestParam(name="quoteId") Long quoteId, Model model) {
+    	
+    	Optional<Quote> optQuote = this.quotesService.findQuoteByQuoteId(quoteId);
+    	if (! optQuote.isPresent()) {
+    		throw new NotFoundException("Quote with quoteId " + quoteId + " was not found.");
+    	}
+    	
+    	model.addAttribute("quote", optQuote.get());
+    	
+    	return "quotes/editQuote";
+    }
+    
+    @RequestMapping(path="updateManualQuote")
+    public String updateManualQuote(@ModelAttribute Quote quote, @RequestParam(name="investmentId") Long investmentId, BindingResult result, ModelMap model) {
+    	
+    	Optional<Investment> optInv = this.quotesService.getInvestmentForQuote(investmentId);
+    	if(! optInv.isPresent()) {
+    		throw new NotFoundException("Investment for quote " + quote + " was not found");
+    	}
+    	
+    	Investment investment = optInv.get();
+    	quote.setInvestment(investment);
+    	
+    	this.quotesService.updateQuote(quote);
+    	
+    	return "redirect:/editQuotesStart";
+    }
     
     @RequestMapping(path="/startManualQuote")
-    public String startUpdateShareDetails(@RequestParam(name="investmentId", required=true) Long investmentId, Model model) {
+    public String startManualQuote(@RequestParam(name="investmentId", required=true) Long investmentId, Model model) {
     	
     	Optional<Investment> optInvestment = this.investmentsService.getInvestmentByInvestmentId(investmentId);
     	if (! optInvestment.isPresent()) {
@@ -65,6 +96,7 @@ public class QuotesController implements WebMvcConfigurer {
     	
     	Investment investment = optInvestment.get();
     	model.addAttribute("investment", investment);
+    	model.addAttribute("quote", new Quote());
     	
     	return "quotes/addManualQuote";
     }
@@ -122,7 +154,7 @@ public class QuotesController implements WebMvcConfigurer {
     	
     	List<Holding> holdings = this.holdingsService.getAllHoldingsOrderedBySymbol();
     	logger.debug("Retrieved {} holdings", holdings != null ? holdings.size() : 0);
-        model.addAttribute(props.getHoldingsListAttributeKey(), holdings);
+        model.addAttribute("holdings", holdings);
         
         logger.info("Forwarding to quotes/getQuotes");
         return "quotes/getQuotes";
@@ -199,7 +231,7 @@ public class QuotesController implements WebMvcConfigurer {
     	List<Investment> investments = this.holdingsService.getAllInvestmentsCurrentlyHeldOrderedBySymbol();
     	logger.debug("Retrieved {} investments", investments != null ? investments.size() : 0);
         model.addAttribute(
-        		props.getInvestmentsListAttributeKey(), 
+        		"investments", 
         		investments);
         
         logger.info("Forwarding to quotes/getQuotesAjax");

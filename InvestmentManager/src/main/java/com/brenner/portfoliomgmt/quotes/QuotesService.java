@@ -42,6 +42,15 @@ public class QuotesService {
     @Autowired
     QuoteRetrievalService quotesRetrievalService;
     
+    public Optional<Investment> getInvestmentForQuote(Long investmentId) {
+    	
+    	return this.investmentsService.getInvestmentByInvestmentId(investmentId);
+    }
+    
+    public Optional<Quote> findQuoteByQuoteId(Long quoteId) {
+    	return this.quotesRepo.findById(quoteId);
+    }
+    
     public List<Quote> findMostRecentQuotesForInvestment(Investment investment) {
     	if (investment == null || investment.getInvestmentId() == null) {
     		throw new InvalidRequestException("investment.investmentId must not be null.");
@@ -141,34 +150,10 @@ public class QuotesService {
 		this.saveAllQuotes(newQuotes);
 		
 		return newQuotes;
-    	
-    	/*List<Quote> existingQuotes = this.getAllQuotesBySymbol(investment.getSymbol());
-    	
-    	// sort the existingQuotes to put the most recent at the top
-    	Collections.sort(existingQuotes);
-    	Quote mostRecentQuote = existingQuotes.get(0);
-    	Date mostRecentQuoteDate = mostRecentQuote.getDate();
-    	
-    	int missingQuoteDays = CommonUtils.workdayDiff(mostRecentQuoteDate, new Date());
-    	
-    	if (missingQuoteDays > 0) {
-			try {
-				newQuotes = this.quotesRetrievalService.getNewQuotesForInvestment(
-						investment, 
-						maxQuoteDate, 
-						existingQuotes);
-			} catch (IOException ioe) {
-				throw new InvestmentManagerServiceException("Quote retrieval exception for " + investment, ioe);
-			}
-			
-			if (newQuotes == null) {
-				throw new InvestmentManagerServiceException("Unable to retrieve quotes for " + investment);
-			}
-	    	
-	    	this.saveAllQuotes(newQuotes);
-    	}
-    	
-    	return newQuotes;*/
+    }
+    
+    public Quote updateQuote(Quote quote) {
+    	return this.quotesRepo.save(quote);
     }
     
     
