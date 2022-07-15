@@ -23,14 +23,14 @@
             <input type="hidden" th:field="*{quoteId}" />
             <input type="hidden" name="investmentId" th:value="${quote.investment.investmentId}" />
             <label for="date">Quote Date</label> <input type="date" th:field="*{date}" required/><br/>
-            <label for="open">Price at Open</label> <input type="number" th:field="*{open}" /><br/>
-            <label for="close">Price at Close</label> <input type="number" th:field="*{close}" required /><br/>
-            <label for="high">High</label> <input type="number" th:field="*{high}"/><br/>
-            <label for="low">Low</label> <input type="number" th:field="*{low}" /><br/>
-            <label for="volume">Volume</label> <input type="number" th:field="*{volume}" /><br/>
-            <label for="priceChange">Price Change</label> <input type="number" th:field="*{priceChange}" /><br/>
-            <label for="week52High">52 Week High</label> <input type="number" th:field="*{week52High}" /><br/>
-            <label for="week52Low">52 Week Low</label> <input type="number" th:field="*{week52Low}" /><br/>
+            <label for="open">Price at Open</label> <input type="number" th:field="*{open}" step="any" /><br/>
+            <label for="close">Price at Close</label> <input type="number" th:field="*{close}" step="any" required /><br/>
+            <label for="high">High</label> <input type="number" th:field="*{high}" step="any" /><br/>
+            <label for="low">Low</label> <input type="number" th:field="*{low}"step="any"  /><br/>
+            <label for="volume">Volume</label> <input type="number" th:field="*{volume}" step="any" /><br/>
+            <label for="priceChange">Price Change</label> <input type="number" th:field="*{priceChange}" step="any" /><br/>
+            <label for="week52High">52 Week High</label> <input type="number" th:field="*{week52High}" step="any" /><br/>
+            <label for="week52Low">52 Week Low</label> <input type="number" th:field="*{week52Low}"step="any" /><br/>
             <input type="submit" value="Update" />
          </form>
     </div><p></p>
