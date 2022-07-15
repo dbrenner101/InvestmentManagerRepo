@@ -2,6 +2,7 @@ package com.brenner.portfoliomgmt.holdings;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
@@ -113,7 +115,22 @@ public class HoldingsReportingDataService {
 		SQL = SQL.replace("?", sortOrder);
 		log.debug("SQL: {}", SQL);
 		
-		List<HoldingsReport> holdings = null;//this.jdbcTemplate.query(SQL, new HoldingsReportRowMapper());
+		List<HoldingsReport> holdings = this.jdbcTemplate.query(SQL, new RowMapper<HoldingsReport>() {
+			
+			@Override
+			public HoldingsReport mapRow(ResultSet rs, int rowNum) throws SQLException {
+				HoldingsReport report = new HoldingsReport();
+				report.setChangeInValue(rs.getFloat("change_in_value"));
+				report.setCompanyName(rs.getString("company_name"));
+				report.setMarketValue(rs.getFloat("market_value"));
+				report.setPriceAtClose(rs.getFloat("price_at_close"));
+				report.setValueAtPurchase(rs.getFloat("value_at_purchase"));
+				report.setSymbol(rs.getString("symbol"));
+				report.setInvestmentId(rs.getLong("investment_id"));
+				return report;
+			}
+			
+		});
 		log.debug("Retrieved {} holdings", holdings != null ? holdings.size() : 0);
 		
 		log.info("Exiting findHoldingsByMarketValueOrderedDesc()");

@@ -10,8 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brenner.portfoliomgmt.accounts.Account;
@@ -27,6 +28,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
  *
  */
 @RestController
+@RequestMapping("/api")
 public class TransactionsRestController {
 	
 	private static final Logger log = LoggerFactory.getLogger(TransactionsRestController.class);
@@ -41,7 +43,7 @@ public class TransactionsRestController {
 	 * @return JSON list of transactions
 	 */
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
-	@GetMapping(path="/restful/transactionsForAccount/{accountId}", produces={"application/json"}, consumes={"application/json"})
+	@GetMapping(path="/transactions/account/{accountId}")
 	public List<Transaction> getTransactionsForAccount(@PathVariable Long accountId) {
 		log.info("Entered getTransactionsForAccount()");
 		log.debug("Param: accountId: {}", accountId);
@@ -63,7 +65,7 @@ public class TransactionsRestController {
 	 * @return JSON representation of the {@link Transaction}
 	 */
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
-	@GetMapping(path="/restful/transactions/{transactionId}", produces={"application/json"}, consumes={"application/json"})
+	@GetMapping(path="/transactions/{transactionId}", produces={"application/json"}, consumes={"application/json"})
 	public Transaction getTransaction(@PathVariable Long transactionId) {
 		log.info("Entered getTransaction()");
 		log.debug("Param: transactionId: {}", transactionId);
@@ -76,15 +78,15 @@ public class TransactionsRestController {
 	}
 	
 	/**
-	 * PUT to update a transaction
+	 * POST to update a transaction
 	 * 
 	 * @param transactionStr JSON representation of the {@link Transaction}
 	 * @return JSON of the updated transaction
 	 * @throws IOException - parsing errors
 	 */
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
-	@PutMapping(
-			path="/restful/transactions", 
+	@PostMapping(
+			path="/transactions", 
 			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
 			produces= {MediaType.APPLICATION_JSON_VALUE})
 	public Transaction updateTransaction(@RequestBody String transactionStr) throws IOException {

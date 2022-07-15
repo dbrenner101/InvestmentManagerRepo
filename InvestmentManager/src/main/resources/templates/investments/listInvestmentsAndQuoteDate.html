@@ -37,7 +37,7 @@
 	       <!-- <td th:text="${#dates.format(holding.transaction.tradeDate, 'MM/dd/yyyy')}" /> -->
 	       <!-- <td th:text="${holding.quantity}" /> -->
 	       
-	       <td><a th:href="@{updateQuoteForInvestment(investmentId=${investment.investmentId})}">Update Quotes</a></td>
+	       <td><a th:href="@{updateQuoteForInvestment(investmentId=${investment.investmentId})}">Retrieve Quote</a></td>
 	       <td th:each="quote : ${investment.quotes}">
 				<span th:text="${#dates.format(quote.date, 'MM/dd/yyyy')}"></span>
 	       </td>

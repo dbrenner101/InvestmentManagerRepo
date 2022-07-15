@@ -13,7 +13,7 @@ define([
 	        var value = dom.byId("accountsList").value;
 	
 	        // Request the JSON data from the server
-	        request.get("getHoldingsAjax?accountId=" + value, {
+	        request.get("/api/holdings/account/" + value, {
 	            handleAs: "json"
 	        }).then(function(data) {
 	        	// Display the data sent from the server

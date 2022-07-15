@@ -23,7 +23,7 @@ import com.brenner.portfoliomgmt.investments.Investment;
 public interface TransactionsRepository extends JpaRepository<Transaction, Long> {
 
 	@Query(nativeQuery = true, value = 
-			"SELECT investment_id, SUM(trade_price * trade_quantity) as dividend FROM transactions WHERE transaction_type='Dividend' GROUP BY investment_id;")
+			"SELECT investment_investment_id, SUM(trade_price * trade_quantity) as dividend FROM transactions WHERE transaction_type='Dividend' GROUP BY investment_investment_id;")
 	List<Transaction> findTotalDividendsForInvestments();
 	
 	@Query(nativeQuery = true, value = 

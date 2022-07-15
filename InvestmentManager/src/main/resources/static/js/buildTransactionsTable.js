@@ -13,7 +13,7 @@ define([
 	        var value = dom.byId("accountsList").value;
 	
 	        // Request the JSON data from the server
-	        request.get("listTransactionsForAccount?accountId=" + value, {
+	        request.get("/api/transactions/account/" + value, {
 	            handleAs: "json"
 	        }).then(function(data) {
 	        	// Display the data sent from the server
@@ -54,9 +54,9 @@ define([
                 if (trades != null && trades.length > 0) {
 	                for (let i = 0; i < trades.length; i++) {
 	                  var row = document.createElement("tr");
-	                  
+	                  let d = new Date(trades[i].transactionDate);
 	                  var tradeDateCell = document.createElement("td");
-	                  tradeDateCell.innerHTML = '<a href="/editTradeGetDetails?transactionId=' + trades[i].transactionId + '&accountId=' + trades[i].account.accountId + '">' + trades[i].transactionDate + '</a>';
+	                  tradeDateCell.innerHTML = '<a href="/editTradeGetDetails?transactionId=' + trades[i].transactionId + '&accountId=' + trades[i].account.accountId + '">' + d.toDateString() + '</a>';
 	                  row.appendChild(tradeDateCell);
 	                  
 	                  var tradeTypeCell = document.createElement("td");

@@ -1,13 +1,10 @@
 package com.brenner.portfoliomgmt.transactions;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -431,33 +428,6 @@ public class TransactionsController implements WebMvcConfigurer {
 	    
 	    return "accounts/transferCash";
 	}
-    
-    
-    /**
-     * Retrieves the list of trades for the supplied account
-     *  
-     * @param accountIdStr - unique account identifier
-     * @param response - object containing the stream to write to
-     * @throws IOException
-     */
-    @RequestMapping("/listTransactionsForAccount")
-    public void listTransactionsForAccount(
-            @RequestParam(name="accountId", required=true) String accountIdStr, 
-            HttpServletResponse response) throws IOException {
-    	
-    	logger.info("Entering listTransactionsForAccount()");
-    	logger.debug("Request parameter: accountId: {}", accountIdStr);
-    	
-    	Account account = new Account();
-    	account.setAccountId(Long.valueOf(accountIdStr));
-    	
-        List<Transaction> trades = this.transactionsService.getTradesForAccount(account);
-        
-        logger.debug("Retrieved {} transactions", trades != null ? trades.size() : 0);
-        logger.info("Writing transactions list to JSON");
-        
-        CommonUtils.serializeObjectToJson(response.getOutputStream(), trades);
-    }
 	
 	/**
 	 * Method to take the transfer form parameters and convert data, calling the data service to persist the changes.

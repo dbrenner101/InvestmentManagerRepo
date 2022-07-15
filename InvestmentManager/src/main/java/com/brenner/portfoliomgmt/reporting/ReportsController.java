@@ -169,7 +169,7 @@ public class ReportsController implements WebMvcConfigurer {
      * @throws IOException - thrown if there is an issue retrieving the quote or writing back to the output stream
      * @throws QuoteRetrievalException 
      */
-    @RequestMapping("/getQuote")
+    @RequestMapping("/getQuotexxx")
     public void getQuote(
             @RequestParam(name="symbol", required=true) String symbol,
             HttpServletResponse response) throws IOException, QuoteRetrievalException {

@@ -36,7 +36,7 @@
             <td th:text="${investment.sector}"></td>
             <td th:text="${investment.exchange}"></td>
             <td th:text="${investment.investmentType}"></td>
-            <td><a th:href="@{/startManualQuote(investmentId=${investment.investmentId})}">Update</a></td>
+            <td><a th:href="@{/startManualQuote(investmentId=${investment.investmentId})}">Add</a></td>
             <td th:text="${#calendars.format(quoteDatesForInvestmentsMap.get(investment.investmentId), 'MM/dd/yyyy')}"></td>
             <td><a th:href="@{/deleteInvestment(investmentId=${investment.investmentId})}">Delete</a></td>
         </tr>

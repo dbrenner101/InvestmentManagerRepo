@@ -139,20 +139,6 @@ require([
         }
     }));
     holdingsMenu.addChild(new MenuItem({
-    	id: "updateQuotes",
-    	label: "Retrieve Quotes",
-        onClick: function() {
-        	location.assign("getInvestmentsAndMostRecentQuoteDate");
-        }
-    }));
-    holdingsMenu.addChild(new MenuItem({
-    	id: "manualQuote",
-    	label: "Add Quote",
-        onClick: function() {
-        	location.assign("getAllInvestments");
-        }
-    }));
-    holdingsMenu.addChild(new MenuItem({
     	id: "splitItem",
     	label: "Enter Split",
         onClick: function() {
@@ -160,8 +146,31 @@ require([
         }
     }));
     
+    quotesMenu = new Menu({ id: "quotesMenu" })
+    quotesMenu.addChild(new MenuItem({
+        id: "editQuotes",
+        label: "Edit Quotes",
+        onClick: function() {
+            location.assign("editQuotesStart");
+        }
+    }));
+    quotesMenu.addChild(new MenuItem({
+        id: "updateQuotes",
+        label: "Retrieve Quotes",
+        onClick: function() {
+            location.assign("getInvestmentsAndMostRecentQuoteDate");
+        }
+    }));
+    quotesMenu.addChild(new MenuItem({
+        id: "manualQuote",
+        label: "Enter Manual Quote",
+        onClick: function() {
+            location.assign("getAllInvestments");
+        }
+    }));
+    
     reportsMenu = new Menu({ id: "reportsMenu" })
-    reportsMenu.addChild(new MenuItem({
+    /*reportsMenu.addChild(new MenuItem({
     	id: "reportsx",
     	label: "Most Recent Quote",
         onClick: function() {
@@ -174,7 +183,7 @@ require([
         onClick: function() {
         	location.assign("prepGetQuotesAjax");
         }
-    }));
+    }));*/
     reportsMenu.addChild(new MenuItem({
     	id: "portfolioPerformance",
     	label: "Visualize Portfolio Performance",
@@ -253,6 +262,11 @@ require([
         popup: holdingsMenu
     }));
     
+    mainMenu.addChild(new PopupMenuBarItem({
+        id: "quotes",
+        label: "Quotes",
+        popup: quotesMenu
+    }))
     
     mainMenu.addChild(new PopupMenuBarItem({
         id: "reports",
@@ -261,18 +275,18 @@ require([
     }));
     
     
-    mainMenu.addChild(new PopupMenuBarItem({
+    /*mainMenu.addChild(new PopupMenuBarItem({
         id: "watchlists",
         label: "Watchlists",
         popup: watchlistsMenu
-    }));
+    }));*/
     
     
-    mainMenu.addChild(new PopupMenuBarItem({
+    /*mainMenu.addChild(new PopupMenuBarItem({
         id: "news",
         label: "News",
         popup: newsMenu
-    }));
+    }));*/
     
     mainMenu.addChild(new MenuBarItem({
         id: "homeItem",
@@ -288,8 +302,8 @@ require([
     tradesMenu.startup();
     holdingsMenu.startup();
     reportsMenu.startup();
-    bulkDataMenu.startup();
-    watchlistsMenu.startup();
+    //bulkDataMenu.startup();
+    //watchlistsMenu.startup();
     adminMenu.startup();
-    newsMenu.startup();
+    //newsMenu.startup();
 });

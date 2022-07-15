@@ -6,7 +6,9 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    
 	<meta charset="UTF-8">
 	<title>Portfolio Performance</title>
 </head>
@@ -38,9 +40,7 @@
         <canvas id="historicalPerformanceChart"></canvas>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
+    <script>require(["js/menu.js"], function(applyMenu){});</script>
     
     <script>
     
@@ -52,46 +52,44 @@
         var closeData = new Array();
     
         var config = {
-                type: 'bar',
-                data: {
-                  labels: [],
-                  datasets: [
-                    { 
-                      data: [],
-                      label: "",
-                      backgroundColor: "#457fa3",
-                      fill: true
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    },
-                    title: {
-                        display: false,
-                        text: ""
-                    },
-                    tooltips: {
-                    	callbacks: {
-                    		label: function(tooltipItem, data) {
-                    			return "$" + Number(tooltipItem.yLabel).toFixed(0).replace(
-                    					/./g, 
-                    					function(c, i, a) {
-                    					    return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
-                    					}
-                    			);
-                    		}
-                    	}
-                    }
-                }
-              };
+           type: 'bar',
+           data: {
+             labels: [],
+             datasets: [
+               { 
+                 data: [],
+                 label: "",
+                 backgroundColor: "#457fa3",
+                 fill: true
+               }]
+           },
+           options: {
+               scales: {
+                   y: {
+                       beginAtZero:true
+                       }
+               },
+               title: {
+                   display: false,
+                   text: ""
+               },
+               tooltips: {
+               	callbacks: {
+               		label: function(tooltipItem, data) {
+               			return "$" + Number(tooltipItem.yLabel).toFixed(0).replace(
+               					/./g, 
+               					function(c, i, a) {
+               					    return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+               					}
+               			);
+               		}
+               	}
+               }
+           }
+         };
         
         var ctx = document.getElementById("historicalPerformanceChart").getContext("2d");
-        var myChart = new Chart(ctx, config);
+        const myChart = new Chart(document.getElementById("historicalPerformanceChart"), config);
         
         
         document.getElementById('investmentSelect').addEventListener('change', function() {

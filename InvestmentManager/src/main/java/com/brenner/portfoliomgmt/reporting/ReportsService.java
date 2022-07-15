@@ -89,7 +89,7 @@ public class ReportsService {
 	public List<PortfolioRollup> getChangeInPortfolioOverTime(String symbol, Date date) {
 	    
 	    List<PortfolioRollup> rollup = null;
-	    String minDateString = date == null ? null : CommonUtils.convertDateToMMYYDDString(date);
+	    String minDateString = date == null ? null : CommonUtils.convertDateToDatePickerString(date);
 	    
 	    if (symbol != null && symbol.equalsIgnoreCase("all")) {
 	        if (minDateString != null) {

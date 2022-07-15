@@ -236,6 +236,11 @@ public class CommonUtils {
 	    
 	    return new CommonUtils().datePickerDateFormat.format(date);
 	}
+	
+	public static String convertDateToDatePickerString(Date date) {
+		
+		return new CommonUtils().datePickerDateFormat.format(date);
+	}
 
 	/**
 	 * Access to the common date formatter

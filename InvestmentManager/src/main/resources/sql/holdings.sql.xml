@@ -51,7 +51,7 @@
                 i.company_name, q.price_at_close, SUM(h.quantity * q.price_at_close) as market_value, 
                 SUM((h.quantity * q.price_at_close) - (h.purchase_price * h.quantity)) as change_in_value
             FROM holdings h
-            LEFT JOIN investments i on i.investment_id = h.investment_id
+            LEFT JOIN investments i on i.investment_id = h.investment_investment_id
             LEFT OUTER JOIN quotes q on q.investment_id = i.investment_id and q.quote_date = (
                 SELECT MAX(quote_date) FROM quotes
             )
