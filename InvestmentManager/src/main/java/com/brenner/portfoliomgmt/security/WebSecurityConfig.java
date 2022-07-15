@@ -19,7 +19,6 @@ public class WebSecurityConfig {
     @Autowired
     InvestmentUserDetailsService investmentUserDetailsService;
     
-    public WebSecurityCustomizer webSecurityCustomizer() {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
