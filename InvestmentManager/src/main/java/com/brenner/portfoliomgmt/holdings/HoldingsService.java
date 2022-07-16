@@ -109,7 +109,13 @@ public class HoldingsService {
     	
     	List<Holding> holdings = this.holdingsRepo.findByAccountAccountId(accountId);
     	
-    	holdings.forEach((holding) -> holding.setQuotes(this.quotesService.findMostRecentQuotesForInvestment(holding.getInvestment())));
+    	for (Holding holding : holdings) {
+    		holding.setQuotes(this.quotesService.findMostRecentQuotesForInvestment(holding.getInvestment()));
+    		Optional<Date> optBuyDate = this.transactionsService.findBuyDateForHolding(holding.getHoldingId());
+    		if (optBuyDate.isPresent()) {
+    			holding.setPurchaseDate(optBuyDate.get());
+    		}
+    	}
     	
     	return holdings;
     }

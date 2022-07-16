@@ -2,7 +2,9 @@ package com.brenner.portfoliomgmt.holdings;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -23,6 +25,7 @@ import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.quotes.Quote;
 import com.brenner.portfoliomgmt.transactions.Transaction;
+import com.brenner.portfoliomgmt.transactions.TransactionTypeEnum;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -69,6 +72,9 @@ public class Holding implements Comparable<Holding>, Cloneable {
 	
 	@ManyToMany
 	private List<Transaction> transactions;
+	
+	@Transient
+	private Date purchaseDate;
 	
 	@Transient
 	private BigDecimal totalDividends;
@@ -243,6 +249,14 @@ public class Holding implements Comparable<Holding>, Cloneable {
 
 	public void setBucketEnum(BucketEnum bucketEnum) {
 		this.bucketEnum = bucketEnum;
+	}
+
+	public Date getPurchaseDate() {
+		return this.purchaseDate;
+	}
+
+	public void setPurchaseDate(Date purchaseDate) {
+		this.purchaseDate = purchaseDate;
 	}
 
 	@Override

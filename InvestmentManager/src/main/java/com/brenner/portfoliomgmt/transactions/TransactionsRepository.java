@@ -3,6 +3,7 @@
  */
 package com.brenner.portfoliomgmt.transactions;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +34,15 @@ public interface TransactionsRepository extends JpaRepository<Transaction, Long>
 	
 	List<Transaction> findAllByAccountAndInvestment(Account account, Investment investment);
 	
+	
+//	"SELECT t.*, i.*, a.* FROM transactions t, investments i, accounts a "
+//	+ "WHERE t.holding_holding_id = ? AND t.transaction_type = 'Buy' AND a.account_id = t.account_account_id AND t.investment_investment_id = i.investment_id;")
 	@Query(nativeQuery = true, value = 
-			"SELECT t.*, i.*, a.* FROM transactions t, investments i, accounts a "
-			+ "WHERE t.holding_id = ? AND t.transaction_type = 'Buy' AND a.account_id = t.account_account_id AND t.investment_investment_id = i.investment_id;")
+			"SELECT t.* FROM transactions t WHERE t.holding_holding_id = ? AND t.transaction_type = 'Buy';")
 	Optional<Transaction> findBuyTransactionforHoldingId(Long holdingId);
+	
+	@Query(nativeQuery = true, value = "SELECT t.transaction_date FROM transactions t WHERE t.holding_holding_id = ? AND t.transaction_type IN ('Buy', 'Revinvest_Dividend');")
+	Optional<Date> findBuyDateForHolding(Long holdingId);
 	
 	List<Transaction> findAllByAccountAccountId(Account account);
 	

@@ -87,13 +87,11 @@ public class TransactionsRestController {
 	@CrossOrigin(origins = {"http://localhost:4200", "http://invmgr.localhost"})
 	@PostMapping(
 			path="/transactions")
-	public Transaction updateTransaction(@RequestBody String transactionStr) throws IOException {
+	public Transaction updateTransaction(@RequestBody Transaction t) throws IOException {
 		log.info("Entered updateAccount()");
-		log.debug("Param: transaction JSON: {}", transactionStr);
+		log.debug("Param: transaction JSON: {}", t);
 		
-		Transaction transaction = this.deserializeTransactionJson(transactionStr);
-		
-		transaction = this.transactionsService.saveTransaction(transaction);
+		Transaction transaction = this.transactionsService.saveTransaction(t);
 		log.debug("Saved transaction: {}", transaction);
 		
 		log.info("Exiting updateAccount()");
@@ -107,7 +105,7 @@ public class TransactionsRestController {
 	 * @return Transaction object
 	 * @throws IOException parsing errors
 	 */
-	private Transaction deserializeTransactionJson(String transactionJson) throws IOException {
+	/*private Transaction deserializeTransactionJson(String transactionJson) throws IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
@@ -117,6 +115,6 @@ public class TransactionsRestController {
 		Transaction transaction = mapper.readValue(transactionJson, Transaction.class);
 		
 		return transaction;
-	}
+	}*/
 
 }

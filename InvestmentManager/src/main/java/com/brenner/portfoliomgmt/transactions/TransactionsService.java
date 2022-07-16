@@ -188,6 +188,14 @@ public class TransactionsService {
     	return this.transactionsRepo.findAllByAccountAndInvestment(account, investment);
     }
     
+    public Optional<Date> findBuyDateForHolding(Long holdingId) {
+    	if (holdingId == null) {
+    		throw new InvalidRequestException("holdingId must be non-null");
+    	}
+    	
+    	return this.transactionsRepo.findBuyDateForHolding(holdingId);
+    }
+    
     
     public Optional<Transaction> getBuyTransactionsForHoldingId(Long holdingId) {
     	

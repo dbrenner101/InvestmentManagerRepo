@@ -20,9 +20,6 @@ define([
                 var jsonStr = JSON.stringify(data);
                 var holdings = JSON.parse(jsonStr);
                 
-//                var displayJason = dom.byId("jsonStream");
-//                displayJason.innerHTML = jsonStr;
-                
                 var totalValue = 0;
                 var totalValueAtPurchase = 0;
                 var differenceInValue = 0;
@@ -33,6 +30,10 @@ define([
                 tbl.innerHTML = "";
                 
                 var headerRow = tbl.insertRow(0);
+                
+                var dateHeader = document.createElement("th");
+                dateHeader.innerHTML = "Purchase Date";
+                headerRow.appendChild(dateHeader);
                 
                 var holdingHeader = document.createElement("th");
                 holdingHeader.innerHTML = "Holding";
@@ -77,10 +78,18 @@ define([
                 var sellHoldingHeader = document.createElement("th");
                 sellHoldingHeader.innerHTML = "Sell Holding";
                 headerRow.appendChild(sellHoldingHeader);
+                
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
                 if (holdings != null && holdings.length > 0) {
 	                for (let i = 0; i < holdings.length; i++) {
 	                  var row = document.createElement("tr");
+	                  
+	                  let purchaseDate = new Date(holdings[i].purchaseDate);
+	                  
+	                  var buyDateCell = document.createElement("td");
+                      buyDateCell.innerHTML = purchaseDate.toLocaleDateString('en-US', options);
+                      row.appendChild(buyDateCell);
 	                  
 	                  var holdingCell = document.createElement("td");
 	                  holdingCell.innerHTML = holdings[i].investment.companyName;

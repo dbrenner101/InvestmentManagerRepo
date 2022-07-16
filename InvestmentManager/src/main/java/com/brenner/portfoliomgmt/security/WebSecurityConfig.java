@@ -25,6 +25,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authz) -> authz.anyRequest().hasRole("USER"))
                 .formLogin((form) -> form
                         .loginPage("/login")
+                        .successForwardUrl("/")
                         .permitAll()
                 )
                 .authenticationManager(investmentUserDetailsService);

@@ -1,9 +1,7 @@
 package com.brenner.portfoliomgmt.holdings.api;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.accounts.AccountsService;
-import com.brenner.portfoliomgmt.exception.NotFoundException;
 import com.brenner.portfoliomgmt.holdings.Holding;
 import com.brenner.portfoliomgmt.holdings.HoldingsService;
 
@@ -71,7 +68,7 @@ public class HoldingsRestController {
         
         log.debug("Retrieved {} accounts", holdings != null ? holdings.size() : 0);
         
-        Optional<Account> optAccount = this.accountsService.getAccountAndCash(Long.valueOf(accountId));
+        /*Optional<Account> optAccount = this.accountsService.getAccountAndCash(Long.valueOf(accountId));
         
         if (! optAccount.isPresent()) {
         	throw new NotFoundException("Account with id " + accountId + " does not exist.");
@@ -93,7 +90,7 @@ public class HoldingsRestController {
         
         log.debug("Total value change: {}", totalValueChange);
         log.debug("Total stock value: {}", totalStockValue);
-        log.info("Serializing holdings to JSON");
+        log.info("Serializing holdings to JSON");*/
         
 		return holdings;
 	}

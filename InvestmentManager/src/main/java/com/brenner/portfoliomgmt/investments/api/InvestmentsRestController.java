@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -110,12 +111,11 @@ public class InvestmentsRestController {
 			path="/restful/manageInvestments", 
 			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Investment updateInvestment(@RequestBody String investmentStr) throws IOException {
+	public Investment updateInvestment(@RequestBody Investment inv) throws IOException {
 		log.info("Entered updateInvestment()");
-		log.debug("Param: investmentJson: {}", investmentStr);
+		log.debug("Param: investmentJson: {}", inv);
 		
-		Investment investment = this.deserializeInvestmentJson(investmentStr);
-		this.investmentsService.saveInvestment(investment);
+		Investment investment = this.investmentsService.saveInvestment(inv);
 		log.debug("Updating investment: {}", investment);
 		
 		log.info("Exiting updateInvestment()");
@@ -134,12 +134,11 @@ public class InvestmentsRestController {
 			path="/restful/manageInvestments", 
 			consumes= {MediaType.APPLICATION_JSON_VALUE}, 
 			produces= {MediaType.APPLICATION_JSON_VALUE})
-	public Investment addInvestment(@RequestBody String investmentStr) throws IOException {
+	public Investment addInvestment(@RequestBody Investment inv) throws IOException {
 		log.info("Entered addInvestment()");
-		log.debug("Param: investmentJson: {}", investmentStr);
+		log.debug("Param: investmentJson: {}", inv);
 		
-		Investment investment = this.deserializeInvestmentJson(investmentStr);
-		this.investmentsService.saveInvestment(investment);
+		Investment investment =  this.investmentsService.saveInvestment(inv);
 		log.debug("Saved investment: {}", investment);
 		
 		log.info("Exiting addInvestment()");
@@ -172,7 +171,7 @@ public class InvestmentsRestController {
 	 * @return the object
 	 * @throws IOException - parsing errors
 	 */
-	private Investment deserializeInvestmentJson(String investmentJson) throws IOException {
+	/*private Investment deserializeInvestmentJson(String investmentJson) throws IOException {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
@@ -183,5 +182,5 @@ public class InvestmentsRestController {
 		
 		return investment;
 		
-	}
+	}*/
 }
