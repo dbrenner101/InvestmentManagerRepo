@@ -48,6 +48,12 @@ public class HoldingsService {
 	
 	@Autowired
 	QuotesService quotesService;
+	
+	@Transactional
+	public void deleteHolding(Long holdingId) {
+		this.transactionsService.deleteTransactionForHolding(holdingId);
+		this.holdingsRepo.deleteById(holdingId);
+	}
     
     /**
      * Saves a new holding instance

@@ -39,7 +39,7 @@
                          th:text="${inv.symbol + ' :: ' + inv.companyName}"
                          th:selected="${inv.investmentId == holding.investment.investmentId}" />
                 </select><br>
-                Purchase Price: <input type="number" step="any" th:field="${holding.purchasePrice}" step="any" /><br>
+                Purchase Price: <input type="number" step="any" th:field="${holding.purchasePrice}" /><br>
 	            Quantity: <input type="number" th:field="*{quantity}" step="any" /> <br>
 	            Bucket: <select name="bucketEnum">
                     <option value="">Select</option>

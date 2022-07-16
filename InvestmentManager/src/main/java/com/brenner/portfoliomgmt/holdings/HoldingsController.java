@@ -46,6 +46,14 @@ public class HoldingsController implements WebMvcConfigurer {
 	
 	@Autowired
 	HoldingsService holdingsService;
+	
+	@RequestMapping("/deleteHolding")
+	public String deleteHolding(@RequestParam Long holdingId) {
+		
+		this.holdingsService.deleteHolding(holdingId);
+		
+		return "redirect:getAccountsForHoldings";
+	}
     
     
 	/**
@@ -170,9 +178,7 @@ public class HoldingsController implements WebMvcConfigurer {
      * @return /holdings/editHoldingForm
      */
     @RequestMapping("/editHolding")
-    public String editHolding(
-    		@RequestParam(name="holdingId", required=true) String holdingId, 
-    		Model model) {
+    public String editHolding(@RequestParam(name="holdingId", required=true) String holdingId, Model model) {
     	logger.info("Entering editHolding()");
     	logger.debug("Request param holdingId: {}", holdingId);
     	

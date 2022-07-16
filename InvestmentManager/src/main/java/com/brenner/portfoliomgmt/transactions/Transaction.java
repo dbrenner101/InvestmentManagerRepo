@@ -3,6 +3,7 @@ package com.brenner.portfoliomgmt.transactions;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -48,7 +49,7 @@ public class Transaction {
 	@OneToOne
 	private Account account;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Holding holding;
 	
 	@Transient

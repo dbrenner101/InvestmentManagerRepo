@@ -40,6 +40,11 @@ public class TransactionsService {
     @Autowired
     HoldingsRepository holdingsRepository;
     
+    @Transactional
+    public void deleteTransactionForHolding(Long holdingId) {
+    	this.transactionsRepo.deleteTransactionForHolding(holdingId);
+    }
+    
     
     /*public Map<String, List<Holding>> modelSplit(Date transactionDate, Long investmentId, Float splitRatio) {
     	

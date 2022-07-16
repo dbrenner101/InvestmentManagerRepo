@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,9 @@ import com.brenner.portfoliomgmt.investments.Investment;
  */
 @Repository
 public interface TransactionsRepository extends JpaRepository<Transaction, Long> {
+	@Modifying
+	@Query(nativeQuery = true, value="DELETE FROM transactions WHERE holding_holding_id=?;")
+	void deleteTransactionForHolding(Long holdingId);
 
 	@Query(nativeQuery = true, value = 
 			"SELECT investment_investment_id, SUM(trade_price * trade_quantity) as dividend FROM transactions WHERE transaction_type='Dividend' GROUP BY investment_investment_id;")

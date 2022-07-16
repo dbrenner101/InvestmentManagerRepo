@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -25,7 +25,6 @@ import com.brenner.portfoliomgmt.accounts.Account;
 import com.brenner.portfoliomgmt.investments.Investment;
 import com.brenner.portfoliomgmt.quotes.Quote;
 import com.brenner.portfoliomgmt.transactions.Transaction;
-import com.brenner.portfoliomgmt.transactions.TransactionTypeEnum;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -70,7 +69,7 @@ public class Holding implements Comparable<Holding>, Cloneable {
 	@Transient
 	private BigDecimal totalCurrentValue;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<Transaction> transactions;
 	
 	@Transient

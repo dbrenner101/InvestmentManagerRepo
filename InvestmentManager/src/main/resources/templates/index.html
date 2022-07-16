@@ -14,48 +14,9 @@
 <body class="tundra">
 
 	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-
-    <p class="commonBoldTextFormat">Manage Investments</p>
-
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
-    <div id="jsonStream"></div>
-    <p></p>
-    
-    <span class="commonBoldTextFormat">Total Change in Portfolio</span>
-    <div id="totalPortfolioChange" class="grid"></div>
-    
-    <p></p>
-    
-    <span class="commonBoldTextFormat">Portfolio Changes by Holding</span>
-    <div class="grid" id="totalPortfolioChangeByHolding"></div>
-    
-    <p></p>
-    
-    <span class="commonBoldTextFormat">Portfolio Changes by Sector</span>
-    <div class="grid" id="totalPortfolioChangeBySector"></div>
+ 
     
    <script>require(["js/menu.js"], function(applyMenu){});</script>
-    
-   <script>
-        require([
-            "js/buildDashboardTotalPotfolioChangeTable.js"
-        ], function (buildDashboardTotalPotfolioChangeTable) {
-        });
-    </script>
-    
-   <!-- <script>
-        require([
-            "js/buildDashboardTotalPotfolioChangeByHolding.js"
-        ], function (buildDashboardTotalPotfolioChangeByHolding) {
-        });
-    </script>
-    
-   <script>
-        require([
-            "js/buildDashboardTotalPotfolioChangeBySectorTable.js"
-        ], function (buildDashboardTotalPotfolioChangeBySectorTable2) {
-        });
-    </script> -->
     
     
 </body>

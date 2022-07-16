@@ -79,6 +79,10 @@ define([
                 sellHoldingHeader.innerHTML = "Sell Holding";
                 headerRow.appendChild(sellHoldingHeader);
                 
+                var deleteHoldingHeader = document.createElement("th");
+                deleteHoldingHeader.innerHTML = "Delete Holding";
+                headerRow.appendChild(deleteHoldingHeader);
+                
                 const options = { year: 'numeric', month: 'long', day: 'numeric' };
 
                 if (holdings != null && holdings.length > 0) {
@@ -152,6 +156,10 @@ define([
 	                  var sellHoldingCell = document.createElement("td");
 	                  sellHoldingCell.innerHTML = "<a href=\"retrieveHoldingDetails?holdingId=" + holdings[i].holdingId + "\">(Sell)</a>";
 	                  row.appendChild(sellHoldingCell);
+                      
+                      var deleteHoldingCell = document.createElement("td");
+                      deleteHoldingCell.innerHTML = "<a href=\"deleteHolding?holdingId=" + holdings[i].holdingId + "\">(Delete)</a>";
+                      row.appendChild(deleteHoldingCell);
 	                }
 	                
 	                var currentCash = holdings[0].account.cashOnAccount;
