@@ -129,9 +129,11 @@ public class InvestmentsService {
 		}
 		
 		InvestmentDTO inv = ObjectMappingUtil.mapInvestmentToInvestmentDTO(investment);
-		Optional<InvestmentDTO> optInv = this.investmentsRepo.findById(investment.getInvestmentId());
-		if (optInv.isPresent()) {
-			inv.setQuotes(optInv.get().getQuotes());
+		if (investment.getInvestmentId() != null) {
+			Optional<InvestmentDTO> optInv = this.investmentsRepo.findById(investment.getInvestmentId());
+			if (optInv.isPresent()) {
+				inv.setQuotes(optInv.get().getQuotes());
+			}
 		}
 		inv = this.investmentsRepo.save(inv);
 		
