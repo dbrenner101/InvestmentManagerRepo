@@ -3,6 +3,7 @@
  */
 package com.brenner.portfoliomgmt.quotes;
 
+import com.brenner.portfoliomgmt.data.entities.QuoteDTO;
 import com.brenner.portfoliomgmt.quotes.retrievalservice.YahooFinanceQuoteDeserializer;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -454,11 +455,11 @@ public class YahooFinanceQuoteDeserializerTest {
 				+ "]";
 		
 		SimpleModule module = new SimpleModule("QuoteDeserializer", new Version(1, 0, 0, null, null, null));
-		module.addDeserializer(Quote.class, new YahooFinanceQuoteDeserializer());
+		module.addDeserializer(QuoteDTO.class, new YahooFinanceQuoteDeserializer());
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(module);
 		
-		Quote quote = mapper.readValue(quoteString, Quote.class);
+		QuoteDTO quote = mapper.readValue(quoteString, QuoteDTO.class);
 
 	}
 

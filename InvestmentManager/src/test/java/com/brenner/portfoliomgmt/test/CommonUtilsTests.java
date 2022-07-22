@@ -5,10 +5,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.annotation.Testable;
 
 import com.brenner.portfoliomgmt.util.CommonUtils;
 
+@Testable
 public class CommonUtilsTests {
+	
+	@Test
+	public void testConvertCurrencyStringToFloat() throws Exception {
+		
+		String testString = "$69.95";
+		
+		assertEquals(69.95F, CommonUtils.convertCurrencyStringToFloat(testString));
+		
+		testString="$5,955.04";
+		assertEquals(5955.04F, CommonUtils.convertCurrencyStringToFloat(testString));
+		
+		testString="$1,095,955.04";
+		assertEquals(1095955.04F, CommonUtils.convertCurrencyStringToFloat(testString));
+	}
 
 	@Test
 	public void testWorkDaysSinceDateWeekDayFutureStart() throws Exception {

@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.brenner.portfoliomgmt.domain.BatchHistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.BatchQuotes;
+import com.brenner.portfoliomgmt.domain.HistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.Investment;
+import com.brenner.portfoliomgmt.domain.Quote;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
-import com.brenner.portfoliomgmt.investments.Investment;
-import com.brenner.portfoliomgmt.news.News;
-import com.brenner.portfoliomgmt.quotes.BatchHistoricalQuotes;
-import com.brenner.portfoliomgmt.quotes.BatchQuotes;
-import com.brenner.portfoliomgmt.quotes.HistoricalQuotes;
-import com.brenner.portfoliomgmt.quotes.Quote;
 
 public interface QuoteRetrievalService {
 
@@ -19,16 +18,11 @@ public interface QuoteRetrievalService {
 			Date maxQuoteDate, 
 			List<Quote> existingQuotes) throws IOException;
 	
-	
-	public List<News> getCurrentNews();
-	
-	public List<News> getCompanyNews(String companySymbol);
-	
 	/**
 	 * Retrieves a quote for the supplied symbol
 	 * 
 	 * @param symbol
-	 * @return {@link Quote}
+	 * @return {@link QuoteDTO}
 	 */
 	public Quote getQuote(String symbol) throws QuoteRetrievalException;
 	

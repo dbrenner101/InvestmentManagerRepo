@@ -21,13 +21,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.brenner.portfoliomgmt.domain.BatchHistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.BatchQuotes;
+import com.brenner.portfoliomgmt.domain.HistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.Investment;
+import com.brenner.portfoliomgmt.domain.Quote;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
-import com.brenner.portfoliomgmt.investments.Investment;
-import com.brenner.portfoliomgmt.news.News;
-import com.brenner.portfoliomgmt.quotes.BatchHistoricalQuotes;
-import com.brenner.portfoliomgmt.quotes.BatchQuotes;
-import com.brenner.portfoliomgmt.quotes.HistoricalQuotes;
-import com.brenner.portfoliomgmt.quotes.Quote;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -63,18 +62,6 @@ public class YahooFinanceQuoteService implements QuoteRetrievalService {
 	@Override
 	public List<Quote> getNewQuotesForInvestment(Investment investment, Date maxQuoteDate, List<Quote> existingQuotes)
 			throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<News> getCurrentNews() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<News> getCompanyNews(String companySymbol) {
 		// TODO Auto-generated method stub
 		return null;
 	}

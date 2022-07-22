@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.brenner.portfoliomgmt.deprecated.HoldingsReportingDataService;
+import com.brenner.portfoliomgmt.domain.BatchQuotes;
+import com.brenner.portfoliomgmt.domain.Holding;
+import com.brenner.portfoliomgmt.domain.Quote;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
-import com.brenner.portfoliomgmt.holdings.Holding;
-import com.brenner.portfoliomgmt.holdings.HoldingsReportingDataService;
-import com.brenner.portfoliomgmt.holdings.HoldingsService;
-import com.brenner.portfoliomgmt.quotes.BatchQuotes;
-import com.brenner.portfoliomgmt.quotes.Quote;
 import com.brenner.portfoliomgmt.quotes.retrievalservice.IEXQuoteRetrievalService;
+import com.brenner.portfoliomgmt.service.HoldingsService;
 import com.brenner.portfoliomgmt.util.CommonUtils;
 
 /**
@@ -119,14 +119,14 @@ public class ReportsService {
     public PortfolioReport getTotalChangeInPortfolio() throws QuoteRetrievalException {
         
         
-        Iterable<Holding> holdingsIter = this.holdingsService.getAllHoldings();
+        Iterable<Holding> holdingsIter = this.holdingsService.findAllHoldings();
         
         List<String> symbols = new ArrayList<>();
         
         if (holdingsIter != null) {
             Iterator<Holding> iter = holdingsIter.iterator();
             while (iter.hasNext()) {
-                Holding holding = iter.next();
+            	Holding holding = iter.next();
                 symbols.add(holding.getInvestment().getSymbol());
             }
         }
@@ -144,7 +144,7 @@ public class ReportsService {
         if (batchQuotes != null) {
             Iterator<Holding> iter = holdingsIter.iterator();
             while (iter.hasNext()) {
-                Holding holding = iter.next();
+            	Holding holding = iter.next();
                 String symbol = holding.getInvestment().getSymbol();
                 Quote quote = batchQuotes.getQuotes().get(symbol);
                 if (quote != null) {

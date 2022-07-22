@@ -1,6 +1,6 @@
 package com.brenner.portfoliomgmt.reporting;
 
-import com.brenner.portfoliomgmt.investments.InvestmentTypeEnum;
+import com.brenner.portfoliomgmt.domain.InvestmentTypeEnum;
 
 public class HoldingsReport {
 

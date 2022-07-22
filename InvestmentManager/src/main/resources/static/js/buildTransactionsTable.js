@@ -20,8 +20,8 @@ define([
                 var jsonStr = JSON.stringify(data);
                 var trades = JSON.parse(jsonStr);
                 
-//                var displayJason = dom.byId("jsonStream");
-//                displayJason.innerHTML = jsonStr;
+                //var displayJason = dom.byId("jsonStream");
+                //displayJason.innerHTML = jsonStr;
                 
                 var tbl = document.getElementById("tableDiv");
                                 
@@ -56,7 +56,7 @@ define([
 	                  var row = document.createElement("tr");
 	                  let d = new Date(trades[i].transactionDate);
 	                  var tradeDateCell = document.createElement("td");
-	                  tradeDateCell.innerHTML = '<a href="/editTradeGetDetails?transactionId=' + trades[i].transactionId + '&accountId=' + trades[i].account.accountId + '">' + d.toDateString() + '</a>';
+	                  tradeDateCell.innerHTML = '<a href="/editTradeGetDetails?transactionId=' + trades[i].transactionId + '&accountId=' + trades[i].Account.accountId + '">' + d.toDateString() + '</a>';
 	                  row.appendChild(tradeDateCell);
 	                  
 	                  var tradeTypeCell = document.createElement("td");

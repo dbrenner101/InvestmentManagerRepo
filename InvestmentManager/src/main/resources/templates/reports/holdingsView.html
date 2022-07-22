@@ -7,18 +7,18 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
 	<meta charset="UTF-8">
 	<title>Holdings View</title>
 </head>
 <body class="tundra">
 
-	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+	<div id="mainMenu"></div>
 
     <p class="commonBoldTextFormat">Manage Investments</p>
     
     <div id="jsonResult"></div>
-
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+    
     <p></p>
     
     <table class="commonTableFormat">
@@ -33,8 +33,6 @@
             <td th:text="${#numbers.formatCurrency(holding.valueAtPurchase)}"/>
         </tr>
     </table>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
     
 
 </body>

@@ -302,7 +302,7 @@ require([
     tradesMenu.startup();
     holdingsMenu.startup();
     reportsMenu.startup();
-    //bulkDataMenu.startup();
+   bulkDataMenu.startup();
     //watchlistsMenu.startup();
     adminMenu.startup();
     //newsMenu.startup();

@@ -8,17 +8,17 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
     
 	<meta charset="UTF-8">
 	<title>Portfolio Performance</title>
 </head>
 <body class="tundra">
 
-	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+	<div id="mainMenu"></div>
     
     <div id="jsonResult"></div>
 
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
     <p></p>
     
     <form class="formFormat">
@@ -39,8 +39,6 @@
     <div class="chart-container" style="position: relative; height:20vh; width:60vw">
         <canvas id="historicalPerformanceChart"></canvas>
     </div>
-
-    <script>require(["js/menu.js"], function(applyMenu){});</script>
     
     <script>
     

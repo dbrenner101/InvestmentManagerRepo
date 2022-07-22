@@ -11,22 +11,19 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.brenner.portfoliomgmt.data.entities.QuoteDTO;
+import com.brenner.portfoliomgmt.domain.BatchHistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.BatchQuotes;
+import com.brenner.portfoliomgmt.domain.HistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.Investment;
+import com.brenner.portfoliomgmt.domain.Quote;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
-import com.brenner.portfoliomgmt.investments.Investment;
-import com.brenner.portfoliomgmt.news.News;
-import com.brenner.portfoliomgmt.quotes.BatchHistoricalQuotes;
-import com.brenner.portfoliomgmt.quotes.BatchQuotes;
-import com.brenner.portfoliomgmt.quotes.HistoricalQuotes;
-import com.brenner.portfoliomgmt.quotes.Quote;
-import com.brenner.portfoliomgmt.quotes.QuoteConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -56,60 +53,6 @@ public class IEXQuoteRetrievalService implements QuoteRetrievalService {
 	
 	private static String batchHistoricalQuotes = "https://api.iextrading.com/1.0/stock/market/batch?symbols=%S%&types=chart&range=6m";
 	
-	private static final String GENERAL_NEWS = "https://api.iextrading.com/1.0/stock/market/news/";
-	
-	private static String companyNews = "https://api.iextrading.com/1.0/stock/%S%/news";
-	
-	
-	/**
-	 * Retrieves a list of news articles for today.
-	 * 
-	 * @return The {@link List} of {@link News} objects obtained from the service.
-	 */
-	public List<News> getCurrentNews() {
-	    log.info("Entered getCurrentNews()");
-	    
-	    List<News> news = getNews(GENERAL_NEWS);
-	    log.debug("Retrieved {} news articles", news != null ? news.size() : 0);
-	    
-	    log.info("Exiting getCurrentNews()");
-	    return news;
-	}
-	
-	/**
-	 * Retrieves news for a specific company
-	 * 
-	 * @param companySymbol - Company's stock symbol
-	 * @return The list of news articles
-	 */
-	public List<News> getCompanyNews(String companySymbol) {
-	    log.info("Entered getCompanyNews()");
-	    
-	    String url = companyNews.replace("%S%", companySymbol);
-	    log.debug("Using url: {}", url);
-	    List<News> news = getNews(url);
-	    log.debug("Retrieved {} articles", news != null ? news.size() : 0);
-	    
-	    log.info("Exiting getCompanyNews()");
-	    return news;
-	}
-	
-	/**
-	 * Shared method to retrieve news articles
-	 * 
-	 * @param url - Service URL to use.
-	 * @return The list of news articles.
-	 */
-	private List<News> getNews(String url) {
-	    
-	    RestTemplate template = new RestTemplate();
-	    
-	    ResponseEntity<List<News>> rateResponse =
-                template.exchange(url,
-                            HttpMethod.GET, null, new ParameterizedTypeReference<List<News>>() {});
-        return rateResponse.getBody();
-        
-	}
 	
 	
 	/**
@@ -185,6 +128,8 @@ public class IEXQuoteRetrievalService implements QuoteRetrievalService {
     		}
     	}
     	
+    	log.debug("IEX quotes: " + newQuotes);
+    	
     	return newQuotes;
 	}
 	
@@ -192,7 +137,7 @@ public class IEXQuoteRetrievalService implements QuoteRetrievalService {
 	 * Retrieves a quote for the supplied symbol
 	 * 
 	 * @param symbol
-	 * @return {@link Quote}
+	 * @return {@link QuoteDTO}
 	 */
 	public Quote getQuote(String symbol) {
 

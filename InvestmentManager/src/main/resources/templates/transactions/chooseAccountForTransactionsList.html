@@ -7,17 +7,16 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
+    <script>require(["js/buildTransactionsTable.js"], function (buildTransactionsTable) {});</script>
 	<meta charset="UTF-8">
 	<title>Choose an Account to Sell From</title>
 </head>
 <body class="tundra">
 
-	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
-    <p></p>
+	<div id="mainMenu"></div>
 
-    <div id="jsonStream"></div>
+    <p></p>
 
     <p class="commonBoldTextFormat">Choose Account for Transactions List</p>
 
@@ -37,10 +36,10 @@
     
     <div id="resultDiv" class="commonTextFormat"></div>
     <p></p>
+
+    <div id="jsonStream"></div>
     
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
     
-    <script>require(["js/buildTransactionsTable.js"], function (buildTransactionsTable) {});</script>
 
 </body>
 </html>

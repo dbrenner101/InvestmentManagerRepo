@@ -7,14 +7,14 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
     <meta charset="UTF-8">
     <title>Add a New Investment</title>
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+	 <div id="mainMenu"></div>
+
     <p></p>
 
     <p class="commonBoldTextFormat">Investment Details</p>
@@ -26,7 +26,7 @@
             Sector: <input type="text" name="sector" th:value="${investment.sector}" /><br>
             Exchange: <input type="text" name="exchange" th:value="${investment.exchange}" /><br>
             Investment type: <select name="investmentType">
-            	<option th:each="investmentType : ${T(com.brenner.portfoliomgmt.investments.InvestmentTypeEnum).values()}"
+            	<option th:each="investmentType : ${T(com.brenner.portfoliomgmt.domain.InvestmentTypeEnum).values()}"
             		th:value="${investmentType}"
             		th:text="${investmentType.displayName}">
     			</option>
@@ -34,8 +34,6 @@
             <input type="submit" value="Add Investment" />
         </fieldset>
     </form>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
 
 </body>
 </html>

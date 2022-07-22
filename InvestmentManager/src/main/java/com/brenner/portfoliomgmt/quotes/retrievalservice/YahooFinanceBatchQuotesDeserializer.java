@@ -8,8 +8,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.brenner.portfoliomgmt.quotes.BatchQuotes;
-import com.brenner.portfoliomgmt.quotes.Quote;
+import com.brenner.portfoliomgmt.data.entities.QuoteDTO;
+import com.brenner.portfoliomgmt.domain.BatchQuotes;
+import com.brenner.portfoliomgmt.domain.Quote;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -47,7 +48,7 @@ public class YahooFinanceBatchQuotesDeserializer extends StdDeserializer<BatchQu
 	 */
 	@SuppressWarnings("unchecked")
 	public YahooFinanceBatchQuotesDeserializer(Class<?> vc) {
-		super((Class<Quote[]>) vc);
+		super((Class<QuoteDTO[]>) vc);
 	}
 
 	/**
@@ -74,7 +75,7 @@ public class YahooFinanceBatchQuotesDeserializer extends StdDeserializer<BatchQu
 		
 		if (numQuotes > 0) {
 			SimpleModule module = new SimpleModule("QuoteDeserializer", new Version(1, 0, 0, null, null, null));
-			module.addDeserializer(Quote.class, new YahooFinanceQuoteDeserializer());
+			module.addDeserializer(QuoteDTO.class, new YahooFinanceQuoteDeserializer());
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.registerModule(module);
 			

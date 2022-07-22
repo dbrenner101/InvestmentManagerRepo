@@ -7,16 +7,16 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
 	<meta charset="UTF-8">
 	<title>Edit Trade</title>
 </head>
 <body class="tundra">
 
-	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+	<div id="mainMenu"></div>
 
     <p class="commonBoldTextFormat">Edit Trade Details</p>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+
     <p></p>
 
 	<div class="formFrame">
@@ -25,7 +25,7 @@
             <fieldset>
                 <input type="hidden" name="transactionId" th:field="*{transactionId}" />
 	            <input type="hidden" name="previousTransactionType" th:field="*{transactionType}" />
-                Account: <select th:field="*{account}">
+                Account: <select name="account.accountId">
                     <option value="">Select</option>
                     <option 
                         th:each="account : ${accounts}" 
@@ -34,7 +34,7 @@
                         th:text="${account.accountName + ' (' + account.owner + ')'}"/>
                 </select><br>
                 <div th:if="${transaction.investment} != null">
-                    Investment: <select th:field="*{investment}">
+                    Investment: <select name="investment.investmentId">
                         <option value="">Select</option>
                          <option 
                              th:each="inv : ${investments}" 
@@ -57,8 +57,6 @@
 	        </fieldset>
 	    </form>
     </div>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
     
     
 </body>

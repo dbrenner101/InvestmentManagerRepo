@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brenner.portfoliomgmt.holdings.Holding;
+import com.brenner.portfoliomgmt.data.entities.HoldingDTO;
 
 /**
  * Spring REST controller for the Dashboard service
@@ -59,7 +59,7 @@ public class DashboardController {
 	}
 	
 	/**
-	 * Summary of current position by {@link Holding}
+	 * Summary of current position by {@link HoldingDTO}
 	 * @return A {@link List} of changes by Holding
 	 */
 	@GetMapping(path="/changesInPortfolioByHolding", produces={"application/JSON"})

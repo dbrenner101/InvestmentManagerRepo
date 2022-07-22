@@ -7,15 +7,15 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
+    <script>require(["js/buildQuoteTable.js"], function (buildQuoteTable) {});</script>
     <meta charset="UTF-8">
 <title>Edit Quote Data</title>
 </head>
 
 <body class="tundra">
 
-     <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+     <div id="mainMenu"></div>
     <p></p>
 
     <div class="formFrame">
@@ -37,9 +37,7 @@
     <div id="resultDiv" class="commonTextFormat"></div>
     <p></p>
     
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
-   <script>require(["js/buildQuoteTable.js"], function (buildQuoteTable) {});</script>
+    <div id="jsonStream"></div>
 
 </body>
 </html>

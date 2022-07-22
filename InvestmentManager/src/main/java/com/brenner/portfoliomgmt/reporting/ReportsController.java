@@ -1,6 +1,7 @@
 package com.brenner.portfoliomgmt.reporting;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -23,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.brenner.portfoliomgmt.InvestmentsProperties;
+import com.brenner.portfoliomgmt.domain.Investment;
+import com.brenner.portfoliomgmt.domain.Quote;
+import com.brenner.portfoliomgmt.domain.Transaction;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
-import com.brenner.portfoliomgmt.investments.Investment;
-import com.brenner.portfoliomgmt.investments.InvestmentsService;
-import com.brenner.portfoliomgmt.quotes.Quote;
 import com.brenner.portfoliomgmt.quotes.retrievalservice.QuoteRetrievalService;
-import com.brenner.portfoliomgmt.transactions.Transaction;
-import com.brenner.portfoliomgmt.transactions.TransactionsService;
+import com.brenner.portfoliomgmt.service.HoldingsService;
+import com.brenner.portfoliomgmt.service.InvestmentsService;
 import com.brenner.portfoliomgmt.util.CommonUtils;
 
 /**
@@ -57,7 +58,7 @@ public class ReportsController implements WebMvcConfigurer {
     QuoteRetrievalService quoteService;
     
     @Autowired
-    TransactionsService transactionService;
+    HoldingsService holdingsService;
     
     @Autowired
     InvestmentsProperties props;
@@ -104,7 +105,7 @@ public class ReportsController implements WebMvcConfigurer {
     	logger.debug("Retrieved {} holdings", holdings.size());
     	model.addAttribute(this.props.getHoldingsByMarketValueAttributeKey(), holdings);
     	
-    	Map<Long, Transaction> dividendsMap = this.transactionService.getTotalDidivendsForAllInvestments();
+    	Map<Long, Transaction> dividendsMap = this.holdingsService.findTotalDidivendsForAllHoldings();
     	
     	Float totalChangeInValue = 0F;
     	Integer losers = 0;
@@ -118,10 +119,10 @@ public class ReportsController implements WebMvcConfigurer {
     			h.setTotalValue(h.getMarketValue());
     			Transaction dividendTrans = dividendsMap.get(h.getInvestmentId());
     			if (dividendTrans != null) {
-    				Float dividend = dividendTrans.getDividend();
-    				h.setTotalDividends(dividend);
+    				BigDecimal dividend = dividendTrans.getDividend();
+    				h.setTotalDividends(dividend.floatValue());
     				if (h.getMarketValue() != null) {
-    					h.setTotalValue(h.getMarketValue() + dividend);
+    					h.setTotalValue(h.getMarketValue() + dividend.floatValue());
     				}
     			}
     			totalChangeInValue += h.getChangeInValue();
@@ -197,7 +198,7 @@ public class ReportsController implements WebMvcConfigurer {
     public String prepReports(Model model) {
     	logger.info("Entering prepReports()");
         
-    	List<Investment> investments = this.investmentsService.getInvestmentsOrderedBySymbolAsc();
+    	List<Investment> investments = this.investmentsService.findInvestments("symbol");
     	logger.debug("Retrieved {} investments", investments != null ? investments.size() : 0);
     	model.addAttribute(props.getInvestmentsListAttributeKey(), investments);
         
@@ -235,7 +236,7 @@ public class ReportsController implements WebMvcConfigurer {
     public String visualizeHistoricalPerformance(Model model) {
     	logger.info("Entering visualizeHistoricalPerformance()");
         
-    	List<Investment> investments = this.investmentsService.getInvestmentsOrderedBySymbolAsc();
+    	List<Investment> investments = this.investmentsService.findInvestments("symbol");
     	logger.debug("Retrieved {} investments", investments != null ? investments.size() : 0);
     	model.addAttribute(this.props.getInvestmentsListAttributeKey(), investments);
         
@@ -253,7 +254,7 @@ public class ReportsController implements WebMvcConfigurer {
     public String visualizePortfolioPerformance(Model model) {
     	logger.info("Entering visualizePortfolioPerformance()");
         
-    	List<Investment> investments = this.investmentsService.getInvestmentsOrderedBySymbolAsc();
+    	List<Investment> investments = this.investmentsService.findInvestments("symbol");
     	logger.debug("Retrieved {} investments", investments != null ? investments.size() : 0);
         model.addAttribute(this.props.getInvestmentsListAttributeKey(), investments);
         

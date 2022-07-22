@@ -7,14 +7,13 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
 	<meta charset="UTF-8">
 	<title>Add Holding to Account</title>
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+	 <div id="mainMenu"></div>
     <p></p>
 
     <p class="commonBoldTextFormat">Add Holding to Account</p>
@@ -28,24 +27,24 @@
 	            </select><br>
 	            
 	            Date: <input type="date" name="transactionDate" /><br>
+                Investment: <select name="investmentId">
+                    <option value="">Select</option>
+                    <option 
+                        th:each="investment : ${investments}" 
+                        th:value="${investment.investmentId}" 
+                        th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
+                </select><br>
 	            Price: <input type="number" name="tradePrice" step="any" /><br>
 	            Quantity: <input type="number" name="tradeQuantity" step="any"/> <br>
-	            Investment: <select name="investmentId">
-	                <option value="">Select</option>
-	                <option 
-	                    th:each="investment : ${investments}" 
-	                    th:value="${investment.investmentId}" 
-	                    th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
-	            </select><br>
                 Transaction type: <select name="transactionType">
                     <option value="">Select</option>
-                    <option th:each="transactionType : ${T(com.brenner.portfoliomgmt.transactions.TransactionTypeEnum).values()}"
+                    <option th:each="transactionType : ${T(com.brenner.portfoliomgmt.domain.TransactionTypeEnum).values()}"
                         th:value="${transactionType}"
                         th:text="${transactionType.description}"/>
                 </select><br>
                 Bucket: <select name="bucketEnum">
                     <option value="">Select</option>
-                    <option th:each="bucketEnum : ${T(com.brenner.portfoliomgmt.holdings.BucketEnum).values()}"
+                    <option th:each="bucketEnum : ${T(com.brenner.portfoliomgmt.domain.BucketEnum).values()}"
                         th:value="${bucketEnum}"
                         th:text="${bucketEnum.description}">
                     </option>
@@ -54,8 +53,6 @@
 	        </fieldset>
 	    </form>
     </div>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
 
 </body>
 </html>

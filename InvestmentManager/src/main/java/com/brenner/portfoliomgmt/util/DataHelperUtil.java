@@ -7,8 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.brenner.portfoliomgmt.accounts.Account;
-import com.brenner.portfoliomgmt.transactions.Transaction;
+import com.brenner.portfoliomgmt.data.entities.AccountDTO;
+import com.brenner.portfoliomgmt.data.entities.TransactionDTO;
 
 public class DataHelperUtil {
 
@@ -20,7 +20,7 @@ public class DataHelperUtil {
 	 * @param account - target account object
 	 * @param cashTransactions - list of transactions that may have cash
 	 */
-	public static void loadCashTransactionsToAccount(Account account, List<Transaction> cashTransactions) {
+	public static void loadCashTransactionsToAccount(AccountDTO account, List<TransactionDTO> cashTransactions) {
 		
 		logger.info("Entering loadCashTransactionsToAccount()");
 		logger.debug("Parameters: account: {}; cashTransactions.size: {}"
@@ -28,7 +28,7 @@ public class DataHelperUtil {
 		
 		if (cashTransactions != null && ! cashTransactions.isEmpty()) {
 			BigDecimal currentCash = BigDecimal.ZERO;
-			for (Transaction cashTrans : cashTransactions) {
+			for (TransactionDTO cashTrans : cashTransactions) {
 				if (cashTrans.getAccount().getAccountId().equals(account.getAccountId())) {
 					currentCash = currentCash.add(cashTrans.getTradeQuantity()).multiply(cashTrans.getTradePrice());
 				}

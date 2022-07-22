@@ -26,8 +26,8 @@ define([
                 tbl.setAttribute("class", "commonTableFormat");
                 tblLocation.appendChild(tbl);
 
-                // remove last table
-                //tbl.innerHTML = jsonStr;
+                //var displayJason = dom.byId("jsonStream");
+                //displayJason.innerHTML = jsonStr;
 
                 var headerRow = tbl.insertRow(0);
 
@@ -92,11 +92,11 @@ define([
                       row.append(dateCell);
 
 	                  var companyNameCell = document.createElement("td");
-	                  companyNameCell.innerHTML = quotes[i].investment.companyName;
+	                  companyNameCell.innerHTML = quotes[i].Investment.companyName != null ? quotes[i].Investment.companyName : "";
 	                  row.appendChild(companyNameCell);
 
 	                  var symbolCell = document.createElement("td");
-	                  symbolCell.innerHTML = quotes[i].investment.symbol;
+	                  symbolCell.innerHTML = quotes[i].Investment.symbol;
 	                  row.appendChild(symbolCell);
 
 	                  var openCell = document.createElement("td");
@@ -132,11 +132,11 @@ define([
 	                  row.appendChild(week52lowCell);
 
 	                  var sectorCell = document.createElement("td");
-	                  sectorCell.innerHTML = quotes[i].investment.sector;
+	                  sectorCell.innerHTML = quotes[i].Investment.sector;
 	                  row.appendChild(sectorCell);
 
 	                  var exchangeCell = document.createElement("td");
-	                  exchangeCell.innerHTML = quotes[i].investment.exchange;
+	                  exchangeCell.innerHTML = quotes[i].Investment.exchange;
 	                  row.appendChild(exchangeCell);
 
 

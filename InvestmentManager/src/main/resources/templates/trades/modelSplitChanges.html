@@ -7,14 +7,14 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
 	<meta charset="UTF-8">
 	<title>Model Split Changes</title>
 </head>
 <body class="tundra">
 
-	<div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+	<div id="mainMenu"></div>
+
     <p></p>
 
     <p class="commonBoldTextFormat">Model Split Changes</p>
@@ -61,8 +61,6 @@
 			</fieldset>
 		</form>
 	</div>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
     
 </body>
 </html>

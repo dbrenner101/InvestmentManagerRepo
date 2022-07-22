@@ -7,12 +7,13 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
 	<meta charset="UTF-8">
 	<title>Add a Quote Manually</title>
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+	<div id="mainMenu"></div>
     <p></p>
 
     <p class="commonBoldTextFormat">Add a Quote</p>
@@ -20,7 +21,7 @@
     <p></p>
 
     <div class="formFrame">
-        Investment: <span th:test="${investment.companyName}"></span><br/>
+        Investment: <span th:text="${investment.companyName}"></span><br/>
 	    <form action="#" th:action="@{/saveManualQuote}" th:object="${quote}" method="post" class="formFormat">
 	        <fieldset>
                 <input type="hidden" name="symbol" th:value="${investment.symbol}" />
@@ -38,8 +39,6 @@
 	        </fieldset>
 	    </form>
     </div>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
 
 </body>
 </html>

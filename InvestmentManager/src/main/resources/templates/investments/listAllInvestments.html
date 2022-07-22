@@ -7,14 +7,14 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
     <meta charset="UTF-8">
     <title>All Investment Options</title>
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+	 <div id="mainMenu"></div>
+
     <p></p>
 
     <p class="commonBoldTextFormat">List of Investments</p>
@@ -28,7 +28,7 @@
             <th>Type</th>
             <th>Update Share Details</th>
             <th>Last Quote Date</th>
-            <th>Delete</th>
+            <!-- <th>Delete</th> -->
         </tr>
         <tr th:each="investment : ${investments}">
             <td><a href="getInvestmentDetails" th:href="@{/getInvestmentDetails(investmentId=${investment.investmentId})}"><span th:text="${investment.companyName}"></span></a></td>
@@ -37,12 +37,14 @@
             <td th:text="${investment.exchange}"></td>
             <td th:text="${investment.investmentType}"></td>
             <td><a th:href="@{/startManualQuote(investmentId=${investment.investmentId})}">Add</a></td>
-            <td th:text="${#calendars.format(quoteDatesForInvestmentsMap.get(investment.investmentId), 'MM/dd/yyyy')}"></td>
-            <td><a th:href="@{/deleteInvestment(investmentId=${investment.investmentId})}">Delete</a></td>
+            <td>
+                <div th:if="${investment.mostRecentQuote != null}">
+                    <span th:text="${#calendars.format(investment.mostRecentQuote.date, 'MM/dd/yyyy')}"></span>
+                </div>
+            </td>
+            <!-- <td><a th:href="@{/deleteInvestment(investmentId=${investment.investmentId})}">Delete</a></td> -->
         </tr>
     </table>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
 
 </body>
 </html>

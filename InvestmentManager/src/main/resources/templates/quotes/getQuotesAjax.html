@@ -7,18 +7,18 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
+    <script>require(["js/buildHistoricalQuoteTable"], function (buildHistoricalQuoteTable) {});</script>
 	<meta charset="UTF-8">
 	<title>Get Quotes</title>
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+	 <div id="mainMenu"></div>
 
     <div id="jsonStream"></div>
     <p></p>
-    
-    
-   <!--  <div th:insert="~{fragments :: menu}"></div> -->
+
     <p></p>
 
     <div class="formFrame">
@@ -45,15 +45,6 @@
     
     <div id="resultDiv" class="commonTextFormat"></div>
     <p></p>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
-    
-    <script>
-        require([
-            "js/buildHistoricalQuoteTable"
-        ], function (buildHistoricalQuoteTable) {
-        });
-    </script>
 
 
 </body>

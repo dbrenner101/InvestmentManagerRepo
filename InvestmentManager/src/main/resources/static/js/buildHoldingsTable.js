@@ -103,10 +103,6 @@ define([
 	                  symbolCell.innerHTML = holdings[i].investment.symbol;
 	                  row.appendChild(symbolCell);
 	                  
-//	                  var purchaseDateCell = document.createElement("td");
-//	                  purchaseDateCell.innerHTML = holdings[i].purchaseDate;
-//	                  row.append(purchaseDateCell);
-	                  
 	                  var quantityCell = document.createElement("td");
 	                  quantityCell.innerHTML = holdings[i].quantity;
 	                  row.appendChild(quantityCell);
@@ -116,35 +112,36 @@ define([
 	                  row.appendChild(priceAtPurchaseCell);
 	                  
 	                  var currentPriceCell = document.createElement("td");
-	                  if (holdings[i].quotes[0] != null) {
-	                	  currentPriceCell.innerHTML = '$' + holdings[i].quotes[0].close.formatMoney(2, '.', ',');
+	                  if (holdings[i].mostRecentQuote != null) {
+	                	  currentPriceCell.innerHTML = '$' + holdings[i].mostRecentQuote.close.formatMoney(2, '.', ',');
 	                  }
 	                  row.appendChild(currentPriceCell);
 	                  
 	                  var changeInPriceCell = document.createElement("td");
-	                  if (holdings[i].quotes[0] != null) {
-	                	  changeInPriceCell.innerHTML = '$' + (holdings[i].quotes[0].close - holdings[i].purchasePrice).formatMoney(2, '.', ',');
+	                  if (holdings[i].mostRecentQuote != null) {
+	                	  changeInPriceCell.innerHTML = '$' + (holdings[i].mostRecentQuote.close - holdings[i].purchasePrice).formatMoney(2, '.', ',');
 	                  }
 	                  row.appendChild(changeInPriceCell);
 	                  
+	                  let valueAtPurchase = holdings[i].valueAtPurchase == null ? "No Quote" : '$' + holdings[i].valueAtPurchase.formatMoney(2, '.', ',');
 	                  var valueAtPurchaseCell = document.createElement("td");
-	                  valueAtPurchaseCell.innerHTML = '$' + holdings[i].valueAtPurchase.formatMoney(2, '.', ',');
+	                  valueAtPurchaseCell.innerHTML =  valueAtPurchase;
 	                  row.appendChild(valueAtPurchaseCell);
 	                  
+	                  let currentValue = holdings[i].currentValue == null ? "No Quote" : '$' + holdings[i].currentValue.formatMoney(2, '.', ',');
 	                  var currentValueCell = document.createElement("td");
-	                  if (holdings[i].quotes[0] != null) {
-	                	  currentValueCell.innerHTML = '$' + holdings[i].currentValue.formatMoney(2, '.', ',');
-	                  }
+	                  currentValueCell.innerHTML = currentValue;
 	                  row.appendChild(currentValueCell);
 	                  
+	                  let changeInValue = holdings[i].changeInValue == null ? "No Quote" : '$' + holdings[i].changeInValue.formatMoney(2, '.', ',');
 	                  var changeInValueCell = document.createElement("td");
-	                  changeInValueCell.innerHTML = '$' + holdings[i].changeInValue.formatMoney(2, '.', ',');
+	                  changeInValueCell.innerHTML = changeInValue;
 	                  row.appendChild(changeInValueCell);
 	                  
 	                  
 	                  tbl.appendChild(row);
 	                  
-	                  if (holdings[i].quotes[0] != null) {
+	                  if (holdings[i].quote != null) {
 		                  totalValue += holdings[i].currentValue;
 		                  totalValueAtPurchase += holdings[i].valueAtPurchase;
 	                  }

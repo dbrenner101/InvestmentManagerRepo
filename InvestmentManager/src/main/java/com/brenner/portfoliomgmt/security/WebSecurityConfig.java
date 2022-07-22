@@ -25,7 +25,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authz) -> authz.anyRequest().hasRole("USER"))
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .successForwardUrl("/")
+                        .successForwardUrl("/index")
+                        .defaultSuccessUrl("/index")
                         .permitAll()
                 )
                 .authenticationManager(investmentUserDetailsService);
@@ -37,7 +38,7 @@ public class WebSecurityConfig {
         http
             .logout(logout -> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID"));                              
             

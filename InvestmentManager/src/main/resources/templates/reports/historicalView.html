@@ -7,16 +7,15 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
+	 <div id="mainMenu"></div>
     
     <div id="jsonResult"></div>
-
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
 
     <p class="commonBoldTextFormat">Historical Quotes</p>
     <p></p>
@@ -40,8 +39,6 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
     
     <script>
     

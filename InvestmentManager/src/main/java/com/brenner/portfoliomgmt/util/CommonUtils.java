@@ -259,4 +259,11 @@ public class CommonUtils {
     public SimpleDateFormat getIexJasonDateFormat() {
         return datePickerDateFormat;
     }
+    
+    public static Float convertCurrencyStringToFloat(String currencyString) {
+    	
+    	String floatString = currencyString.trim().replace("$", "").replace(",", "");
+    	
+    	return Float.valueOf(floatString);
+    }
 }

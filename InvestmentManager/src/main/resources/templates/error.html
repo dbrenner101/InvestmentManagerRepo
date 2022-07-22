@@ -3,10 +3,17 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/menu.js"></script>
 </head>
-<body>
+<body class="tundra">
     
-    <div th:insert="~{fragments :: menu}"></div>
+    <div id="mainMenu"></div>
     <p></p>
     
 	<p class="commonBoldTextFormat">Investment Manager Error Page</p>
@@ -43,5 +50,6 @@
 	        </td>
 	    </tr>
 	</table>
+ 
 </body>
 </html>

@@ -7,14 +7,14 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script>require(["js/buildHoldingsTable.js"], function (buildHoldingsTable) {});</script>
+    <script src="js/menu.js"></script>
 	<meta charset="UTF-8">
 	<title>Select Account for Holdings List</title>
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+	 <div id="mainMenu"></div>
     <p></p>
 
     <div id="jsonStream"></div>
@@ -49,8 +49,6 @@
     <div id="resultDiv" class="commonTextFormat"></div>
     <p></p>
     
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
-   <script>require(["js/buildHoldingsTable.js"], function (buildHoldingsTable) {});</script>
 
 </body>
 </html>

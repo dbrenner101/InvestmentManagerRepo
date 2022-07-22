@@ -7,21 +7,20 @@
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
-	<meta charset="UTF-8">
+    <script src="js/menu.js"></script>
 	<meta charset="UTF-8">
 <title>Update Investment Details</title>
 </head>
 <body class="tundra">
 
-	 <div id="mainMenu" data-dojo-type="dijit/MenuBar"></div>
-    
-    <!-- <div th:insert="~{fragments :: menu}"></div> -->
+	 <div id="mainMenu"></div>
+
     <p></p>
 
     <p class="commonBoldTextFormat">Edit Investment Details</p>
     
     <div class="formFrame">
-	    <form action="updateInvestment" class="formFormat" th:object="${investment}">
+	    <form action="#" th:action="@{/updateInvestment}" class="formFormat" th:object="${investment}" method="post">
 	        <input type="hidden" name="investmentId" th:value="${investment.investmentId}"/>
 	        <fieldset>
 	            Company name: <input type="text" size="50" name="companyName" th:attr="value=${investment.companyName}" /><br>
@@ -30,18 +29,16 @@
 	            Exchange: <input type="text" name="exchange" th:value="${investment.exchange}" /><br>
 	            Investment type: <select name="investmentType">
 	            	<option value="">Select</option>
-	            	<option th:each="investmentTypeEnum : ${T(com.brenner.portfoliomgmt.investments.InvestmentTypeEnum).values()}"
+	            	<option th:each="investmentTypeEnum : ${T(com.brenner.portfoliomgmt.domain.InvestmentTypeEnum).values()}"
 	            		th:value="${investmentTypeEnum}"
 	            		th:text="${investmentTypeEnum.displayName}"
-	            		th:selected="${investmentTypeEnum.displayName.equals(investment.investmentType.displayName)}">
+	            		th:selected="${investment.investmentType != null and investmentTypeEnum.displayName.equals(investment.investmentType.displayName)}">
 	    			</option>
 	            </select><br>
 	            <input type="submit" value="Update Investment" autofocus="autofocus"/>
 	        </fieldset>
 	    </form>
     </div>
-    
-   <script>require(["js/menu.js"], function(applyMenu){});</script>
 
 </body>
 </html>
