@@ -29,11 +29,14 @@
 	            Account number: <input type="text" name="accountNumber" th:field="*{accountNumber}"/><br>
                 Cash on account: <input type="number" name="cashOnAccount" th:field="*{cashOnAccount}" step="any"/><br />
 	            Type: <select name="accountType" th:field="*{accountType}">
+                    <option value="Savings" th:selected="*{accountType.equals('Savings')}">Savings</option>
+                    <option value="Checking" th:selected="*{accountType.equals('Checking')}">Checking</option>
 	                <option value="Investment" th:selected="*{accountType.equals('Investment')}">Investment</option>
 	                <option value="401k" th:selected="*{accountType.equals('401k')}">401k</option>
 	                <option value="IRA" th:selected="*{accountType.equals('IRA')}">IRA</option>
 	                <option value="Inherited IRA" th:selected="*{accountType.equals('Inherited IRA')}">Inherited IRA</option>
 	                <option value="Roth IRA" th:selected="*{accountType.equals('Roth IRA')}">Roth IRA</option>
+                    <option value="Crypto" th:selected="*{accountType.equals('Crypto')}">Crypto</option>
 	            </select><br>
 	            <input type="submit" value="Update" />
 	        </fieldset>
