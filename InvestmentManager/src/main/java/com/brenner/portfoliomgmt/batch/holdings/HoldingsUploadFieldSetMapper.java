@@ -43,7 +43,7 @@ public class HoldingsUploadFieldSetMapper extends PortfolioManagementFieldSetMap
         			break;
         		case "Acquired":
 					try {
-						rowInstance.setAcquiredDate(CommonUtils.convertCommonDateFormatStringToDate(fieldValue));
+						rowInstance.setAcquiredDate(CommonUtils.convertDateString2DigitYearToDate(fieldValue));
 					} catch (ParseException e) {
 						throw new BindException(buildBindingResult(rowInstance, "Acquired", "Unable to parse date: " + fieldValue + ". Row: " + i));
 					}

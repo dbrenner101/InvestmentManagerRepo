@@ -22,6 +22,7 @@
 	    <form action="#" th:action="@{/updateHolding}" class="formFormat" th:object="${holding}" method="post">
 	        <fieldset>
 	            <input type="hidden" name="holdingId" th:field="*{holdingId}"/>
+             <span th:text="*{purchaseDate}"></span>
 	            Account: </span><select name="account.accountId" autofocus="autofocus">
 	                <option value="">Select</option>
 	                <option 
@@ -38,7 +39,8 @@
                          th:text="${inv.symbol + ' :: ' + inv.companyName}"
                          th:selected="${inv.investmentId == holding.investment.investmentId}" />
                 </select><br>
-                Purchase Price: <input type="number" step="any" th:field="${holding.purchasePrice}" /><br>
+                Purchase Price: <input type="number" step="any" th:field="*{purchasePrice}" /><br>
+                Purchase Date: <input type="date" th:field="*{purchaseDate}" /><br>
 	            Quantity: <input type="number" th:field="*{quantity}" step="any" /> <br>
 	            Bucket: <select name="bucketEnum">
                     <option value="">Select</option>

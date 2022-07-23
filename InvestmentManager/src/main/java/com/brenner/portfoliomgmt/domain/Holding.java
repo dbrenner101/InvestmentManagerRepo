@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  *
  * @author dbrenner
@@ -36,6 +38,7 @@ public class Holding {
 	
 	private BigDecimal totalCurrentValue;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date purchaseDate;
 	
 	private BigDecimal totalDividends;

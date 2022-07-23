@@ -43,12 +43,25 @@ public class CommonUtils {
     /**
      * MM/dd/yyyy date format
      */
-    private final SimpleDateFormat commonDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private static final SimpleDateFormat COMMMON_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    
+    /**
+     * MM/dd/yy date format
+     */
+    private static final SimpleDateFormat TWO_DIGIT_YEAR_FORMAT = new SimpleDateFormat("MM/dd/yy");
     
     /**
      * yyyy-MM-dd date format
      */
-    private final SimpleDateFormat datePickerDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat DATE_PICKER_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    
+    
+    public static Date convertDateString2DigitYearToDate(String dateString) throws ParseException {
+    	
+    	logger.debug("Converting string {} to date object", dateString);
+    	
+    	return TWO_DIGIT_YEAR_FORMAT.parse(dateString);
+    }
 
     /**
      * Converts a date string to a date object. Uses the commonDateFormat formatter
@@ -61,14 +74,20 @@ public class CommonUtils {
 		
 		logger.debug("Converting string {} to date object", dateString);
 		
-		return new CommonUtils().getCommonDateFormat().parse(dateString);
+		return COMMMON_DATE_FORMAT.parse(dateString);
 	}
 	
 	public static String convertDateToMMDDYYYYString(Date date) {
 		
 		logger.debug("Converting date {} to MMDDYYYY string", date);
 		
-		return new CommonUtils().getCommonDateFormat().format(date);
+		return COMMMON_DATE_FORMAT.format(date);
+	}
+	
+	public static String convertDateToDatePickerString(Date date) {
+		logger.debug("Converting date {} to yyyy-MM-dd string", date);
+		
+		return DATE_PICKER_FORMAT.format(date);
 	}
 	
 	/**
@@ -82,7 +101,7 @@ public class CommonUtils {
 		
 		logger.debug("Converting string {} to date", dateString);
 	    
-	    return new CommonUtils().getIexJasonDateFormat().parse(dateString);
+	    return DATE_PICKER_FORMAT.parse(dateString);
 	}
 	
 	/**
@@ -146,7 +165,7 @@ public class CommonUtils {
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         mapper.setSerializationInclusion(Include.ALWAYS);
-        mapper.setDateFormat(new CommonUtils().commonDateFormat);
+        mapper.setDateFormat(COMMMON_DATE_FORMAT);
         
         logger.info("Exiting serializeObjectToJson()");
         
@@ -234,31 +253,8 @@ public class CommonUtils {
 		
 		logger.debug("Converting date {} to MMYYDD string", date);
 	    
-	    return new CommonUtils().datePickerDateFormat.format(date);
+	    return DATE_PICKER_FORMAT.format(date);
 	}
-	
-	public static String convertDateToDatePickerString(Date date) {
-		
-		return new CommonUtils().datePickerDateFormat.format(date);
-	}
-
-	/**
-	 * Access to the common date formatter
-	 * 
-	 * @return the date formatter
-	 */
-    public SimpleDateFormat getCommonDateFormat() {
-        return commonDateFormat;
-    }
-
-    /**
-     * Access to the JSON date formatter
-     * 
-     * @return the date formatter
-     */
-    public SimpleDateFormat getIexJasonDateFormat() {
-        return datePickerDateFormat;
-    }
     
     public static Float convertCurrencyStringToFloat(String currencyString) {
     	
