@@ -1,6 +1,5 @@
 package com.brenner.portfoliomgmt.batch.holdings;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.batch.item.ItemProcessor;
@@ -55,7 +54,7 @@ public class HoldingsUploadRowProcessor implements ItemProcessor<NewHoldingsUplo
     	holding.setQuantity(rowInstance.getQuantity());
     	
     	
-    	List<Holding> holdings = this.holdingsService.findHoldingByAccountAccountIdAndInvestmentInvestmentId(account.getAccountId(), investment.getInvestmentId());
+    	/*List<Holding> holdings = this.holdingsService.findHoldingByAccountAccountIdAndInvestmentInvestmentId(account.getAccountId(), investment.getInvestmentId());
     	Optional<Holding> optHolding = holdings.stream()
     			.filter(h -> h.getPurchaseDate().equals(holding.getPurchaseDate()))
     			.filter(h -> h.getQuantity().equals(holding.getQuantity()))
@@ -63,7 +62,7 @@ public class HoldingsUploadRowProcessor implements ItemProcessor<NewHoldingsUplo
     			.findFirst();
     	if (optHolding.isPresent()) {
     		throw new Exception("Holding appears to be a duplicate. New holding: " + holding + "; found holding: " + optHolding.get());
-    	}
+    	}*/
     	
     	Transaction transaction = new Transaction();
     	transaction.setHolding(holding);

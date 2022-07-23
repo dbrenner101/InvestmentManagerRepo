@@ -6,7 +6,8 @@ public enum InvestmentTypeEnum {
 	MutualFund("Mutual Fund", 2),
 	Bond ("Bond", 3), 
 	REIT("Real Estate Investment Trust", 4), 
-	CD("Certificate of Deposit", 5);
+	CD("Certificate of Deposit", 5),
+	Crypto("Crypto", 6);
 	
 	private final String displayName;
 	private final int index;
@@ -39,6 +40,8 @@ public enum InvestmentTypeEnum {
 			return InvestmentTypeEnum.REIT;
 		case 5:
 			return InvestmentTypeEnum.CD;
+		case 6:
+			return InvestmentTypeEnum.Crypto;
 		default:
 			return InvestmentTypeEnum.Stock;
 		}

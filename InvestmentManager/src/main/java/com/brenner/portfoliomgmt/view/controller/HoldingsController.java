@@ -22,6 +22,7 @@ import com.brenner.portfoliomgmt.domain.Account;
 import com.brenner.portfoliomgmt.domain.BucketEnum;
 import com.brenner.portfoliomgmt.domain.Holding;
 import com.brenner.portfoliomgmt.domain.Investment;
+import com.brenner.portfoliomgmt.domain.Quote;
 import com.brenner.portfoliomgmt.domain.Transaction;
 import com.brenner.portfoliomgmt.domain.TransactionTypeEnum;
 import com.brenner.portfoliomgmt.exception.NotFoundException;
@@ -201,6 +202,22 @@ public class HoldingsController implements WebMvcConfigurer {
         model.addAttribute("holding", holding);
         model.addAttribute("accounts", accounts);
         model.addAttribute("investments", investments);
+        
+        List<Holding> holdings = this.holdingsService.findHoldingsForAccount(holding.getAccount().getAccountId());
+        
+        for (Holding h : holdings) {
+        	BigDecimal valueAtPurchase = h.getPurchasePrice().multiply(h.getQuantity());
+			h.setValueAtPurchase(valueAtPurchase);
+			
+			Quote mostRecentQuote = h.getMostRecentQuote();
+			if (mostRecentQuote != null) {
+				BigDecimal close = mostRecentQuote.getClose();
+				h.setCurrentValue(h.getQuantity().multiply(close));
+				h.setChangeInValue(h.getCurrentValue().subtract(valueAtPurchase));
+			}
+        }
+        
+        model.addAttribute("holdings", holdings);
         
         logger.info("Forwarding to holdings/editHoldingForm");
         
