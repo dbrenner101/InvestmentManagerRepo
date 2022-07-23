@@ -58,7 +58,7 @@ public class HoldingsUploadFieldSetMapper extends PortfolioManagementFieldSetMap
         			if (fieldValue == null || fieldValue.trim().length() == 0) {
         				throw new BindException(buildBindingResult(rowInstance, "Quantity", "Quantity is null or empty. Row: " + i));
         			}
-        			rowInstance.setQuantity(new BigDecimal(fieldValue));
+        			rowInstance.setQuantity(new BigDecimal(fieldValue.replace(",", "")));
         			break;
         		case "Cost Basis Per Share":
         			if (fieldValue == null || fieldValue.trim().length() == 0) {
