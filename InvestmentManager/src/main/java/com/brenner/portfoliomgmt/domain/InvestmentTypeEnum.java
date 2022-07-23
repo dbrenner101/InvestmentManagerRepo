@@ -7,7 +7,8 @@ public enum InvestmentTypeEnum {
 	Bond ("Bond", 3), 
 	REIT("Real Estate Investment Trust", 4), 
 	CD("Certificate of Deposit", 5),
-	Crypto("Crypto", 6);
+	Crypto("Crypto", 6), 
+	Cash("Cash", 7);
 	
 	private final String displayName;
 	private final int index;
@@ -42,6 +43,8 @@ public enum InvestmentTypeEnum {
 			return InvestmentTypeEnum.CD;
 		case 6:
 			return InvestmentTypeEnum.Crypto;
+		case 7:
+			return InvestmentTypeEnum.Cash;
 		default:
 			return InvestmentTypeEnum.Stock;
 		}
