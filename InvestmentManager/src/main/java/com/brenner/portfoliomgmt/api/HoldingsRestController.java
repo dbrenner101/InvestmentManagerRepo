@@ -48,6 +48,9 @@ public class HoldingsRestController {
 		log.info("Entered allHoldings()");
 		
 		List<Holding> holdings = this.holdingsService.findAllHoldingsOrderedBySymbol();
+		for (Holding holding : holdings) {
+			holding.setValueAtPurchase(holding.getPurchasePrice().multiply(holding.getQuantity()));
+		}
 		log.debug("Returning {} holdings", holdings != null ? holdings.size() : 0);
 		
 		log.info("Exiting allHoldings()");

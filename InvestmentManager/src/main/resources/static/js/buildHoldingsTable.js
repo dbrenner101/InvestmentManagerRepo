@@ -141,10 +141,8 @@ define([
 	                  
 	                  tbl.appendChild(row);
 	                  
-	                  if (holdings[i].quote != null) {
-		                  totalValue += holdings[i].currentValue;
-		                  totalValueAtPurchase += holdings[i].valueAtPurchase;
-	                  }
+	                  totalValue += holdings[i].currentValue;
+	                  totalValueAtPurchase += holdings[i].valueAtPurchase;
 	                  
 	                  var editHoldingCell = document.createElement("td");
 	                  editHoldingCell.innerHTML = "<a href=\"editHolding?holdingId=" + holdings[i].holdingId + "\">(Edit)</a>";
