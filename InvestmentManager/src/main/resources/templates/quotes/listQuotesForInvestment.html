@@ -24,7 +24,7 @@
                 <option value="">Select</option>
                 <option 
                     th:each="investment : ${investments}" 
-                    th:value="${investment.symbol}" 
+                    th:value="${investment.investmentId}" 
                     th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
              </select>
          </form>

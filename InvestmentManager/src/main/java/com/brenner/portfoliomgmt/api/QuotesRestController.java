@@ -32,10 +32,10 @@ public class QuotesRestController {
      * @param symbol
      * @return
      */
-	@GetMapping(path="/quotes/symbol/{symbol}")
-	public List<Quote> getQuotesBySymbol(@PathVariable String symbol) {
+	@GetMapping(path="/quotes/investmentId/{investmentId}")
+	public List<Quote> getQuotesByInvestmentId(@PathVariable Long investmentId) {
 		
-		List<Quote> quotes = this.quotesService.findAllQuotesBySymbol(symbol);
+		List<Quote> quotes = this.quotesService.findAllByInvestmentId(investmentId);
 		return quotes;
 	}
 }

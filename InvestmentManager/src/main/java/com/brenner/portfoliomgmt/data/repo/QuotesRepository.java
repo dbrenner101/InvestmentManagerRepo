@@ -32,6 +32,6 @@ public interface QuotesRepository extends JpaRepository<QuoteDTO, Long> {
 	
 	public List<QuoteDTO> findAllByInvestmentInvestmentId(Long investmentId);
 
-	@Query(nativeQuery = true, value = "select * from quotes q where q.quote_date = (select max(quote_date) from quotes where investment_id = ?);")
-	public List<QuoteDTO> findMostRecentQuotesForInvestmentId(Long investmentId);
+	@Query(nativeQuery = true, value = "select * from quotes q where investment_id = ? and q.quote_date = (select max(quote_date) from quotes where investment_id = ?);")
+	public List<QuoteDTO> findMostRecentQuotesForInvestmentId(Long investmentId, Long investmentId2);
 }

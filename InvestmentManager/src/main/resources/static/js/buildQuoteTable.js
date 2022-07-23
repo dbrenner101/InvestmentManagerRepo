@@ -13,7 +13,7 @@ define([
 	        var value = dom.byId("investmentSelect").value;
 
 	        // Request the JSON data from the server
-	        request.get("api/quotes/symbol/" + value, {
+	        request.get("api/quotes/investmentId/" + value, {
 	            handleAs: "json"
 	        }).then(function(data) {
 	        	// Display the data sent from the server

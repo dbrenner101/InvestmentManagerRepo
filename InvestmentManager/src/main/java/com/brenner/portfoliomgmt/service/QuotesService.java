@@ -64,7 +64,9 @@ public class QuotesService {
     		throw new InvalidRequestException("investment.investmentId must not be null.");
     	}
     	
-    	List<QuoteDTO> quotesData = this.quotesRepo.findMostRecentQuotesForInvestmentId(investment.getInvestmentId());
+    	Long investmentId = investment.getInvestmentId();
+    	
+    	List<QuoteDTO> quotesData = this.quotesRepo.findMostRecentQuotesForInvestmentId(investmentId, investmentId);
     	
     	return ObjectMappingUtil.mapQuoteDtoList(quotesData);
     }
@@ -183,9 +185,9 @@ public class QuotesService {
      * @param investmentId - investment unique id
      * @return {@link List}<Quote>
      */
-    public List<QuoteDTO> findAllByInvestmentId(Long investmentId) {
+    public List<Quote> findAllByInvestmentId(Long investmentId) {
     	
-    	return this.quotesRepo.findAllByInvestmentInvestmentId(investmentId);
+    	return ObjectMappingUtil.mapQuoteDtoList(this.quotesRepo.findAllByInvestmentInvestmentId(investmentId));
     }
     
     /**
