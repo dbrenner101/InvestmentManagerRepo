@@ -64,6 +64,7 @@
             <th>Quantity</th>
             <th>Price at Purchase</th>
             <th>Most Recent Close</th>
+            <th>Bucket</th>
         </tr>
         <tr th:each="holding : ${holdings}">
             <td><a href="editHolding" th:href="@{/editHolding(holdingId=${holding.holdingId})}"><span th:text="${holding.investment.companyName}"></span></a></td>
@@ -72,6 +73,7 @@
            <td th:text="${holding.quantity}" />
            <td th:text="${holding.purchasePrice}" />
            <td th:text="${holding.mostRecentQuote.close}" />
+           <td th:text="${holding.bucketEnum.description}" />
         </tr>
     </table>
 
