@@ -27,6 +27,7 @@ import com.brenner.portfoliomgmt.data.repo.HoldingsRepository;
 import com.brenner.portfoliomgmt.data.repo.InvestmentsRepository;
 import com.brenner.portfoliomgmt.data.repo.TransactionsRepository;
 import com.brenner.portfoliomgmt.domain.Account;
+import com.brenner.portfoliomgmt.domain.BucketEnum;
 import com.brenner.portfoliomgmt.domain.Holding;
 import com.brenner.portfoliomgmt.domain.Investment;
 import com.brenner.portfoliomgmt.domain.Quote;
@@ -72,6 +73,13 @@ public class HoldingsService {
 		this.holdingsRepo.deleteById(holdingId);
 		
 		log.info("Exiting delete()");
+	}
+	
+	public List<Holding> findHoldingsByBucket(BucketEnum bucket) {
+		
+		List<HoldingDTO> holdings = this.holdingsRepo.findByBucketEnum(bucket);
+		
+		return ObjectMappingUtil.mapHoldingDtoList(holdings);
 	}
     
     /**

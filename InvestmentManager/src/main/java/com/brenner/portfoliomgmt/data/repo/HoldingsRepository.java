@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.brenner.portfoliomgmt.data.entities.HoldingDTO;
+import com.brenner.portfoliomgmt.domain.BucketEnum;
 
 /**
  *
@@ -62,4 +63,6 @@ public interface HoldingsRepository extends JpaRepository<HoldingDTO, Long> {
 			+ "  AND h.account_account_id = ? "
 			+ "  AND h.quantity > 0;")
 	List<HoldingDTO> findHoldingsByAccountIdAndQuantityGreaterThan0OrderBySymbol(Long accountId);
+	
+	List<HoldingDTO> findByBucketEnum(BucketEnum bucket);
 }

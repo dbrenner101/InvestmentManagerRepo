@@ -59,6 +59,11 @@ public class HoldingsController implements WebMvcConfigurer {
 		
 		return "redirect:getAccountsForHoldings";
 	}
+	
+	@RequestMapping("chooseBucketForHoldingsList")
+	public String chooseBucketForHoldingsList(Model model) {
+		return "holdings/selectBucketForHoldings";
+	}
     
     
 	/**

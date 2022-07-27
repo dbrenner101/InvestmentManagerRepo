@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.brenner.portfoliomgmt.data.entities.AccountDTO;
 import com.brenner.portfoliomgmt.data.entities.HoldingDTO;
 import com.brenner.portfoliomgmt.domain.Account;
+import com.brenner.portfoliomgmt.domain.BucketEnum;
 import com.brenner.portfoliomgmt.domain.Holding;
 import com.brenner.portfoliomgmt.domain.Quote;
 import com.brenner.portfoliomgmt.exception.NotFoundException;
@@ -54,6 +55,19 @@ public class HoldingsRestController {
 		log.debug("Returning {} holdings", holdings != null ? holdings.size() : 0);
 		
 		log.info("Exiting allHoldings()");
+		return holdings;
+	}
+	
+	@GetMapping("/holdings/bucket/{bucketEnum}")
+	public List<Holding> allHoldingsByBucketEnum(@PathVariable String bucketEnum) {
+		
+		BucketEnum bucket = BucketEnum.valueOf(bucketEnum);
+		
+		List<Holding> holdings = this.holdingsService.findHoldingsByBucket(bucket);
+		for (Holding holding : holdings) {
+			holding.setValueAtPurchase(holding.getPurchasePrice().multiply(holding.getQuantity()));
+		}
+		
 		return holdings;
 	}
 	

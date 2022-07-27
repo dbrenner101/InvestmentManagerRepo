@@ -126,9 +126,16 @@ require([
     holdingsMenu = new Menu({ id: "holdingsMenu" })
     holdingsMenu.addChild(new MenuItem({
     	id: "listHoldings",
-    	label: "List Holdings",
+    	label: "List Holdings by Account",
         onClick: function() {
         	location.assign("getAccountsForHoldings");
+        }
+    }));
+    holdingsMenu.addChild(new MenuItem({
+        id: "holdingsByBucket",
+        label: "List Holdings by Bucket",
+        onClick: function() {
+            location.assign("chooseBucketForHoldingsList");
         }
     }));
     holdingsMenu.addChild(new MenuItem({
@@ -192,7 +199,7 @@ require([
         }
     }));
     reportsMenu.addChild(new MenuItem({
-        id: "holdingsByBucket",
+        id: "listHoldingsByBucket",
         label: "Holdings by Bucket",
         onClick: function() {
             location.assign("holdingsByBucket")

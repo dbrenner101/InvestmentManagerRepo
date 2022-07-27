@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script>require(["js/buildHoldingsTableByBucket.js"], function (buildHoldingsTable) {});</script>
+    <script src="js/menu.js"></script>
+    <meta charset="UTF-8">
+    <title>Holdings by Bucket</title>
+</head>
+<body class="tundra">
+
+     <div id="mainMenu"></div>
+    <p></p>
+
+    <div id="jsonStream"></div>
+
+    <p class="commonBoldTextFormat">Holdings by Bucket</p>
+    
+    <div class="formFrame">
+        <p class="commonBoldTextFormat">
+            Total Value Change: <span class="commonTextFormat" id="totalValueChange"></span><br>
+            Value at Purchase: <span class="commonTextFormat" id="valueAtPurchase"></span><br>
+            Current Cash: <span class="commonTextFormat" id="currentCash"></span><br>
+            Total Current Value: <span class="commonTextFormat" id="totalCurrentValue"></span>
+        </p>
+    </div>
+    
+    <p class="commonBoldTextFormat">Choose Bucket to List Holdings</p>
+    
+    <div class="formFrame">
+        <form class="formFormat">
+            <fieldset>
+                <select name="bucket" id="bucketSelection">
+                    <option value="">Select</option>
+                    <option th:each="bucket : ${T(com.brenner.portfoliomgmt.domain.BucketEnum).values()}"
+                        th:value="${bucket}" th:text="${bucket.description}" />
+                </select>
+            </fieldset>
+        </form>
+    </div>
+    
+    <p></p>
+    
+    <table id="tableDiv" class="commonTableFormat"></table>
+    
+    <p></p>
+    
+    <div id="resultDiv" class="commonTextFormat"></div>
+    <p></p>
+
+</body>
+</html>
