@@ -27,7 +27,6 @@
 	            Company: <input type="text" name="company" th:field="*{company}"/><br>
 	            Owner: <input type="text" name="owner" th:field="*{owner}"/><br>
 	            Account number: <input type="text" name="accountNumber" th:field="*{accountNumber}"/><br>
-                Cash on account: <input type="number" name="cashOnAccount" th:field="*{cashOnAccount}" step="any"/><br />
 	            Type: <select name="accountType" th:field="*{accountType}">
                     <option value="Savings" th:selected="*{accountType.equals('Savings')}">Savings</option>
                     <option value="Checking" th:selected="*{accountType.equals('Checking')}">Checking</option>

@@ -1,8 +1,9 @@
-package com.brenner.portfoliomgmt.domain;
+package com.brenner.portfoliomgmt.domain.reporting;
 
 import java.util.List;
 import java.util.Map;
 
+import com.brenner.portfoliomgmt.domain.Quote;
 import com.brenner.portfoliomgmt.domain.deserialize.HistoricalQuotesBatchDeserializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

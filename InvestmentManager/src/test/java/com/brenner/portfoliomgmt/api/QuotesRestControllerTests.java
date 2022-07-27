@@ -44,10 +44,10 @@ public class QuotesRestControllerTests {
         Investment inv = DomainTestData.generateInvestment(1);
         List<Quote> quotes = DomainTestData.generateQuotesList(4, inv);
     
-        Mockito.when(this.quotesService.findAllQuotesBySymbol(inv.getSymbol())).thenReturn(quotes);
+        Mockito.when(this.quotesService.findAllByInvestmentId(inv.getInvestmentId())).thenReturn(quotes);
         
         this.mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/quotes/symbol/" + inv.getSymbol())
+                .get("/api/quotes/investmentId/" + inv.getInvestmentId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))

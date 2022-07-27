@@ -51,8 +51,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
             name="PortfolioRollup.getPortfolioRollup", 
             query="select sum(t.trade_quantity * q.price_at_close) as market_value, q.quote_date \n" + 
             		"from holdings h, transactions t, investments i, quotes q  \n" + 
-            		"where h.holding_id = t.holding_id and h.investment_investment_id = i.investment_id and q.investment_id = i.investment_id group by q.quote_date \n" + 
-            		"order by q.quote_date;;", 
+            		"where h.holding_id = t.holding_holding_id and h.investment_investment_id = i.investment_id and q.investment_id = i.investment_id group by q.quote_date \n" + 
+            		"order by q.quote_date;", 
             resultSetMapping="portfolioRollupMapping",
             resultClass=PortfolioRollup.class
     ),
@@ -68,7 +68,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
     @NamedNativeQuery(
             name="PortfolioRollup.getPortfolioRollupByMonths", 
             query="select sum(t.trade_quantity * q.price_at_close) as market_value, q.quote_date from holdings h, transactions t, investments i, quotes q \n" + 
-            		"where h.holding_id = t.holding_id and h.investment_investment_id = i.investment_id and q.investment_id = i.investment_id and q.quote_date >= ? \n" + 
+            		"where h.holding_id = t.holding_holding_id and h.investment_investment_id = i.investment_id and q.investment_id = i.investment_id and q.quote_date >= ? \n" + 
             		"group by q.quote_date \n" + 
             		"order by q.quote_date;", 
             resultSetMapping="portfolioRollupMapping",

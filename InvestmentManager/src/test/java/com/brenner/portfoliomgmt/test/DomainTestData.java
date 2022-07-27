@@ -46,8 +46,7 @@ public class DomainTestData {
 	
 	public static Account generateAccount(int sequence, int numHoldings) {
 		Account account = new Account(Long.valueOf(sequence), "Account " + sequence, "Company " + sequence, 
-				"Owner " + sequence, "AccountNum " + sequence, "AccountType " + sequence, 
-				BigDecimal.valueOf(100*sequence));
+				"Owner " + sequence, "AccountNum " + sequence, "AccountType " + sequence);
 		account.setHoldings(generateHoldingsList(numHoldings, account));
 		
 		return account;
@@ -170,7 +169,6 @@ public class DomainTestData {
 		a.setAccountName(DomainTestData.ACCOUNT_ONE_NAME);
 		a.setAccountNumber(DomainTestData.ACCOUNT_ONE_NUM);
 		a.setAccountType(DomainTestData.ACCOUNT_ONE_TYPE);
-		a.setCashOnAccount(BigDecimal.valueOf(100));
 		a.setCompany(DomainTestData.ACCCOUNT_ONE_COMPANY);
 		a.setOwner(DomainTestData.ACCOUNT_ONE_OWNER);
 		
@@ -183,7 +181,6 @@ public class DomainTestData {
 		a.setAccountName("Account 2");
 		a.setAccountNumber("4321");
 		a.setAccountType("IRA");
-		a.setCashOnAccount(BigDecimal.valueOf(200));
 		a.setCompany("Company 2");
 		a.setOwner("Owner 2");
 		
@@ -196,7 +193,6 @@ public class DomainTestData {
 		a.setAccountName("Account 3");
 		a.setAccountNumber("5678");
 		a.setAccountType("ROTH");
-		a.setCashOnAccount(BigDecimal.valueOf(300));
 		a.setCompany("Company 3");
 		a.setOwner("Owner 3");
 		

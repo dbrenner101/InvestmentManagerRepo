@@ -170,20 +170,6 @@ require([
     }));
     
     reportsMenu = new Menu({ id: "reportsMenu" })
-    /*reportsMenu.addChild(new MenuItem({
-    	id: "reportsx",
-    	label: "Most Recent Quote",
-        onClick: function() {
-        	location.assign("prepForMostRecentQuote");
-        }
-    }));
-    reportsMenu.addChild(new MenuItem({
-    	id: "getQuotes",
-    	label: "Get 3 Month Quotes",
-        onClick: function() {
-        	location.assign("prepGetQuotesAjax");
-        }
-    }));*/
     reportsMenu.addChild(new MenuItem({
     	id: "portfolioPerformance",
     	label: "Visualize Portfolio Performance",
@@ -203,6 +189,13 @@ require([
     	label: "Holdings Breakdown",
         onClick: function() {
         	location.assign("holdingsByTypeAndSector");
+        }
+    }));
+    reportsMenu.addChild(new MenuItem({
+        id: "holdingsByBucket",
+        label: "Holdings by Bucket",
+        onClick: function() {
+            location.assign("holdingsByBucket")
         }
     }));
     

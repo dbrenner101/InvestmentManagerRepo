@@ -136,7 +136,6 @@ public class ModelMapperTests {
 			assertEquals(account.getAccountName(), accountData.getAccountName());
 			assertEquals(account.getAccountNumber(), accountData.getAccountNumber());
 			assertEquals(account.getAccountType(), accountData.getAccountType());
-			assertEquals(account.getCashOnAccount(), accountData.getCashOnAccount());
 			assertEquals(account.getCompany(), accountData.getCompany());
 			assertEquals(account.getOwner(), accountData.getOwner());
 		}

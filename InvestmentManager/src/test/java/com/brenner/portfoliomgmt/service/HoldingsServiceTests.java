@@ -16,13 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.brenner.portfoliomgmt.data.repo.AccountsRepository;
-import com.brenner.portfoliomgmt.exception.InvalidDataRequestException;
-import com.brenner.portfoliomgmt.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,8 +29,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.brenner.portfoliomgmt.data.entities.AccountDTO;
 import com.brenner.portfoliomgmt.data.entities.HoldingDTO;
 import com.brenner.portfoliomgmt.data.entities.InvestmentDTO;
-import com.brenner.portfoliomgmt.data.entities.QuoteDTO;
 import com.brenner.portfoliomgmt.data.entities.TransactionDTO;
+import com.brenner.portfoliomgmt.data.repo.AccountsRepository;
 import com.brenner.portfoliomgmt.data.repo.HoldingsRepository;
 import com.brenner.portfoliomgmt.data.repo.InvestmentsRepository;
 import com.brenner.portfoliomgmt.data.repo.TransactionsRepository;
@@ -44,12 +40,8 @@ import com.brenner.portfoliomgmt.domain.Investment;
 import com.brenner.portfoliomgmt.domain.Transaction;
 import com.brenner.portfoliomgmt.domain.TransactionTypeEnum;
 import com.brenner.portfoliomgmt.exception.InvalidRequestException;
-import com.brenner.portfoliomgmt.service.HoldingsService;
-import com.brenner.portfoliomgmt.service.InvestmentsService;
-import com.brenner.portfoliomgmt.service.QuotesService;
 import com.brenner.portfoliomgmt.test.DomainTestData;
 import com.brenner.portfoliomgmt.test.EntityTestData;
-import com.brenner.portfoliomgmt.util.CommonUtils;
 import com.brenner.portfoliomgmt.util.ObjectMappingUtil;
 
 /**
@@ -159,7 +151,7 @@ public class HoldingsServiceTests {
 		holdingData.setAccount(accountDTO);
 		Holding holding = ObjectMappingUtil.mapHoldingDtoToHolding(holdingData);
 		
-		Mockito.when(this.holdingsRepo.save(holdingData)).thenReturn(holdingData);
+		Mockito.when(this.holdingsRepo.save(Mockito.any(HoldingDTO.class))).thenReturn(holdingData);
 		
 		holding = this.holdingsService.saveHolding(holding);
 		

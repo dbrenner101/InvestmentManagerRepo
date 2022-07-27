@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 
 import com.brenner.portfoliomgmt.data.entities.Watchlist;
 import com.brenner.portfoliomgmt.data.repo.WatchlistRepository;
-import com.brenner.portfoliomgmt.domain.BatchHistoricalQuotes;
 import com.brenner.portfoliomgmt.domain.Investment;
 import com.brenner.portfoliomgmt.domain.Quote;
+import com.brenner.portfoliomgmt.domain.reporting.BatchHistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.reporting.InvestmentPerformance;
+import com.brenner.portfoliomgmt.domain.reporting.InvestmentPerformanceSet;
 import com.brenner.portfoliomgmt.quotes.retrievalservice.QuoteRetrievalService;
-import com.brenner.portfoliomgmt.reporting.InvestmentPerformance;
-import com.brenner.portfoliomgmt.reporting.InvestmentPerformanceSet;
 import com.brenner.portfoliomgmt.util.DataHelperUtil;
 
 @Service

@@ -48,7 +48,6 @@ import com.brenner.portfoliomgmt.service.AccountsService;
 import com.brenner.portfoliomgmt.service.HoldingsService;
 import com.brenner.portfoliomgmt.service.InvestmentsService;
 import com.brenner.portfoliomgmt.test.DomainTestData;
-import com.brenner.portfoliomgmt.view.controller.HoldingsController;
 
 /**
  *

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.brenner.portfoliomgmt.data.repo.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -31,12 +30,16 @@ import com.brenner.portfoliomgmt.data.entities.AccountDTO;
 import com.brenner.portfoliomgmt.data.entities.HoldingDTO;
 import com.brenner.portfoliomgmt.data.entities.InvestmentDTO;
 import com.brenner.portfoliomgmt.data.entities.TransactionDTO;
+import com.brenner.portfoliomgmt.data.repo.AccountsRepository;
+import com.brenner.portfoliomgmt.data.repo.HoldingsRepository;
+import com.brenner.portfoliomgmt.data.repo.InvestmentsRepository;
+import com.brenner.portfoliomgmt.data.repo.QuotesRepository;
+import com.brenner.portfoliomgmt.data.repo.TransactionsRepository;
 import com.brenner.portfoliomgmt.domain.Account;
 import com.brenner.portfoliomgmt.domain.Holding;
 import com.brenner.portfoliomgmt.domain.Transaction;
 import com.brenner.portfoliomgmt.domain.TransactionTypeEnum;
 import com.brenner.portfoliomgmt.exception.InvalidRequestException;
-import com.brenner.portfoliomgmt.service.HoldingsService;
 import com.brenner.portfoliomgmt.test.DomainTestData;
 import com.brenner.portfoliomgmt.test.EntityTestData;
 
@@ -130,9 +133,7 @@ public class TransactionsServiceTests {
     @Test
     public void testGetAllTransactionsForAccountAndHolding_Success() throws Exception {
     	
-    	AccountDTO accountData = EntityTestData.getAccount1();
     	Account account = DomainTestData.getAccount1();
-    	HoldingDTO holdingData = EntityTestData.getHolding1();
     	Holding holding = DomainTestData.getHolding1();
     	
     	TransactionDTO t1 = EntityTestData.getBuyTransaction1();
@@ -140,7 +141,7 @@ public class TransactionsServiceTests {
     	
     	List<TransactionDTO> transactions = new ArrayList<>(Arrays.asList(t1, t2));
     	
-    	Mockito.when(this.transactionsRepo.findAllByAccountAndHolding(accountData, holdingData)).thenReturn(transactions);
+    	Mockito.when(this.transactionsRepo.findAllByAccountAndHolding(Mockito.any(AccountDTO.class), Mockito.any(HoldingDTO.class))).thenReturn(transactions);
     	
     	List<Transaction> results = this.holdingsService.findAllTransactionsForAccountAndHolding(account, holding);
     	
@@ -186,9 +187,7 @@ public class TransactionsServiceTests {
     @Test
     public void testGetAllTransactionsForAccountAndInvestment_Success() throws Exception {
     	
-    	AccountDTO accountData = EntityTestData.getAccount1();
     	Account account = DomainTestData.getAccount1();
-    	HoldingDTO holdingData = EntityTestData.getHolding1();
     	Holding holding = DomainTestData.getHolding1();
     	
     	TransactionDTO t1 = EntityTestData.getBuyTransaction1();
@@ -196,7 +195,7 @@ public class TransactionsServiceTests {
     	
     	List<TransactionDTO> transactions = new ArrayList<>(Arrays.asList(t1, t2));
     	
-    	Mockito.when(this.transactionsRepo.findAllByAccountAndHolding(accountData, holdingData)).thenReturn(transactions);
+    	Mockito.when(this.transactionsRepo.findAllByAccountAndHolding(Mockito.any(AccountDTO.class), Mockito.any(HoldingDTO.class))).thenReturn(transactions);
     	
     	List<Transaction> results = this.holdingsService.findAllTransactionsForAccountAndHolding(account, holding);
     	
@@ -327,7 +326,6 @@ public class TransactionsServiceTests {
     @Test
     public void testGetTradesForAccount_Success() throws Exception {
     	
-    	AccountDTO accountData = EntityTestData.getAccount3();
     	Account account = DomainTestData.getAccount3();
 
     	TransactionDTO t1 = EntityTestData.getBuyTransaction1();
@@ -335,7 +333,7 @@ public class TransactionsServiceTests {
     	
     	List<TransactionDTO> transactions = new ArrayList<>(Arrays.asList(t1, t2));
     	
-    	Mockito.when(this.transactionsRepo.findAllByAccountAccountIdOrderByTransactionDateDesc(accountData)).thenReturn(transactions);
+    	Mockito.when(this.transactionsRepo.findAllByAccountAccountIdOrderByTransactionDateDesc(Mockito.any(AccountDTO.class))).thenReturn(transactions);
     	
     	List<Transaction> results = this.holdingsService.findTradesForAccount(account);
     	

@@ -1,4 +1,4 @@
-package com.brenner.portfoliomgmt.reporting;
+package com.brenner.portfoliomgmt.domain.reporting;
 
 import java.util.List;
 

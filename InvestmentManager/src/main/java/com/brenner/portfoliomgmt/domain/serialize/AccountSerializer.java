@@ -38,7 +38,6 @@ public class AccountSerializer extends StdSerializer<Account> {
 			gen.writeStringField("accountType", account.getAccountType());
 			gen.writeStringField("company", account.getCompany());
 			gen.writeStringField("owner", account.getOwner());
-			gen.writeNumberField("cashOnAccount", account.getCashOnAccount() != null ? account.getCashOnAccount().floatValue() : 0);
 		gen.writeEndObject();
 		
 		log.info("Exiting serialize()");

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.brenner.portfoliomgmt.data.mapping.HoldingBucketSummationMapper">
+    <select id="historicalBucketSummation" resultType="com.brenner.portfoliomgmt.data.entities.reporting.HoldingBucketSummation">
+        SELECT 
+            snap_shot_date as summationDate, bucket_1_total as bucket1Total, bucket_2_total as bucket2Total, 
+            bucket_3_total as bucket3Total, no_bucket_total as noBucketTotal
+        FROM 
+            public.bucket_summation_snapshots;
+    </select>
+</mapper>

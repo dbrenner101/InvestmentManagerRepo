@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import com.brenner.portfoliomgmt.domain.BatchHistoricalQuotes;
 import com.brenner.portfoliomgmt.domain.BatchQuotes;
-import com.brenner.portfoliomgmt.domain.HistoricalQuotes;
 import com.brenner.portfoliomgmt.domain.Investment;
 import com.brenner.portfoliomgmt.domain.Quote;
+import com.brenner.portfoliomgmt.domain.reporting.BatchHistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.reporting.HistoricalQuotes;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
 
 public interface QuoteRetrievalService {

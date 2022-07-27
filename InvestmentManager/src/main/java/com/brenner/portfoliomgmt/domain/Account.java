@@ -3,7 +3,6 @@
  */
 package com.brenner.portfoliomgmt.domain;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,8 +26,6 @@ public class Account {
 	
 	private String accountType;
 	
-	private BigDecimal cashOnAccount;
-	
 	List<Holding> holdings;
 	
 	public Account() {}
@@ -38,7 +35,7 @@ public class Account {
 	}
 
 	public Account(Long accountId, String accountName, String company, String owner, String accountNumber,
-			String accountType, BigDecimal cashOnAccount) {
+			String accountType) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
@@ -46,7 +43,6 @@ public class Account {
 		this.owner = owner;
 		this.accountNumber = accountNumber;
 		this.accountType = accountType;
-		this.cashOnAccount = cashOnAccount;
 	}
 
 	public Long getAccountId() {
@@ -97,14 +93,6 @@ public class Account {
 		this.accountType = accountType;
 	}
 
-	public BigDecimal getCashOnAccount() {
-		return this.cashOnAccount;
-	}
-
-	public void setCashOnAccount(BigDecimal cashOnAccount) {
-		this.cashOnAccount = cashOnAccount;
-	}
-
 	public List<Holding> getHoldings() {
 		return this.holdings;
 	}
@@ -122,7 +110,7 @@ public class Account {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountId, accountName, accountNumber, accountType, cashOnAccount, company, holdings, owner);
+		return Objects.hash(accountId, accountName, accountNumber, accountType, company, holdings, owner);
 	}
 
 	@Override
@@ -137,7 +125,6 @@ public class Account {
 		return Objects.equals(this.accountId, other.accountId) && Objects.equals(this.accountName, other.accountName)
 				&& Objects.equals(this.accountNumber, other.accountNumber)
 				&& Objects.equals(this.accountType, other.accountType)
-				&& Objects.equals(this.cashOnAccount, other.cashOnAccount)
 				&& Objects.equals(this.company, other.company) && Objects.equals(this.holdings, other.holdings);
 	}
 
@@ -148,8 +135,7 @@ public class Account {
 		builder.append("Account [accountId=").append(this.accountId).append(", accountName=").append(this.accountName)
 				.append(", company=").append(this.company).append(", owner=").append(this.owner)
 				.append(", accountNumber=").append(this.accountNumber).append(", accountType=").append(this.accountType)
-				.append(", cashOnAccount=").append(this.cashOnAccount).append(", holdings=")
-				.append(this.holdings != null ? this.holdings.subList(0, Math.min(this.holdings.size(), maxLen)) : null)
+				.append(", holdings=").append(this.holdings != null ? this.holdings.subList(0, Math.min(this.holdings.size(), maxLen)) : null)
 				.append("]");
 		return builder.toString();
 	}

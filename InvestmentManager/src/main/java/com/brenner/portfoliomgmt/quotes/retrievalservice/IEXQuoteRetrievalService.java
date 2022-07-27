@@ -18,11 +18,11 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.brenner.portfoliomgmt.data.entities.QuoteDTO;
-import com.brenner.portfoliomgmt.domain.BatchHistoricalQuotes;
 import com.brenner.portfoliomgmt.domain.BatchQuotes;
-import com.brenner.portfoliomgmt.domain.HistoricalQuotes;
 import com.brenner.portfoliomgmt.domain.Investment;
 import com.brenner.portfoliomgmt.domain.Quote;
+import com.brenner.portfoliomgmt.domain.reporting.BatchHistoricalQuotes;
+import com.brenner.portfoliomgmt.domain.reporting.HistoricalQuotes;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

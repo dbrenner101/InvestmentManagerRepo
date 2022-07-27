@@ -1,4 +1,4 @@
-package com.brenner.portfoliomgmt.reporting;
+package com.brenner.portfoliomgmt.view.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -29,8 +29,12 @@ import com.brenner.portfoliomgmt.domain.Quote;
 import com.brenner.portfoliomgmt.domain.Transaction;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
 import com.brenner.portfoliomgmt.quotes.retrievalservice.QuoteRetrievalService;
+import com.brenner.portfoliomgmt.reporting.HoldingsReport;
+import com.brenner.portfoliomgmt.reporting.PortfolioReport;
+import com.brenner.portfoliomgmt.reporting.PortfolioRollup;
 import com.brenner.portfoliomgmt.service.HoldingsService;
 import com.brenner.portfoliomgmt.service.InvestmentsService;
+import com.brenner.portfoliomgmt.service.ReportsService;
 import com.brenner.portfoliomgmt.util.CommonUtils;
 
 /**
@@ -290,5 +294,23 @@ public class ReportsController implements WebMvcConfigurer {
         
         logger.info("Serizing object to JSON");
         CommonUtils.serializeObjectToJson(response.getOutputStream(), rollup);
+    }
+    
+    @RequestMapping("/holdingsByBucket")
+    public String getHoldingsByBucket(Model model) {
+    	
+    	model.addAttribute("bucketsMap", this.reportsService.getHoldingsByBucket());
+    	
+    	model.addAttribute("historialBuckets", this.reportsService.getBucketSnapshots());
+    	
+    	return "reports/holdingsByBucket";
+    }
+    
+    @RequestMapping("snapshotHoldingsByBucket")
+    public String snapshotHoldingsByBucket(Model model) {
+    	
+    	this.reportsService.saveBucketSnapshot();
+    	
+    	return "redirect:holdingsByBucket";
     }
 }

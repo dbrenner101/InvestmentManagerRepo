@@ -10,9 +10,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.brenner.portfoliomgmt.domain.BatchHistoricalQuotes;
 import com.brenner.portfoliomgmt.domain.Investment;
 import com.brenner.portfoliomgmt.domain.Quote;
+import com.brenner.portfoliomgmt.domain.reporting.BatchHistoricalQuotes;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;

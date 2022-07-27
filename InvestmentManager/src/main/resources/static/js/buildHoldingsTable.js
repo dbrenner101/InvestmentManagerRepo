@@ -71,6 +71,10 @@ define([
                 changeInValueHeader.innerHTML = "Change in Value";
                 headerRow.appendChild(changeInValueHeader);
                 
+                var bucketHeader = document.createElement("th");
+                bucketHeader.innerHTML = "Bucket";
+                headerRow.appendChild(bucketHeader);
+                
                 var editHoldingHeader = document.createElement("th");
                 editHoldingHeader.innerHTML = "Edit Holding";
                 headerRow.appendChild(editHoldingHeader);
@@ -138,8 +142,9 @@ define([
 	                  changeInValueCell.innerHTML = changeInValue;
 	                  row.appendChild(changeInValueCell);
 	                  
-	                  
-	                  tbl.appendChild(row);
+	                  var bucketCell = document.createElement("td");
+	                  bucketCell.innerHTML = holdings[i].bucketEnum;
+	                  row.appendChild(bucketCell);
 	                  
 	                  totalValue += holdings[i].currentValue;
 	                  totalValueAtPurchase += holdings[i].valueAtPurchase;
@@ -155,17 +160,19 @@ define([
                       var deleteHoldingCell = document.createElement("td");
                       deleteHoldingCell.innerHTML = "<a href=\"deleteHolding?holdingId=" + holdings[i].holdingId + "\">(Delete)</a>";
                       row.appendChild(deleteHoldingCell);
+                      
+                      tbl.appendChild(row);
 	                }
 	                
-	                var currentCash = holdings[0].account.cashOnAccount;
+	                /*var currentCash = holdings[0].account.cashOnAccount;
 	                totalValue = totalValue + currentCash;
 	                
-	                differenceInValue = totalValue - totalValueAtPurchase - currentCash;
+	                differenceInValue = totalValue - totalValueAtPurchase - currentCash;*/
 	                
 	                
 	                dom.byId("totalValueChange").innerHTML = differenceInValue.formatMoney(2, '.', ',');
 	                dom.byId("valueAtPurchase").innerHTML = totalValueAtPurchase.formatMoney(2, '.', ',');
-	                dom.byId("currentCash").innerHTML = currentCash.formatMoney(2, '.', ',');
+	                //dom.byId("currentCash").innerHTML = currentCash.formatMoney(2, '.', ',');
 	                dom.byId("totalCurrentValue").innerHTML = totalValue.formatMoney(2, '.', ',');
                 }
 	        	

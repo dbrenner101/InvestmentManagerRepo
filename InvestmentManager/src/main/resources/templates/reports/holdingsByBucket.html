@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="css/init_styles.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dojo.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/dgrid.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/soria/soria.css">
+    <link rel="stylesheet" type="text/css" href="js/dojo-themes/tundra/tundra.css">
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.14.1/dojo/dojo.js"></script>
+    <script src="js/menu.js"></script>
+<meta charset="UTF-8">
+<title>Holdings By Bucket</title>
+</head>
+<body class="tundra">
+
+    <div id="mainMenu"></div>
+    <p></p>
+
+    <p class="commonBoldTextFormat">Holdings By Bucket</p>
+    
+     <div id="tableDiv" class="commonTableFormat">
+        <table class="commonTableFormat">
+            <tr>
+                <th>Bucket</th>
+                <th>Current Total</th>
+                <th>Total at Purchase</th>
+            </tr>
+            <tr th:each="bucket:${bucketsMap}">
+                <td th:text="${bucket.key}"/>
+                <td th:text="${#numbers.formatCurrency(bucket.value.amount)}" />
+                <td th:text="${#numbers.formatCurrency(bucket.value.amountAtPurchase)}" />
+            </tr>
+        </table>
+        
+        <p></p>
+        
+        <a href="snapshotHoldingsByBucket">Save Bucket Summary Report</a>
+    </div>
+    
+    <p></p>
+    
+    <div id="tableDiv" class="commonTableFormat">
+        <table class="commonTableFormat">
+            <tr>
+                <th>Date</th>
+                <td th:each="bucket:${historialBuckets}"><span th:text="${#dates.format(bucket.summationDate, 'MM/dd/yyyy')}"></span></td>
+            </tr>
+            <tr>
+                <th>No Bucket</th>
+                <td th:each="bucket:${historialBuckets}"><span th:text="${#numbers.formatCurrency(bucket.noBucketTotal)}"></span></td>
+            </tr>
+            <tr>
+                <th>0 - 3 years</th>
+                <td th:each="bucket:${historialBuckets}"><span th:text="${#numbers.formatCurrency(bucket.bucket1Total)}"></span></td>
+            </tr>
+            <tr>
+                <th>3 - 10 years</th>
+                <td th:each="bucket:${historialBuckets}"><span th:text="${#numbers.formatCurrency(bucket.bucket2Total)}"></span></td>
+            </tr>
+            <tr>
+                <th>Excluded</th>
+                <td th:each="bucket:${historialBuckets}"><span th:text="${#numbers.formatCurrency(bucket.bucket3Total)}"></span></td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

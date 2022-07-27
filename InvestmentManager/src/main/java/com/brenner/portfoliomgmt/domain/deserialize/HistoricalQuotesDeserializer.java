@@ -11,8 +11,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.brenner.portfoliomgmt.domain.HistoricalQuotes;
 import com.brenner.portfoliomgmt.domain.Quote;
+import com.brenner.portfoliomgmt.domain.reporting.HistoricalQuotes;
 import com.brenner.portfoliomgmt.util.CommonUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

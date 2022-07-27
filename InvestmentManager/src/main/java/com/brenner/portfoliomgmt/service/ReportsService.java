@@ -1,23 +1,29 @@
-package com.brenner.portfoliomgmt.reporting;
+package com.brenner.portfoliomgmt.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.brenner.portfoliomgmt.deprecated.HoldingsReportingDataService;
+import com.brenner.portfoliomgmt.data.HoldingsReportingDataService;
+import com.brenner.portfoliomgmt.data.entities.reporting.HoldingBucketSummation;
 import com.brenner.portfoliomgmt.domain.BatchQuotes;
 import com.brenner.portfoliomgmt.domain.Holding;
 import com.brenner.portfoliomgmt.domain.Quote;
+import com.brenner.portfoliomgmt.domain.reporting.HoldingBucket;
 import com.brenner.portfoliomgmt.exception.QuoteRetrievalException;
 import com.brenner.portfoliomgmt.quotes.retrievalservice.IEXQuoteRetrievalService;
-import com.brenner.portfoliomgmt.service.HoldingsService;
+import com.brenner.portfoliomgmt.reporting.HoldingsReport;
+import com.brenner.portfoliomgmt.reporting.PortfolioReport;
+import com.brenner.portfoliomgmt.reporting.PortfolioRollup;
+import com.brenner.portfoliomgmt.reporting.PortfolioRollupRepository;
 import com.brenner.portfoliomgmt.util.CommonUtils;
 
 /**
@@ -44,6 +50,14 @@ public class ReportsService {
     HoldingsReportingDataService reportingDataService;
     
     
+    public Map<String, HoldingBucket> getHoldingsByBucket() {
+    	return this.reportingDataService.getHoldingsListAsMapByBucketDescription();
+    }
+    
+    public void saveBucketSnapshot() {
+    	this.reportingDataService.saveBucketSummarySnapShot();
+    }
+    
     public List<HoldingsReport> getHoldingsByTypeAndSector() {
     	
     	log.info("Entered getHoldingsByTypeAndSector()");
@@ -53,6 +67,12 @@ public class ReportsService {
     	log.info("Exiting getHoldingsByTypeAndSector()");
     	
     	return report;
+    }
+    
+    public List<HoldingBucketSummation> getBucketSnapshots() {
+    	List<HoldingBucketSummation> summations = this.reportingDataService.getBucketSummarySnapshots();
+    	
+    	return summations;
     }
     
     
