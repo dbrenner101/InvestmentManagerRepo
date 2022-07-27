@@ -4,7 +4,7 @@
     <select id="historicalBucketSummation" resultType="com.brenner.portfoliomgmt.data.entities.reporting.HoldingBucketSummation">
         SELECT 
             snap_shot_date as summationDate, bucket_1_total as bucket1Total, bucket_2_total as bucket2Total, 
-            bucket_3_total as bucket3Total, no_bucket_total as noBucketTotal
+            bucket_3_total as bucket3Total, excluded_bucket_total as excludedBucketTotal
         FROM 
             public.bucket_summation_snapshots;
     </select>

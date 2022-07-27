@@ -47,8 +47,8 @@
                 <td th:each="bucket:${historialBuckets}"><span th:text="${#dates.format(bucket.summationDate, 'MM/dd/yyyy')}"></span></td>
             </tr>
             <tr>
-                <th>No Bucket</th>
-                <td th:each="bucket:${historialBuckets}"><span th:text="${#numbers.formatCurrency(bucket.noBucketTotal)}"></span></td>
+                <th>Excluded</th>
+                <td th:each="bucket:${historialBuckets}"><span th:text="${#numbers.formatCurrency(bucket.excludedBucketTotal)}"></span></td>
             </tr>
             <tr>
                 <th>0 - 3 years</th>

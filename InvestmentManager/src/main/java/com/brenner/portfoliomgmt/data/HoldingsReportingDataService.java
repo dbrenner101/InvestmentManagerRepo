@@ -135,7 +135,7 @@ public class HoldingsReportingDataService {
 		List<Map<String, Object>> instances = this.jdbcTemplate.queryForList(GET_SUMMATION_FOR_DATE_SQL);
 		
 		if (instances == null || instances.size() == 0) {
-			final String INSERT_BUCKET_SUMMATION = "INSERT INTO BUCKET_SUMMATION_SNAPSHOTS(SNAP_SHOT_DATE, BUCKET_1_TOTAL, BUCKET_2_TOTAL, BUCKET_3_TOTAL, NO_BUCKET_TOTAL) VALUES(?, ?, ?, ?, ?);";
+			final String INSERT_BUCKET_SUMMATION = "INSERT INTO BUCKET_SUMMATION_SNAPSHOTS(SNAP_SHOT_DATE, BUCKET_1_TOTAL, BUCKET_2_TOTAL, BUCKET_3_TOTAL, EXCLUDED_BUCKET_TOTAL) VALUES(?, ?, ?, ?, ?);";
 			this.jdbcTemplate.execute(INSERT_BUCKET_SUMMATION, new PreparedStatementCallback<Boolean>() {
 
 				@Override
@@ -150,7 +150,7 @@ public class HoldingsReportingDataService {
 			});
 		}
 		else {
-			final String UPDATE_BUCKET_SUMMATION = "UPDATE BUCKET_SUMMATION_SNAPSHOTS SET BUCKET_1_TOTAL = ?, BUCKET_2_TOTAL = ?, BUCKET_3_TOTAL = ?, NO_BUCKET_TOTAL = ? WHERE SNAP_SHOT_DATE = ?;";
+			final String UPDATE_BUCKET_SUMMATION = "UPDATE BUCKET_SUMMATION_SNAPSHOTS SET BUCKET_1_TOTAL = ?, BUCKET_2_TOTAL = ?, BUCKET_3_TOTAL = ?, EXCLUDED_BUCKET_TOTAL = ? WHERE SNAP_SHOT_DATE = ?;";
 			this.jdbcTemplate.execute(UPDATE_BUCKET_SUMMATION, new PreparedStatementCallback<Boolean>() {
 
 				@Override

@@ -20,7 +20,7 @@ public class HoldingBucketSummation {
 	
 	private Double bucket3Total;
 	
-	private Double noBucketTotal; 
+	private Double excludedBucketTotal; 
 	
 	public HoldingBucketSummation() {}
 
@@ -56,12 +56,12 @@ public class HoldingBucketSummation {
 		this.bucket3Total = bucket3Total;
 	}
 
-	public Double getNoBucketTotal() {
-		return this.noBucketTotal;
+	public Double getExcludedBucketTotal() {
+		return this.excludedBucketTotal;
 	}
 
-	public void setNoBucketTotal(Double noBucketTotal) {
-		this.noBucketTotal = noBucketTotal;
+	public void setExcludedBucketTotal(Double noBucketTotal) {
+		this.excludedBucketTotal = noBucketTotal;
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class HoldingBucketSummation {
 		StringBuilder builder = new StringBuilder();
 		builder.append("HoldingBucketSummation [summationDate=").append(this.summationDate).append(", bucket1Total=")
 				.append(this.bucket1Total).append(", bucket2Total=").append(this.bucket2Total).append(", bucket3Total=")
-				.append(this.bucket3Total).append(", noBucketTotal=").append(this.noBucketTotal).append("]");
+				.append(this.bucket3Total).append(", noBucketTotal=").append(this.excludedBucketTotal).append("]");
 		return builder.toString();
 	}
 
