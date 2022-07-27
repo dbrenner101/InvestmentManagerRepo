@@ -52,7 +52,6 @@
             <th>Owner</th>
             <th>Account Number</th>
             <th>Type</th>
-            <th>Current cash</th>
         </tr>
         <tr th:each="account : ${accountsandcash}">
             <td th:text="${account.accountName}"><a href="editAccountPrep" th:href="@{/editAccountPrep(accountId=${account.accountId})}"/></a></td>
@@ -60,7 +59,6 @@
             <td th:text="${account.owner}"></td>
             <td th:text="${account.accountNumber}"></td>
             <td th:text="${account.accountType}"></td>
-            <td th:text="${#numbers.formatCurrency(account.cashOnAccount)}"></td>
         </tr>
     </table>
 
