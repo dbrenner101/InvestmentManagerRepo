@@ -3,6 +3,7 @@
  */
 package com.brenner.portfoliomgmt.util;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -69,6 +70,18 @@ public class ObjectMappingUtil {
 	
 	public static Holding mapHoldingDtoToHolding(HoldingDTO holdingData) {
 		Holding holding = modelMapper.map(holdingData, Holding.class);
+		if (holdingData.getInvestment() != null && holdingData.getInvestment().getQuotes() != null) {
+			List<QuoteDTO> quotes = holdingData.getInvestment().getQuotes();
+			if (quotes.size() > 1) {
+				Comparator<QuoteDTO> quoteDTOComparator = Comparator.comparing(QuoteDTO::getDate);
+				QuoteDTO mostRecentQuote = quotes.stream().max(quoteDTOComparator).get();
+				holding.setMostRecentQuote(mapQuoteDtoToQuote(mostRecentQuote));
+			}
+			else {
+				Quote mostRecentQuote = mapQuoteDtoToQuote(quotes.get(0));
+				holding.setMostRecentQuote(mostRecentQuote);
+			}
+		}
 		return holding;
 	}
 	

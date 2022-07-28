@@ -66,6 +66,10 @@ public class HoldingsRestController {
 		List<Holding> holdings = this.holdingsService.findHoldingsByBucket(bucket);
 		for (Holding holding : holdings) {
 			holding.setValueAtPurchase(holding.getPurchasePrice().multiply(holding.getQuantity()));
+			if (holding.getMostRecentQuote() != null) {
+				holding.setCurrentValue(holding.getQuantity().multiply(holding.getMostRecentQuote().getClose()));
+				holding.setChangeInValue(holding.getCurrentValue().subtract(holding.getValueAtPurchase()));
+			}
 		}
 		
 		return holdings;
