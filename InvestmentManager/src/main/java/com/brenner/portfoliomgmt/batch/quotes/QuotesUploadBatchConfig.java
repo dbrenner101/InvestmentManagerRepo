@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.brenner.portfoliomgmt.batch.investments;
+package com.brenner.portfoliomgmt.batch.quotes;
 
 import java.io.InputStream;
 
@@ -35,7 +35,7 @@ import org.springframework.core.io.InputStreamResource;
  */
 @Configuration
 @EnableBatchProcessing
-public class InvestmentsUploadBatchConfig {
+public class QuotesUploadBatchConfig {
     
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
@@ -46,22 +46,21 @@ public class InvestmentsUploadBatchConfig {
     @Autowired
     JobLauncher launcher;
     
-    protected static final String[] COLUMN_NAMES = new String[]{"Account Number", "Account Name", "Symbol", "Description", 
-    		"Quantity", "Last Price", "Last Price Change", "Current Value", "Today's Gain/Loss Dollar", "Today's Gain/Loss Percent", 
-    		"Total Gain/Loss Dollar", "Total Gain/Loss Percent", "Percent Of Account", "Cost Basis", "Cost Basis Per Share", "Type"};
+    protected static final String[] COLUMN_NAMES = new String[]{"Symbol", "Last Price", "Change", "Chg %", "Currency", "Market Time", 
+    		"Volume", "Shares", "Avg Vol (3m)", "Day Range", "52-Wk Range", "Day Chart", "Market Cap", "Quote Date"};
     
-    ListItemWriter<InvestmentsUploadRowInstance> writer = new ListItemWriter<>();
+    ListItemWriter<QuotesUploadRowInstance> writer = new ListItemWriter<>();
     
     @Bean
-    InvestmentsUploadRowProcessor rowProcessor() {
-    	return new InvestmentsUploadRowProcessor();
+    QuotesUploadRowProcessor quotesRowProcessor() {
+    	return new QuotesUploadRowProcessor();
     }
     
     JobExecutionListener listener() {
-    	return new InvestmentsUploadJobCompletionListener();
+    	return new QuotesUploadJobCompletionListener();
     }
     
-    public InvestmentsUploadBatchConfig() {}
+    public QuotesUploadBatchConfig() {}
     
     public void runJob(InputStream inStream, String jobName) {
 		init(inStream, jobName);
@@ -70,9 +69,9 @@ public class InvestmentsUploadBatchConfig {
 	private void init(InputStream inStream, String jobName) {
 		
 		Step step1 = stepBuilderFactory.get("step1")
-                .<InvestmentsUploadRowInstance, InvestmentsUploadRowInstance>chunk(2)
+                .<QuotesUploadRowInstance, QuotesUploadRowInstance>chunk(2)
                 .reader(reader(inStream))
-                .processor(rowProcessor())
+                .processor(quotesRowProcessor())
                 .writer(writer)
                 .build();
     	
@@ -83,7 +82,7 @@ public class InvestmentsUploadBatchConfig {
                 .end()
                 .build();
     	
-    	JobParameters jobParams = new JobParametersBuilder().addString("importInvestmentsJob", jobName).toJobParameters();
+    	JobParameters jobParams = new JobParametersBuilder().addString("importQuotesJob", jobName).toJobParameters();
     	
     	try {
 			this.launcher.run(job, jobParams);
@@ -102,19 +101,20 @@ public class InvestmentsUploadBatchConfig {
 		}
 	}
     
-    FlatFileItemReader<InvestmentsUploadRowInstance> reader(InputStream inStream) {
+    FlatFileItemReader<QuotesUploadRowInstance> reader(InputStream inStream) {
     	
-    	FlatFileItemReader<InvestmentsUploadRowInstance> reader = new FlatFileItemReader<>();
-    	DefaultLineMapper<InvestmentsUploadRowInstance> lineMapper = new DefaultLineMapper<>();
+    	FlatFileItemReader<QuotesUploadRowInstance> reader = new FlatFileItemReader<>();
+    	DefaultLineMapper<QuotesUploadRowInstance> lineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer(",");
         lineMapper.setLineTokenizer(tokenizer);
         tokenizer.setNames(COLUMN_NAMES);
-        lineMapper.setFieldSetMapper(new InvestmentsUploadFieldSetMapper());
+        lineMapper.setFieldSetMapper(new QuotesUploadFieldSetMapper());
         reader.setResource(new InputStreamResource(inStream));
         reader.setLineMapper(lineMapper);
         reader.setLinesToSkip(1);
-        reader.setName("InvestmentsCsvReader");
+        reader.setName("QuotesCsvReader");
     	
     	return reader;
     }
+
 }

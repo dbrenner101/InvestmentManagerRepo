@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.brenner.portfoliomgmt.batch.holdings.HoldingsUploadBatchConfig;
 import com.brenner.portfoliomgmt.batch.investments.InvestmentsUploadBatchConfig;
+import com.brenner.portfoliomgmt.batch.quotes.QuotesUploadBatchConfig;
 import com.brenner.portfoliomgmt.exception.BulkDataParseException;
 
 /**
@@ -32,6 +33,9 @@ public class BulkDataLoaderController {
     
     @Autowired
     InvestmentsUploadBatchConfig investmentsUploadBatchConfig;
+    
+    @Autowired
+    QuotesUploadBatchConfig quotesUploadBatchConfig;
     
    /**
     * Entry point for uploading bulk data.
@@ -64,6 +68,9 @@ public class BulkDataLoaderController {
         }
         else if (dataType.trim().equals("investments")) {
         	this.investmentsUploadBatchConfig.runJob(file.getInputStream(), file.getOriginalFilename());
+        }
+        else if(dataType.trim().equals("quotes")) {
+        	this.quotesUploadBatchConfig.runJob(file.getInputStream(), file.getOriginalFilename());
         }
         
         return "/loadBulkData";
