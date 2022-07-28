@@ -3,14 +3,17 @@
  */
 package com.brenner.portfoliomgmt.api;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import com.brenner.portfoliomgmt.domain.BucketEnum;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +79,24 @@ public class HoldingsRestControllerTests {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$", notNullValue()))
 			.andExpect(jsonPath("$", hasSize(holdings.size())));
+	}
+	
+	@Test @WithMockUser
+	public void testAllHoldingsByBucketEnum_Success() throws Exception {
+		Account account = DomainTestData.getAccount2();
+		BucketEnum testBucket1 = BucketEnum.BUCKET_1;
+		List<Holding> holdings = DomainTestData.generateHoldingsList(4, account);
+		Mockito.when(this.holdingsService.findHoldingsByBucket(Mockito.any(BucketEnum.class))).thenReturn(holdings);
+		
+		BigDecimal valueAtPurchaseTest = holdings.get(0).getPurchasePrice().multiply(holdings.get(0).getQuantity());
+		valueAtPurchaseTest = valueAtPurchaseTest.setScale(1);
+		this.mockMvc.perform(MockMvcRequestBuilders
+				.get("/api/holdings/bucket/" + testBucket1)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$", notNullValue()))
+				.andExpect(jsonPath("$", hasSize(holdings.size())))
+				.andExpect(jsonPath("$[0].valueAtPurchase", notNullValue()))
+				.andExpect(jsonPath("$[0].valueAtPurchase", is(valueAtPurchaseTest.doubleValue())));
 	}
 }
