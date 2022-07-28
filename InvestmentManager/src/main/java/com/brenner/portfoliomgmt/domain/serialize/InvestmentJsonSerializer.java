@@ -35,10 +35,16 @@ public class InvestmentJsonSerializer extends StdSerializer<Investment> {
 		log.debug("Param: investment: {}", investment);
 		
 		gen.writeStartObject();
-		gen.writeStringField("companyName", investment.getCompanyName());
-		gen.writeStringField("exchange", investment.getExchange());
-		gen.writeStringField("sector", investment.getSector());
-		gen.writeStringField("symbol", investment.getSymbol());
+			gen.writeNumberField("investmentId", investment.getInvestmentId());
+			gen.writeStringField("companyName", investment.getCompanyName());
+			gen.writeStringField("exchange", investment.getExchange());
+			gen.writeStringField("sector", investment.getSector());
+			gen.writeStringField("symbol", investment.getSymbol());
+			if (investment.getExpenseRatio() != null) {
+				gen.writeNumberField("expenseRatio", investment.getExpenseRatio());
+			} else {
+				gen.writeNullField("expenseRatio");
+			}
 		gen.writeEndObject();
 		
 		log.info("Exiting serialize()");

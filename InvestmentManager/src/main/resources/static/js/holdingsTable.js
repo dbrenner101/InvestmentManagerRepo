@@ -51,6 +51,10 @@ function buildHoldingsTable(holdings, dom) {
     changeInValueHeader.innerHTML = "Change in Value";
     headerRow.appendChild(changeInValueHeader);
     
+    var expenseRatioHeader = document.createElement("th");
+    expenseRatioHeader.innerHTML = "Expense Ratio";
+    headerRow.appendChild(expenseRatioHeader);
+    
     var bucketHeader = document.createElement("th");
     bucketHeader.innerHTML = "Bucket";
     headerRow.appendChild(bucketHeader);
@@ -121,6 +125,10 @@ function buildHoldingsTable(holdings, dom) {
           var changeInValueCell = document.createElement("td");
           changeInValueCell.innerHTML = changeInValue;
           row.appendChild(changeInValueCell);
+          
+          var expenseRatioCell = document.createElement("td");
+          expenseRatioCell.innerHTML = holdings[i].investment.expenseRatio;
+          row.appendChild(expenseRatioCell);
           
           var bucketCell = document.createElement("td");
           bucketCell.innerHTML = holdings[i].bucketEnum;
