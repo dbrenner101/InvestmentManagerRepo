@@ -369,9 +369,11 @@ public class TransactionsServiceTests {
     	Mockito.when(this.transactionsRepo.findById(transactionData.getTransactionId())).thenReturn(Optional.of(transactionData));
     	
     	Optional<Transaction> optResult = this.holdingsService.findTransaction(transactionData.getTransactionId());
-    	
     	assertFalse(optResult.isEmpty());
-    	assertEquals(transaction, optResult.get());
+	
+		Transaction result = optResult.get();
+		assertEquals(transaction.getTransactionId(), result.getTransactionId());
+		assertEquals(transaction.getTradePrice(), result.getTradePrice());
     }
     
     @Test
