@@ -3,6 +3,8 @@
  */
 package com.brenner.portfoliomgmt.batch.quotes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.batch.item.ItemProcessor;
@@ -19,6 +21,8 @@ import com.brenner.portfoliomgmt.service.QuotesService;
  * 
  */
 public class QuotesUploadRowProcessor implements ItemProcessor<QuotesUploadRowInstance, QuotesUploadRowInstance> {
+	
+	private List<QuotesUploadRowInstance> failedRows = new ArrayList<>();
 	
 
 	@Autowired InvestmentsService investmentsService;
@@ -39,8 +43,15 @@ public class QuotesUploadRowProcessor implements ItemProcessor<QuotesUploadRowIn
 			
 			this.quotesService.saveQuote(quote);
 		}
+		else {
+			failedRows.add(item);
+		}
 		
 		return item;
+	}
+
+	public List<QuotesUploadRowInstance> getFailedRows() {
+		return this.failedRows;
 	}
 
 }

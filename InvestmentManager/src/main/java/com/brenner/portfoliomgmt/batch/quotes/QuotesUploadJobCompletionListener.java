@@ -13,7 +13,7 @@ import org.springframework.batch.core.listener.JobExecutionListenerSupport;
  * 
  */
 public class QuotesUploadJobCompletionListener extends JobExecutionListenerSupport {
-	
+
 	@Override
     public void afterJob(JobExecution jobExecution) {
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
