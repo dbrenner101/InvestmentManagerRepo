@@ -6,7 +6,7 @@ package com.brenner.portfoliomgmt.data.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.brenner.portfoliomgmt.data.entities.Watchlist;
+import com.brenner.portfoliomgmt.data.entities.WatchlistDTO;
 
 /**
  *
@@ -14,6 +14,6 @@ import com.brenner.portfoliomgmt.data.entities.Watchlist;
  * 
  */
 @Repository
-public interface WatchlistRepository extends JpaRepository<Watchlist, Integer> {
+public interface WatchlistRepository extends JpaRepository<WatchlistDTO, Integer> {
 
 }

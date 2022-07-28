@@ -12,7 +12,7 @@ import com.brenner.portfoliomgmt.data.entities.HoldingDTO;
 import com.brenner.portfoliomgmt.data.entities.InvestmentDTO;
 import com.brenner.portfoliomgmt.data.entities.QuoteDTO;
 import com.brenner.portfoliomgmt.data.entities.TransactionDTO;
-import com.brenner.portfoliomgmt.data.entities.Watchlist;
+import com.brenner.portfoliomgmt.data.entities.WatchlistDTO;
 import com.brenner.portfoliomgmt.domain.BucketEnum;
 import com.brenner.portfoliomgmt.domain.InvestmentTypeEnum;
 import com.brenner.portfoliomgmt.domain.TransactionTypeEnum;
@@ -121,17 +121,17 @@ public class EntityTestData {
 		return cal.getTime();
 	}
 	
-	public static final Watchlist getWatchlistNoInvestments1() {
+	public static final WatchlistDTO getWatchlistNoInvestments1() {
 		
-		Watchlist list = new Watchlist();
+		WatchlistDTO list = new WatchlistDTO();
 		list.setWatchlistName("No Investments List One");
 		
 		return list;
 	}
 	
-	public static final Watchlist getWatchlistNoInvestments2() {
+	public static final WatchlistDTO getWatchlistNoInvestments2() {
 		
-		Watchlist list = new Watchlist();
+		WatchlistDTO list = new WatchlistDTO();
 		list.setWatchlistName("No Investments List Two");
 		
 		return list;

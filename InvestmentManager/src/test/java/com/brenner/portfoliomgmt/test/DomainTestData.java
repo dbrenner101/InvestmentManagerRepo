@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import com.brenner.portfoliomgmt.data.entities.Watchlist;
+import com.brenner.portfoliomgmt.data.entities.WatchlistDTO;
 import com.brenner.portfoliomgmt.domain.Account;
 import com.brenner.portfoliomgmt.domain.BucketEnum;
 import com.brenner.portfoliomgmt.domain.Holding;
@@ -130,26 +130,26 @@ public class DomainTestData {
 	}
 	
 	
-	public static final Watchlist getWatchlistNoInvestments1() {
+	public static final WatchlistDTO getWatchlistNoInvestments1() {
 		
-		Watchlist list = new Watchlist();
+		WatchlistDTO list = new WatchlistDTO();
 		list.setWatchlistName("No Investments List One");
 		
 		return list;
 	}
 	
-	public static final Watchlist getWatchlistNoInvestments2() {
+	public static final WatchlistDTO getWatchlistNoInvestments2() {
 		
-		Watchlist list = new Watchlist();
+		WatchlistDTO list = new WatchlistDTO();
 		list.setWatchlistName("No Investments List Two");
 		
 		return list;
 		
 	}
 	
-	public static final Watchlist getWatchlistWith2Investments() {
+	public static final WatchlistDTO getWatchlistWith2Investments() {
 		
-		Watchlist list = new Watchlist();
+		WatchlistDTO list = new WatchlistDTO();
 		list.setWatchlistId(2);
 		list.setWatchlistName("Two Investments List");
 		

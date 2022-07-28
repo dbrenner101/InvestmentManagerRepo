@@ -15,7 +15,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.brenner.portfoliomgmt.domain.Investment;
 
 @Entity
-public class Watchlist {
+public class WatchlistDTO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

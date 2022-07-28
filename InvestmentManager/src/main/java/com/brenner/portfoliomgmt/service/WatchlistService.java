@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.brenner.portfoliomgmt.data.entities.Watchlist;
+import com.brenner.portfoliomgmt.data.entities.WatchlistDTO;
 import com.brenner.portfoliomgmt.data.repo.WatchlistRepository;
 import com.brenner.portfoliomgmt.domain.Investment;
 import com.brenner.portfoliomgmt.domain.Quote;
@@ -38,31 +38,31 @@ public class WatchlistService {
 	@Autowired
 	QuotesService quotesService;
 
-	public Watchlist addWatchlist(Watchlist watchlist) {
+	public WatchlistDTO addWatchlist(WatchlistDTO watchlist) {
 		
 		log.info("Entered addWatchlist()");
 		log.debug("Param: watchlist: {}", watchlist);
 		
-		Watchlist savedWatchlist = this.watchlistRepo.save(watchlist);
+		WatchlistDTO savedWatchlist = this.watchlistRepo.save(watchlist);
 		
 		log.info("Exiting addWatchList()");
 		
 		return savedWatchlist;
 	}
 
-	public Watchlist updateWatchlist(Watchlist watchlist) {
+	public WatchlistDTO updateWatchlist(WatchlistDTO watchlist) {
 		
 		log.info("Entered updateWatchList()");
 		log.debug("Param: watchlist: {}", watchlist);
 		
-		Watchlist savedWatchlist = this.watchlistRepo.save(watchlist);
+		WatchlistDTO savedWatchlist = this.watchlistRepo.save(watchlist);
 		
 		log.info("Exirting updateWatchlist()");
 		
 		return savedWatchlist;
 	}
 
-	public void addInvestmentToWatchlist(Watchlist watchlist, Investment investment) {
+	public void addInvestmentToWatchlist(WatchlistDTO watchlist, Investment investment) {
 		
 		log.info("Entered addInvestmentToWatchlist()");
 		log.debug("Param: watchlist: {}; investment: {}", watchlist, investment);
@@ -82,7 +82,7 @@ public class WatchlistService {
 
 	}
 
-	public void addInvestmentsToWatchlist(Watchlist watchlist, List<Investment> investments) {
+	public void addInvestmentsToWatchlist(WatchlistDTO watchlist, List<Investment> investments) {
 		
 		log.info("Entered addInvestmentsToWatchlist()");
 		log.debug("Params: watchlist: {}; investments: {}", watchlist, investments);
@@ -101,25 +101,25 @@ public class WatchlistService {
 
 	}
 
-	public List<Watchlist> getAllWatchlists() {
+	public List<WatchlistDTO> getAllWatchlists() {
 		
 		log.info("Entered getAllWatchlists()");
 		
-		Iterable<Watchlist> watchlistsIter = this.watchlistRepo.findAll();
+		Iterable<WatchlistDTO> watchlistsIter = this.watchlistRepo.findAll();
 		
-		List<Watchlist> watchlists = DataHelperUtil.toList(watchlistsIter);
+		List<WatchlistDTO> watchlists = DataHelperUtil.toList(watchlistsIter);
 		
 		log.info("Exiting getAllWatchlists()");
 		
 		return watchlists;
 	}
 
-	public Optional<Watchlist> getWatchlistById(Integer watchlistId) {
+	public Optional<WatchlistDTO> getWatchlistById(Integer watchlistId) {
 		
 		log.info("Entered getWatchlistById()");
 		log.debug("Param: watchlistId: {}", watchlistId);
 		
-		Optional<Watchlist> watchlist = this.watchlistRepo.findById(watchlistId);
+		Optional<WatchlistDTO> watchlist = this.watchlistRepo.findById(watchlistId);
 		
 		log.debug("Found watchlist: {}", watchlist);
 		log.info("Exiting getWatchlistById()");
@@ -143,7 +143,7 @@ public class WatchlistService {
 		log.info("Entered getChartsForWatchlist()");
 		log.debug("Param: watchlistId: {}", watchlistId);
 		
-		Optional<Watchlist> watchlist = this.watchlistRepo.findById(watchlistId);
+		Optional<WatchlistDTO> watchlist = this.watchlistRepo.findById(watchlistId);
 		
 		if (watchlist.isPresent()) {
 			List<Investment> investments = watchlist.get().getInvestmentsToWatch();

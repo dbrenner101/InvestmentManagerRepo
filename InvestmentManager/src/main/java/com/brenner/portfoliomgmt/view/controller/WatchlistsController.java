@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.brenner.portfoliomgmt.InvestmentsProperties;
-import com.brenner.portfoliomgmt.data.entities.Watchlist;
+import com.brenner.portfoliomgmt.data.entities.WatchlistDTO;
 import com.brenner.portfoliomgmt.domain.Investment;
 import com.brenner.portfoliomgmt.domain.reporting.InvestmentPerformanceSet;
 import com.brenner.portfoliomgmt.exception.NotFoundException;
@@ -55,7 +55,7 @@ public class WatchlistsController implements WebMvcConfigurer {
 		
 		log.info("Entered prepWatchlistForm()");
 		
-		Watchlist list = new Watchlist();
+		WatchlistDTO list = new WatchlistDTO();
 		model.addAttribute("watchlist", list);
 		
 		List<Investment> investments = this.investmentsService.findInvestments("symbol");
@@ -71,14 +71,14 @@ public class WatchlistsController implements WebMvcConfigurer {
 	/**
 	 * Step 2 in the add watchlist workflow: save the list
 	 * 
-	 * @param watchlist - {@link Watchlist} details
+	 * @param watchlist - {@link WatchlistDTO} details
 	 * @param bindingResult - Spring MVC binding
 	 * @param model - object container
 	 * @return redirect:prepWatchlistForm
 	 */
 	@RequestMapping("/addWatchlist")
 	public String addWatchlist(
-			@ModelAttribute("watchlist") Watchlist watchlist,
+			@ModelAttribute("watchlist") WatchlistDTO watchlist,
 			BindingResult bindingResult,
 			Model model) {
 		log.info("Entered addWatchlist()");
@@ -100,7 +100,7 @@ public class WatchlistsController implements WebMvcConfigurer {
 	public String getWatchlists(Model model) {
 		log.info("Entered getWatchlists()");
 		
-		List<Watchlist> watchlists = this.watchlistService.getAllWatchlists();
+		List<WatchlistDTO> watchlists = this.watchlistService.getAllWatchlists();
 		model.addAttribute("watchlists", watchlists);
 		
 		log.info("Exiting getWatchlists()");
@@ -121,13 +121,13 @@ public class WatchlistsController implements WebMvcConfigurer {
 		log.info("Entered editWatchlist()");
 		log.debug("Param: watchlistId: {}", watchlistId);
 		
-		Optional<Watchlist> optWatchlist = this.watchlistService.getWatchlistById(Integer.valueOf(watchlistId));
+		Optional<WatchlistDTO> optWatchlist = this.watchlistService.getWatchlistById(Integer.valueOf(watchlistId));
 		
 		if (! optWatchlist.isPresent()) {
 			throw new NotFoundException("Watchist with id " + watchlistId + " does not exist");
 		}
 		
-		Watchlist watchlist = optWatchlist.get();		
+		WatchlistDTO watchlist = optWatchlist.get();		
 		model.addAttribute("watchlist", watchlist);
 		
 		log.debug("Retrieved watchlist: {}", watchlist);
@@ -163,12 +163,12 @@ public class WatchlistsController implements WebMvcConfigurer {
 	/**
 	 * Step 2 in the edit watchlist workflow
 	 * 
-	 * @param watchlist - {@link Watchlist} to update
+	 * @param watchlist - {@link WatchlistDTO} to update
 	 * @param model - object container
 	 * @return redirect:getWatchlists
 	 */
 	@RequestMapping("/updateWatchlist")
-	public String updateWatchlist(@ModelAttribute(name="watchlist") Watchlist watchlist, Model model) {
+	public String updateWatchlist(@ModelAttribute(name="watchlist") WatchlistDTO watchlist, Model model) {
 		log.info("Entered updateWatchlist()");
 		log.debug("Param: watchlist: {}", watchlist);
 		
@@ -182,7 +182,7 @@ public class WatchlistsController implements WebMvcConfigurer {
 	/**
 	 * Retrieves quotes for the watchlist investments
 	 * 
-	 * @param watchlistId - {@link Watchlist} identifier
+	 * @param watchlistId - {@link WatchlistDTO} identifier
 	 * @param model - object container 
 	 * @return watchlist/watchlistPerformance
 	 * @throws IOException - passed on from the service layer

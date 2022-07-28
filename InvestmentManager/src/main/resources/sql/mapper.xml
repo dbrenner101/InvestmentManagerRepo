@@ -8,4 +8,43 @@
         FROM 
             public.bucket_summation_snapshots;
     </select>
+    
+    <resultMap type="com.brenner.portfoliomgmt.domain.reporting.HoldingBucket" id="holdingsByBucketMap">
+        <result column="amountAtPurchase" property="amountAtPurchase" />
+        <result column="amount" property="amount" />
+        <result column="bucket" property="bucket" typeHandler="com.brenner.portfoliomgmt.data.mapping.BucketEnumTypeHander" />
+    </resultMap>
+    
+    <select id="holdingsByBucket" resultMap="holdingsByBucketMap">
+        SELECT 
+            SUM(h.purchase_price * h.quantity) AS amountAtPurchase, 
+            SUM(q.price_at_close * h.quantity) AS amount, 
+            h.bucket_enum AS bucket 
+        FROM 
+            holdings h 
+            LEFT JOIN investments i ON h.investment_investment_id = i.investment_id 
+            LEFT JOIN quotes q ON q.investment_id = i.investment_id 
+        GROUP BY h.bucket_enum ORDER BY bucket ASC;
+    </select>
+    
+    <select id="findbucketSummaryReport" resultType="java.util.Date" parameterType="java.util.Date">
+        SELECT SNAP_SHOT_DATE 
+        FROM bucket_summation_snapshots 
+        WHERE snap_shot_date = #{summaryReportDate};
+    </select>
+    
+    <insert id="insertBucketSummation" parameterType="com.brenner.portfoliomgmt.data.entities.reporting.HoldingBucketSummation">
+        INSERT INTO BUCKET_SUMMATION_SNAPSHOTS(SNAP_SHOT_DATE, BUCKET_1_TOTAL, BUCKET_2_TOTAL, BUCKET_3_TOTAL, EXCLUDED_BUCKET_TOTAL) 
+        VALUES(#{summationDate}, #{bucket1Total}, #{bucket2Total}, #{bucket3Total}, ${excludedBucketTotal});
+	</insert>
+	
+	<update id="updateBucketSummation" parameterType="com.brenner.portfoliomgmt.data.entities.reporting.HoldingBucketSummation">
+	   UPDATE BUCKET_SUMMATION_SNAPSHOTS 
+	   SET 
+	       BUCKET_1_TOTAL = #{bucket1Total}, 
+	       BUCKET_2_TOTAL = #{bucket2Total}, 
+	       BUCKET_3_TOTAL = #{bucket3Total}, 
+	       EXCLUDED_BUCKET_TOTAL = ${excludedBucketTotal} 
+	   WHERE SNAP_SHOT_DATE = #{summationDate};
+	</update>
 </mapper>

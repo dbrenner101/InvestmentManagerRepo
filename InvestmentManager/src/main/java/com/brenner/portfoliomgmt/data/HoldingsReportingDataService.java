@@ -1,6 +1,5 @@
 package com.brenner.portfoliomgmt.data;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -11,15 +10,12 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.brenner.portfoliomgmt.data.entities.reporting.HoldingBucketSummation;
 import com.brenner.portfoliomgmt.data.mapping.HoldingBucketSummationMapper;
-import com.brenner.portfoliomgmt.data.mapping.HoldingsByBucketMapping;
 import com.brenner.portfoliomgmt.domain.BucketEnum;
 import com.brenner.portfoliomgmt.domain.reporting.HoldingBucket;
 import com.brenner.portfoliomgmt.reporting.HoldingsReport;
@@ -72,20 +68,11 @@ public class HoldingsReportingDataService {
 			+ "GROUP BY h.purchase_price, h.quantity, i.symbol, i.company_name, q.price_at_close, i.investment_id "
 			+ "ORDER BY change_in_value ?;";
 	
-	private static final String HOLDINGS_BY_BUCKET_SQL = 
-			"SELECT SUM(h.purchase_price * h.quantity) AS purchase_value, "
-			+ "SUM(q.price_at_close * h.quantity) AS current_value, h.bucket_enum AS bucket "
-			+ "FROM holdings h "
-			+ "LEFT JOIN investments i ON h.investment_investment_id = i.investment_id "
-			+ "LEFT JOIN quotes q ON q.investment_id = i.investment_id "
-			+ "GROUP BY h.bucket_enum ORDER BY bucket ASC;";
-	
 	public List<HoldingBucket> getHoldingsByBucket() {
 		
 		log.info("Entered getHoldingsByBucket()");
-		log.debug("SQL: {}", HOLDINGS_BY_BUCKET_SQL);
 		
-		List<HoldingBucket> holdings = this.jdbcTemplate.query(HOLDINGS_BY_BUCKET_SQL, new HoldingsByBucketMapping());
+		List<HoldingBucket> holdings = this.bucketSummationMapper.holdingsByBucket();
 		
 		log.debug("Retrieved {} objects", holdings != null ? holdings.size() : 0);
 		
@@ -119,7 +106,7 @@ public class HoldingsReportingDataService {
 	
 	public void saveBucketSummarySnapShot() {
 		
-		java.sql.Date summaryReportDate = new java.sql.Date(new Date().getTime());
+		Date summaryReportDate = new Date();
 		
 		Map<BucketEnum, HoldingBucket> summaryReport = getHoldingsListAsMapByBucket();
 		
@@ -131,38 +118,20 @@ public class HoldingsReportingDataService {
 		HoldingBucket bucket3 = summaryReport.get(BucketEnum.BUCKET_3);
 		HoldingBucket noBucket = summaryReport.get(BucketEnum.BUCKET_NA);
 		
-		final String GET_SUMMATION_FOR_DATE_SQL = "SELECT * FROM bucket_summation_snapshots WHERE snap_shot_date = '" + summaryReportDate + "';";
-		List<Map<String, Object>> instances = this.jdbcTemplate.queryForList(GET_SUMMATION_FOR_DATE_SQL);
+		Date snapShotDate = this.bucketSummationMapper.findbucketSummaryReport(summaryReportDate);
 		
-		if (instances == null || instances.size() == 0) {
-			final String INSERT_BUCKET_SUMMATION = "INSERT INTO BUCKET_SUMMATION_SNAPSHOTS(SNAP_SHOT_DATE, BUCKET_1_TOTAL, BUCKET_2_TOTAL, BUCKET_3_TOTAL, EXCLUDED_BUCKET_TOTAL) VALUES(?, ?, ?, ?, ?);";
-			this.jdbcTemplate.execute(INSERT_BUCKET_SUMMATION, new PreparedStatementCallback<Boolean>() {
-
-				@Override
-				public Boolean doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
-					ps.setDate(1, summaryReportDate);
-					ps.setDouble(2, bucket1.getAmount());
-					ps.setDouble(3, bucket2.getAmount());
-					ps.setDouble(4, bucket3.getAmount());
-					ps.setDouble(5, noBucket.getAmount());
-					return ps.execute();
-				}
-			});
+		HoldingBucketSummation summation = new HoldingBucketSummation();
+		summation.setSummationDate(snapShotDate);
+		summation.setBucket1Total(bucket1.getAmount());
+		summation.setBucket2Total(bucket2.getAmount());
+		summation.setBucket3Total(bucket3.getAmount());
+		summation.setExcludedBucketTotal(noBucket.getAmount());
+		
+		if (snapShotDate == null) {
+			this.bucketSummationMapper.insertBucketSummation(summation);
 		}
 		else {
-			final String UPDATE_BUCKET_SUMMATION = "UPDATE BUCKET_SUMMATION_SNAPSHOTS SET BUCKET_1_TOTAL = ?, BUCKET_2_TOTAL = ?, BUCKET_3_TOTAL = ?, EXCLUDED_BUCKET_TOTAL = ? WHERE SNAP_SHOT_DATE = ?;";
-			this.jdbcTemplate.execute(UPDATE_BUCKET_SUMMATION, new PreparedStatementCallback<Boolean>() {
-
-				@Override
-				public Boolean doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
-					ps.setDouble(1, bucket1.getAmount());
-					ps.setDouble(2, bucket2.getAmount());
-					ps.setDouble(3, bucket3.getAmount());
-					ps.setDouble(4, noBucket.getAmount());
-					ps.setDate(5, summaryReportDate);
-					return ps.execute();
-				}
-			});
+			this.bucketSummationMapper.updateBucketSummation(summation);
 		}
 	}
 	
