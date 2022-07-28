@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/init_styles.css">
     <link rel="stylesheet" type="text/css" href="js/dojo-release-1.17.2/dijit/themes/soria/soria.css">
@@ -21,21 +21,21 @@
         <form action="addHolding" class="formFormat">
             Investment: <select name="investmentId" id="investmentSelect">
                 <option value="">Select</option>
-                <option 
-                    th:each="investment : ${investments}" 
-                    th:value="${investment.investmentId}" 
-                    th:text="${investment.symbol + ' :: ' + investment.companyName}"/>
+                <option
+                    th:each="investment : ${investments}"
+                    th:value="${investment.investmentId}"
+                    th:text="${investment.symbol + ' :: ' + investment.companyName}"></option>
              </select>
          </form>
     </div><p></p>
-    
+
     <div id="tableDiv" class="commonTableFormat"></div>
-    
+
     <p></p>
-    
+
     <div id="resultDiv" class="commonTextFormat"></div>
     <p></p>
-    
+
     <div id="jsonStream"></div>
 
 </body>

@@ -83,6 +83,10 @@ public class QuotesService {
     public void deleteQuote(QuoteDTO quote) {
     	this.quotesRepo.delete(quote);
     }
+	
+	public void deleteQuote(Long quoteId) {
+		this.quotesRepo.deleteById(quoteId);
+	}
     
     /**
      * Persists a list of quotes

@@ -46,6 +46,13 @@ public class QuotesController implements WebMvcConfigurer {
     @Autowired InvestmentsService investmentsService;
     
     @Autowired HoldingsService holdingsService;
+	
+	@RequestMapping(path="/deleteQuote")
+	public String deleteQuote(@RequestParam(name="quoteId") Long quoteId, Model model) {
+		this.quotesService.deleteQuote(quoteId);
+		
+		return "redirect:/editQuotesStart";
+	}
     
     @RequestMapping(path="/editQuotesStart")
     public String editQuotesStart(Model model) {

@@ -83,6 +83,10 @@ define([
                 exchangeHeader.innerHTML = "Exchange";
                 headerRow.appendChild(exchangeHeader);
 
+                var deleteHeader = document.createElement("th");
+                deleteHeader.innerHTML = "Delete";
+                headerRow.appendChild(deleteHeader);
+
                 if (quotes != null && quotes.length > 0) {
 	                for (let i = 0; i < quotes.length; i++) {
 	                  var row = document.createElement("tr");
@@ -139,6 +143,9 @@ define([
 	                  exchangeCell.innerHTML = quotes[i].Investment.exchange;
 	                  row.appendChild(exchangeCell);
 
+                      var deleteCell = document.createElement("td");
+                      deleteCell.innerHTML = "<a href=\"deleteQuote?quoteId=" + quotes[i].quoteId + "\">Delete</a>";
+                      row.appendChild(deleteCell);
 
 	                  tbl.appendChild(row);
 	                }
