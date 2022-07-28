@@ -14,9 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.brenner.portfoliomgmt.domain.InvestmentTypeEnum;
 
 @Entity
@@ -39,6 +36,8 @@ public class InvestmentDTO {
 	
 	@Column(name="sector")
 	private String sector;
+	
+	private Float expenseRatio;
 	
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="investment_id")
@@ -130,9 +129,17 @@ public class InvestmentDTO {
 		this.investmentType = investmentType;
 	}
 
+	public Float getExpenseRatio() {
+		return this.expenseRatio;
+	}
+
+	public void setExpenseRatio(Float expenseRatio) {
+		this.expenseRatio = expenseRatio;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(companyName, exchange, investmentId, investmentType, quotes, sector, symbol);
+		return Objects.hash(companyName, exchange, expenseRatio, investmentId, investmentType, quotes, sector, symbol);
 	}
 
 	@Override
@@ -145,6 +152,7 @@ public class InvestmentDTO {
 			return false;
 		InvestmentDTO other = (InvestmentDTO) obj;
 		return Objects.equals(this.companyName, other.companyName) && Objects.equals(this.exchange, other.exchange)
+				&& Objects.equals(this.expenseRatio, other.expenseRatio)
 				&& Objects.equals(this.investmentId, other.investmentId) && this.investmentType == other.investmentType
 				&& Objects.equals(this.quotes, other.quotes) && Objects.equals(this.sector, other.sector)
 				&& Objects.equals(this.symbol, other.symbol);
@@ -152,16 +160,14 @@ public class InvestmentDTO {
 
 	@Override
 	public String toString() {
-		
-		ToStringBuilder builder = new ToStringBuilder(this, ToStringStyle.JSON_STYLE);
-		builder.append("investmentId", investmentId)
-			.append("symbol", symbol)
-			.append("companyName", companyName)
-			.append("exchange", exchange)
-			.append("sector", sector)
-			//.append("quotes", quotes)
-			.append("investmentType", investmentType);
-		
+		final int maxLen = 10;
+		StringBuilder builder = new StringBuilder();
+		builder.append("InvestmentDTO [investmentId=").append(this.investmentId).append(", symbol=").append(this.symbol)
+				.append(", companyName=").append(this.companyName).append(", exchange=").append(this.exchange)
+				.append(", sector=").append(this.sector).append(", expenseRatio=").append(this.expenseRatio)
+				.append(", quotes=")
+				.append(this.quotes != null ? this.quotes.subList(0, Math.min(this.quotes.size(), maxLen)) : null)
+				.append(", investmentType=").append(this.investmentType).append("]");
 		return builder.toString();
 	}
 

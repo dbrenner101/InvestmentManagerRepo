@@ -24,6 +24,7 @@
             Symbol: <input type="text" name="symbol" th:attr="value=${investment.symbol}"/><br>
             Sector: <input type="text" name="sector" th:value="${investment.sector}" /><br>
             Exchange: <input type="text" name="exchange" th:value="${investment.exchange}" /><br>
+            Expense ratio: <input type="number" step="any" name="expenseRatio" th:value="${investment.expenseRatio}" /><br/> 
             Investment type: <select name="investmentType">
             	<option th:each="investmentType : ${T(com.brenner.portfoliomgmt.domain.InvestmentTypeEnum).values()}"
             		th:value="${investmentType}"

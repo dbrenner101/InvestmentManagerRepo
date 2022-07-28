@@ -27,6 +27,8 @@ public class Investment {
 	
 	private String sector;
 	
+	private Float expenseRatio;
+	
 	private InvestmentTypeEnum investmentType;
 	
 	private Quote mostRecentQuote;
@@ -115,9 +117,17 @@ public class Investment {
 		this.mostRecentQuote = mostRecentQuote;
 	}
 
+	public Float getExpenseRatio() {
+		return this.expenseRatio;
+	}
+
+	public void setExpenseRatio(Float expenseRatio) {
+		this.expenseRatio = expenseRatio;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(companyName, exchange, investmentId, investmentType, mostRecentQuote, sector,
+		return Objects.hash(companyName, exchange, expenseRatio, investmentId, investmentType, mostRecentQuote, sector,
 				symbol);
 	}
 
@@ -131,9 +141,10 @@ public class Investment {
 			return false;
 		Investment other = (Investment) obj;
 		return Objects.equals(this.companyName, other.companyName) && Objects.equals(this.exchange, other.exchange)
+				&& Objects.equals(this.expenseRatio, other.expenseRatio)
 				&& Objects.equals(this.investmentId, other.investmentId) && this.investmentType == other.investmentType
 				&& Objects.equals(this.mostRecentQuote, other.mostRecentQuote)
-				&& Objects.equals(this.symbol, other.symbol);
+				&& Objects.equals(this.sector, other.sector) && Objects.equals(this.symbol, other.symbol);
 	}
 
 	@Override
@@ -141,9 +152,9 @@ public class Investment {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Investment [investmentId=").append(this.investmentId).append(", symbol=").append(this.symbol)
 				.append(", companyName=").append(this.companyName).append(", exchange=").append(this.exchange)
-				.append(", sector=").append(this.sector).append(", investmentType=").append(this.investmentType)
-				.append(", mostRecentQuote=").append(this.mostRecentQuote).append(", quotes=")
-				.append("]");
+				.append(", sector=").append(this.sector).append(", expenseRatio=").append(this.expenseRatio)
+				.append(", investmentType=").append(this.investmentType).append(", mostRecentQuote=")
+				.append(this.mostRecentQuote).append("]");
 		return builder.toString();
 	}
 	
