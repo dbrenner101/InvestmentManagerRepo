@@ -152,15 +152,11 @@ function buildHoldingsTable(holdings, dom) {
           tbl.appendChild(row);
         }
         
-        /*var currentCash = holdings[0].account.cashOnAccount;
-        totalValue = totalValue + currentCash;
-        
-        differenceInValue = totalValue - totalValueAtPurchase - currentCash;*/
+        differenceInValue = totalValue - totalValueAtPurchase;
         
         
         dom.byId("totalValueChange").innerHTML = differenceInValue.formatMoney(2, '.', ',');
         dom.byId("valueAtPurchase").innerHTML = totalValueAtPurchase.formatMoney(2, '.', ',');
-        //dom.byId("currentCash").innerHTML = currentCash.formatMoney(2, '.', ',');
         dom.byId("totalCurrentValue").innerHTML = totalValue.formatMoney(2, '.', ',');
     }     
 }
