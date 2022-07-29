@@ -1,6 +1,6 @@
 var graphData;
 
-// Our labels along the x-axis
+// Labels along the x-axis
 var dateLabels = new Array();
 // For drawing the lines
 var closeData = new Array();
@@ -19,33 +19,6 @@ var config = {
        }]
    }
  };
-
- /*
- ,
-    options: {
-        scales: {
-            y: {
-                beginAtZero:true
-                }
-        },
-        title: {
-            display: false,
-            text: ""
-        },
-        tooltips: {
-         callbacks: {
-             label: function(tooltipItem, data) {
-                 return "$" + Number(tooltipItem.yLabel).toFixed(0).replace(
-                         /./g,
-                         function(c, i, a) {
-                             return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
-                         }
-                 );
-             }
-         }
-        }
-    }
- */
 
 var ctx = document.getElementById("historicalPerformanceChart").getContext("2d");
 const myChart = new Chart(document.getElementById("historicalPerformanceChart"), config);
@@ -91,32 +64,17 @@ function loadChartData() {
     xhttp.send();
 }
 
-
-
-Number.prototype.formatMoney = function(c, d, t){
-    var n = this,
-    c = isNaN(c = Math.abs(c)) ? 2 : c,
-    d = d == undefined ? "." : d,
-    t = t == undefined ? "," : t,
-    s = n < 0 ? "-" : "",
-    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
-    j = (j = i.length) > 3 ? j % 3 : 0;
-   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
- };
-
 function addData(chart, labels, data, symbol) {
-    //if (config.data.datasets.length > 0) {
-        var newDataSet = {
-            label: 'New Label',
-            label: symbol + " Performance",
-            backgroundColor: "#457fa3",
-            fill: false,
-            data: data
-          };
-        chart.data.labels = labels;
-        config.data.datasets.push(newDataSet);
-        myChart.update();
-    //}
+    var newDataSet = {
+        label: 'New Label',
+        label: symbol + " Performance",
+        backgroundColor: "#457fa3",
+        fill: false,
+        data: data
+    };
+    chart.data.labels = labels;
+    config.data.datasets.push(newDataSet);
+    myChart.update();
 }
 
 function removeData(chart) {
@@ -126,7 +84,6 @@ function removeData(chart) {
 }
 
 function buildChart() {
-
     var ctx = document.getElementById("historicalPerformanceChart").getContext("2d");
     var myChart = new Chart(ctx, config);
 }
